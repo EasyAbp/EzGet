@@ -10,11 +10,11 @@ using Volo.Abp.Domain.Services;
 
 namespace EasyAbp.EzGet.NuGetPackages
 {
-    public class PackageManager : DomainService, INuGetPackageManager
+    public class NuGetPackageManager : DomainService, INuGetPackageManager
     {
         protected INuGetPackageRepository PackageRepository { get; }
 
-        public PackageManager(INuGetPackageRepository packageRepository)
+        public NuGetPackageManager(INuGetPackageRepository packageRepository)
         {
             PackageRepository = packageRepository;
         }
