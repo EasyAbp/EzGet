@@ -1,7 +1,7 @@
 ﻿using System;
 using Volo.Abp.Modularity;
 
-namespace EasyAbp.EzGet.Public.Application.Contracts
+namespace EasyAbp.EzGet.Public
 {
     [DependsOn(
         typeof(EzGetCommonApplicationContractsModule)

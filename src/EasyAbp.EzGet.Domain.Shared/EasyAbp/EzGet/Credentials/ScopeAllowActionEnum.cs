@@ -6,8 +6,7 @@ namespace EasyAbp.EzGet.Credentials
 {
     public enum ScopeAllowActionEnum
     {
-        PushNew = 0,
-        Pushversion = 1,
-        Unlist = 2,
+        Read = 0,
+        Write = 1
     }
 }

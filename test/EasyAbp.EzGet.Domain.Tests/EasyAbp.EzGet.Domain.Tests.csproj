@@ -12,4 +12,10 @@
     <ProjectReference Include="..\EasyAbp.EzGet.EntityFrameworkCore.Tests\EasyAbp.EzGet.EntityFrameworkCore.Tests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\Gsx.Abp.Excel.Abstractions.0.4.3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

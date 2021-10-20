@@ -26,8 +26,8 @@ namespace EasyAbp.EzGet.Credentials
             Guid id,
             Guid userId,
             [NotNull] string value,
-            string description,
             TimeSpan? expiration,
+            string description = null,
             Guid? tenantId = null)
             : this()
         {

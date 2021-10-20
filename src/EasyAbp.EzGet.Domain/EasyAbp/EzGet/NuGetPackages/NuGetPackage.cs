@@ -75,6 +75,7 @@ namespace EasyAbp.EzGet.NuGetPackages
             string repositoryType,
             string[] tags,
             Guid? tenantId = null)
+            : this()
         {
             Id = id;
             PackageName = Check.NotNullOrWhiteSpace(packageName, nameof(packageName));

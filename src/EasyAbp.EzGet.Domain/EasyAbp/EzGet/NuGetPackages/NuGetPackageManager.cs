@@ -48,7 +48,7 @@ namespace EasyAbp.EzGet.NuGetPackages
                 nuspec.GetVersion().IsPrerelease,
                 nuspec.GetReleaseNotes(),
                 nuspec.GetLanguage(),
-                nuspec.GetMinClientVersion().ToNormalizedString(),
+                nuspec.GetMinClientVersion()?.ToNormalizedString(),
                 DateTime.UtcNow,
                 nuspec.GetRequireLicenseAcceptance(),
                 GetSemVerLevel(nuspec),
