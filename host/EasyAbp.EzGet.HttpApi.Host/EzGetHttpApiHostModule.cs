@@ -38,7 +38,7 @@ namespace EasyAbp.EzGet
     [DependsOn(
         typeof(EzGetCommonApplicationModule),
         typeof(EzGetEntityFrameworkCoreModule),
-        typeof(EzGetHttpApiModule),
+        typeof(EzGetCommonHttpApiModule),
         typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
         typeof(AbpAutofacModule),
         typeof(AbpCachingStackExchangeRedisModule),

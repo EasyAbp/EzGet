@@ -5,7 +5,7 @@ using Volo.Abp.Content;
 
 namespace EasyAbp.EzGet.Public.NuGetPackages
 {
-    public class CreateNuGetPackageDto
+    public class CreateNuGetPackageInputWithStream
     {
         public IRemoteStreamContent File { get; set; }
     }

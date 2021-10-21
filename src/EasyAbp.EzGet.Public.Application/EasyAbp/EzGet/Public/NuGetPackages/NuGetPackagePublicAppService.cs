@@ -8,34 +8,35 @@ using System.Threading.Tasks;
 
 namespace EasyAbp.EzGet.Public.NuGetPackages
 {
-    public class NuGetPackagePublicAppService : EzGetPublicAppServiceBase
+    public class NuGetPackagePublicAppService : EzGetPublicAppServiceBase, INuGetPackagePublicAppService
     {
         protected INuGetPackageManager NuGetPackageManager { get; }
         protected INuGetPackageRepository NuGetPackageRepository { get; }
+        protected INuGetPackageAuthorizationService NuGetPackageAuthorizationService { get; }
 
         public NuGetPackagePublicAppService(
             INuGetPackageManager nuGetPackageManager,
-            INuGetPackageRepository nuGetPackageRepository)
+            INuGetPackageRepository nuGetPackageRepository,
+            INuGetPackageAuthorizationService nuGetPackageAuthorizationService)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
+            NuGetPackageAuthorizationService = nuGetPackageAuthorizationService;
         }
 
-        public virtual async Task CreateAsync(CreateNuGetPackageDto input)
+        public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
         {
-            //Todo Verify user's permission or apiKey in http head of nuget api controller
-
-            NuGetPackage package;
-            Stream nuspecStream = null;
-            Stream readmeStream = null;
-            Stream iconStream = null;
+            await NuGetPackageAuthorizationService.CheckCreationAsync();
 
             using (var stream = input.File.GetStream())
             {
                 using (var packageReader = new PackageArchiveReader(stream, leaveStreamOpen: true))
                 {
-                    package = await NuGetPackageManager.CreateAsync(packageReader);
-                    nuspecStream = await packageReader.GetNuspecAsync(default);
+                    Stream readmeStream = null;
+                    Stream iconStream = null;
+
+                    var nuspecStream = await packageReader.GetNuspecAsync(default);
+                    var package = await NuGetPackageManager.CreateAsync(packageReader);
 
                     if (package.HasReadme)
                     {
@@ -46,12 +47,12 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
                     {
                         iconStream = await packageReader.GetIconAsync();
                     }
+
+                    //TODO: Save stream to blob storing
+
+                    return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.InsertAsync(package));
                 }
             }
-
-            //Todo Save stream to blob storing
-
-            ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.InsertAsync(package));
         }
     }
 }

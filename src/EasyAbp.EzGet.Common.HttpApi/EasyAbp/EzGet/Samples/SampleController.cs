@@ -7,7 +7,7 @@ namespace EasyAbp.EzGet.Samples
 {
     [RemoteService]
     [Route("api/EzGet/sample")]
-    public class SampleController : EzGetController, ISampleAppService
+    public class SampleController : EzGetCommonControllerBase, ISampleAppService
     {
         private readonly ISampleAppService _sampleAppService;
 

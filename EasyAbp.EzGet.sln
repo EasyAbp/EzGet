@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{B7581F91-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{2DA204F5-647E-4500-955F-958581CC1640}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Public.HttpApi", "src\EasyAbp.EzGet.Public.HttpApi\EasyAbp.EzGet.Public.HttpApi.csproj", "{61683F06-25F0-44CC-B4B3-A8E21057343C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{36F260BD-5B2B-40F9-946C-8ABE166B1D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36F260BD-5B2B-40F9-946C-8ABE166B1D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36F260BD-5B2B-40F9-946C-8ABE166B1D1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61683F06-25F0-44CC-B4B3-A8E21057343C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61683F06-25F0-44CC-B4B3-A8E21057343C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61683F06-25F0-44CC-B4B3-A8E21057343C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61683F06-25F0-44CC-B4B3-A8E21057343C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +189,7 @@ Global
 		{23076267-2DEE-4F90-803D-DE15B5D72BDF} = {649A3FFA-182F-4E56-9717-E6A9A2BEC545}
 		{B7581F91-77A5-406D-BA85-736A35E4E40B} = {649A3FFA-182F-4E56-9717-E6A9A2BEC545}
 		{2DA204F5-647E-4500-955F-958581CC1640} = {649A3FFA-182F-4E56-9717-E6A9A2BEC545}
+		{61683F06-25F0-44CC-B4B3-A8E21057343C} = {2DA204F5-647E-4500-955F-958581CC1640}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}

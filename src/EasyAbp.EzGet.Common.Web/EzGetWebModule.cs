@@ -13,7 +13,7 @@ using EasyAbp.EzGet.Permissions;
 namespace EasyAbp.EzGet.Web
 {
     [DependsOn(
-        typeof(EzGetHttpApiModule),
+        typeof(EzGetCommonHttpApiModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)
         )]

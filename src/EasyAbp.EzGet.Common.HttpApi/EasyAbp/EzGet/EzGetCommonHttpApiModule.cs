@@ -10,13 +10,13 @@ namespace EasyAbp.EzGet
     [DependsOn(
         typeof(EzGetCommonApplicationContractsModule),
         typeof(AbpAspNetCoreMvcModule))]
-    public class EzGetHttpApiModule : AbpModule
+    public class EzGetCommonHttpApiModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             PreConfigure<IMvcBuilder>(mvcBuilder =>
             {
-                mvcBuilder.AddApplicationPartIfNotExists(typeof(EzGetHttpApiModule).Assembly);
+                mvcBuilder.AddApplicationPartIfNotExists(typeof(EzGetCommonHttpApiModule).Assembly);
             });
         }
 

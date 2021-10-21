@@ -3,9 +3,9 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet
 {
-    public abstract class EzGetController : AbpController
+    public abstract class EzGetCommonControllerBase : AbpController
     {
-        protected EzGetController()
+        protected EzGetCommonControllerBase()
         {
             LocalizationResource = typeof(EzGetResource);
         }

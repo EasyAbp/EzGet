@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace></RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyAbp.EzGet.Common.HttpApi\EasyAbp.EzGet.Common.HttpApi.csproj" />
+    <ProjectReference Include="..\EasyAbp.EzGet.Public.Application.Contracts\EasyAbp.EzGet.Public.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
