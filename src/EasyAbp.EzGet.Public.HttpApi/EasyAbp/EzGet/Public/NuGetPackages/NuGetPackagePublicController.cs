@@ -26,5 +26,19 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
         {
             return NuGetPackagePublicAppService.CreateAsync(input);
         }
+
+        [HttpDelete]
+        [Route("{packageName}/{version}")]
+        public Task UnlistAsync(string packageName, string version)
+        {
+            return NuGetPackagePublicAppService.UnlistAsync(packageName, version);
+        }
+
+        [HttpPost]
+        [Route("{packageName}/{version}")]
+        public Task RelistAsync(string packageName, string version)
+        {
+            return NuGetPackagePublicAppService.RelistAsync(packageName, version);
+        }
     }
 }

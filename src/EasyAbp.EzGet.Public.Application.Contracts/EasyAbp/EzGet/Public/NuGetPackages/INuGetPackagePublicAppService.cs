@@ -9,6 +9,10 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
 {
     public interface INuGetPackagePublicAppService : IApplicationService
     {
+        Task<NuGetPackageDto> GetAsync(Guid id);
+        Task<NuGetPackageDto> GetAsync(string packageName, string version);
         Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input);
+        Task UnlistAsync(string packageName, string version);
+        Task RelistAsync(string packageName, string version);
     }
 }

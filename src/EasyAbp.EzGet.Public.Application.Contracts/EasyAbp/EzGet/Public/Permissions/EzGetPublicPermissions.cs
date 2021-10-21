@@ -11,6 +11,7 @@ namespace EasyAbp.EzGet.Public.Permissions
             public const string Default = GroupName + ".NuGetPackages";
             public const string Create = Default + ".Create";
             public const string Unlist = Default + ".Unlist";
+            public const string Relist = Default + ".Relist";
         }
 
         public static string[] GetAll()

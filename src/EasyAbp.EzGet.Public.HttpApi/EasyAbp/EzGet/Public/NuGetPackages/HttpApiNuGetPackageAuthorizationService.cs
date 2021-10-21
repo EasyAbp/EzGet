@@ -14,7 +14,7 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
 {
     [Dependency(ReplaceServices = true)]
     [ExposeServices(typeof(INuGetPackageAuthorizationService))]
-    public class HttpApiNuGetPackageAuthorizationService : INuGetPackageAuthorizationService
+    public class HttpApiNuGetPackageAuthorizationService : INuGetPackageAuthorizationService, ITransientDependency
     {
         protected IHttpContextAccessor HttpContextAccessor { get; }
         protected IAuthorizationService AuthorizationService { get; }
@@ -32,38 +32,17 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
 
         public virtual async Task CheckCreationAsync()
         {
-            if (CurrentUser.IsAuthenticated)
-            {
-                await AuthorizationService.CheckAsync(EzGetPublicPermissions.NuGetPackages.Create);
-            }
-            else
-            {
-                var apiKey = GetNuGetApiKey();
-
-                if (await VerifyNuGetApiKeyAsync(apiKey))
-                {
-                    ThrowVerifyNuGetApiKeyFailedException();
-                }
-            }
+            await CheckAsync(EzGetPublicPermissions.NuGetPackages.Create);
         }
 
-        public virtual async Task<bool> IsGrantedCreationAsync()
+        public virtual async Task CheckUnlistAsync()
         {
-            if (CurrentUser.IsAuthenticated)
-            {
-                return await AuthorizationService.IsGrantedAsync(EzGetPublicPermissions.NuGetPackages.Create);
-            }
-            else
-            {
-                var apiKey = GetNuGetApiKey();
+            await CheckAsync(EzGetPublicPermissions.NuGetPackages.Unlist);
+        }
 
-                if (await VerifyNuGetApiKeyAsync(apiKey))
-                {
-                    return false;
-                }
-
-                return true;
-            }
+        public virtual async Task CheckRelistAsync()
+        {
+            await CheckAsync(EzGetPublicPermissions.NuGetPackages.Relist);
         }
 
         protected virtual async Task<bool> VerifyNuGetApiKeyAsync(string apiKey)
@@ -76,6 +55,23 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
             //TODO: Verify the apiKey
 
             return true;
+        }
+
+        private async Task CheckAsync(string policyName)
+        {
+            if (CurrentUser.IsAuthenticated)
+            {
+                await AuthorizationService.CheckAsync(policyName);
+            }
+            else
+            {
+                var apiKey = GetNuGetApiKey();
+
+                if (await VerifyNuGetApiKeyAsync(apiKey))
+                {
+                    ThrowVerifyNuGetApiKeyFailedException();
+                }
+            }
         }
 
         private string GetNuGetApiKey()

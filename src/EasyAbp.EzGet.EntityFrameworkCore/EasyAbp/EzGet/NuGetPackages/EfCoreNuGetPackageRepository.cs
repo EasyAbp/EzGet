@@ -26,6 +26,16 @@ namespace EasyAbp.EzGet.NuGetPackages
                 .AnyAsync(GetCancellationToken(cancellationToken));
         }
 
+        public virtual async Task<NuGetPackage> GetAsync(
+            ISpecification<NuGetPackage> specification,
+            bool includeDetails = true,
+            CancellationToken cancellationToken = default)
+        {
+            return await (await GetDbSetAsync())
+                .Where(specification.ToExpression())
+                .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
+        }
+
         public override async Task<IQueryable<NuGetPackage>> WithDetailsAsync()
         {
             return (await GetQueryableAsync())

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp;
 
 namespace EasyAbp.EzGet.Public.NuGetPackages
 {
@@ -22,6 +23,17 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
             NuGetPackageAuthorizationService = nuGetPackageAuthorizationService;
+        }
+
+        public virtual async Task<NuGetPackageDto> GetAsync(Guid id)
+        {
+            return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.GetAsync(id));
+        }
+
+        public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version)
+        {
+            var package = await NuGetPackageRepository.GetAsync(new UniqueNuGetPackageSpecification(packageName, version));
+            return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
         }
 
         public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
@@ -53,6 +65,40 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
                     return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.InsertAsync(package));
                 }
             }
+        }
+
+        public virtual async Task UnlistAsync(string packageName, string version)
+        {
+            await NuGetPackageAuthorizationService.CheckUnlistAsync();
+
+            var package = await NuGetPackageRepository.GetAsync(
+                new UniqueNuGetPackageSpecification(packageName, version),
+                false);
+
+            if (!package.Listed)
+            {
+                throw new BusinessException(EzGetErrorCodes.PackageAlreadyUnlisted);
+            }
+
+            package.Listed = false;
+            await NuGetPackageRepository.UpdateAsync(package);
+        }
+
+        public virtual async Task RelistAsync(string packageName, string version)
+        {
+            await NuGetPackageAuthorizationService.CheckRelistAsync();
+
+            var package = await NuGetPackageRepository.GetAsync(
+                new UniqueNuGetPackageSpecification(packageName, version),
+                false);
+
+            if (package.Listed)
+            {
+                throw new BusinessException(EzGetErrorCodes.PackageAlreadyListed);
+            }
+
+            package.Listed = true;
+            await NuGetPackageRepository.UpdateAsync(package);
         }
     }
 }

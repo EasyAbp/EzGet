@@ -1,14 +1,12 @@
-﻿using EasyAbp.EzGet.Permissions;
-using EasyAbp.EzGet.Public.Permissions;
+﻿using EasyAbp.EzGet.Public.Permissions;
 using Microsoft.AspNetCore.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EzGet.Public.NuGetPackages
 {
-    public class NuGetPackageAuthorizationService : INuGetPackageAuthorizationService
+    [ExposeServices(typeof(INuGetPackageAuthorizationService))]
+    public class NuGetPackageAuthorizationService : INuGetPackageAuthorizationService, ITransientDependency
     {
         protected IAuthorizationService AuthorizationService { get; }
 
@@ -17,14 +15,19 @@ namespace EasyAbp.EzGet.Public.NuGetPackages
             AuthorizationService = authorizationService;
         }
 
-        public virtual async Task<bool> IsGrantedCreationAsync()
-        {
-            return await AuthorizationService.IsGrantedAsync(EzGetPublicPermissions.NuGetPackages.Create);
-        }
-
         public virtual async Task CheckCreationAsync()
         {
             await AuthorizationService.CheckAsync(EzGetPublicPermissions.NuGetPackages.Create);
+        }
+
+        public virtual async Task CheckUnlistAsync()
+        {
+            await AuthorizationService.CheckAsync(EzGetPublicPermissions.NuGetPackages.Unlist);
+        }
+
+        public virtual async Task CheckRelistAsync()
+        {
+            await AuthorizationService.CheckAsync(EzGetPublicPermissions.NuGetPackages.Relist);
         }
     }
 }
