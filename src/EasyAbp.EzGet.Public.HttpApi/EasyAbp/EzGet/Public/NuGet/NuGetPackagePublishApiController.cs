@@ -1,15 +1,12 @@
-﻿using EasyAbp.EzGet.Public.NuGet.Packages;
+﻿using EasyAbp.EzGet.NuGet.ServiceIndexs;
+using EasyAbp.EzGet.Public.NuGet.Packages;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-publish-resource
-    [Route("api/v2/package")]
+    [Route(ServiceIndexUrlConsts.PackagePublishUrl)]
     public class NuGetPackagePublishApiController : ControllerBase
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
