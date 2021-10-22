@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EasyAbp.EzGet.NuGetPackages;
+using EasyAbp.EzGet.NuGet.Packages;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EzGet

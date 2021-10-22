@@ -1,13 +1,8 @@
-﻿using EasyAbp.EzGet.NuGetPackages;
-using NuGet.Common;
+﻿using NuGet.Common;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Volo.Abp.Guids;
 
 namespace NuGet.Packaging
 {

@@ -1,4 +1,4 @@
-﻿using EasyAbp.EzGet.NuGetPackages;
+﻿using EasyAbp.EzGet.NuGet.Packages;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;

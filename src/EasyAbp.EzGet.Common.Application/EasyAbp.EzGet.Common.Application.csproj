@@ -14,4 +14,9 @@
     <ProjectReference Include="..\EasyAbp.EzGet.Domain\EasyAbp.EzGet.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EasyAbp\EzGet\NuGet\Packages\ServiceIndexs\" />
+    <Folder Include="EasyAbp\EzGet\NuGet\Packages\" />
+  </ItemGroup>
+
 </Project>

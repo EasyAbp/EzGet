@@ -1,4 +1,4 @@
-﻿using EasyAbp.EzGet.Public.NuGetPackages;
+﻿using EasyAbp.EzGet.Public.NuGet.Packages;
 using System;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;

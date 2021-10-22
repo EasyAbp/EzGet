@@ -1,5 +1,5 @@
 ﻿using System;
-using EasyAbp.EzGet.NuGetPackages;
+using EasyAbp.EzGet.NuGet.Packages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp;
