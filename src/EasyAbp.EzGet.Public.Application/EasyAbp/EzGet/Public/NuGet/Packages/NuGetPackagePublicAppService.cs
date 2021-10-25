@@ -7,6 +7,8 @@ using Volo.Abp;
 using Volo.Abp.Specifications;
 using System.Collections.Generic;
 using System.Linq;
+using Volo.Abp.BlobStoring;
+using EasyAbp.EzGet.NuGet;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
@@ -15,15 +17,19 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         protected INuGetPackageManager NuGetPackageManager { get; }
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected INuGetPackageAuthorizationService NuGetPackageAuthorizationService { get; }
+        protected IBlobContainer<NuGetContainer> BlobContainer { get; }
+
 
         public NuGetPackagePublicAppService(
             INuGetPackageManager nuGetPackageManager,
             INuGetPackageRepository nuGetPackageRepository,
-            INuGetPackageAuthorizationService nuGetPackageAuthorizationService)
+            INuGetPackageAuthorizationService nuGetPackageAuthorizationService,
+            IBlobContainer<NuGetContainer> blobContainer)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
             NuGetPackageAuthorizationService = nuGetPackageAuthorizationService;
+            BlobContainer = blobContainer;
         }
 
         public virtual async Task<NuGetPackageDto> GetAsync(Guid id)
@@ -45,29 +51,34 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         {
             await NuGetPackageAuthorizationService.CheckCreationAsync();
 
-            using (var stream = input.File.GetStream())
+            using (var packageStream = input.File.GetStream())
             {
-                using (var packageReader = new PackageArchiveReader(stream, leaveStreamOpen: true))
+                using (var packageReader = new PackageArchiveReader(packageStream, leaveStreamOpen: true))
                 {
                     Stream readmeStream = null;
                     Stream iconStream = null;
 
                     var nuspecStream = await packageReader.GetNuspecAsync(default);
                     var package = await NuGetPackageManager.CreateAsync(packageReader);
+                    await NuGetPackageRepository.InsertAsync(package);
 
                     if (package.HasReadme)
                     {
                         readmeStream = await packageReader.GetReadmeAsync();
+                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetReadmeBlobNameAsync(package), readmeStream);
                     }
 
                     if (package.HasEmbeddedIcon)
                     {
                         iconStream = await packageReader.GetIconAsync();
+                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetIconBlobNameAsync(package), iconStream);
                     }
 
-                    //TODO: Save stream to blob storing
+                    packageStream.Position = 0;
+                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package), packageStream);
+                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package), nuspecStream);
 
-                    return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.InsertAsync(package));
+                    return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
                 }
             }
         }

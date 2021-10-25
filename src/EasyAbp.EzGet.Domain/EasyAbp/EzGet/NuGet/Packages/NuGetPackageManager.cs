@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.Extensions.Options;
 using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
@@ -7,19 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
+using Volo.Abp.BlobStoring;
 
 namespace EasyAbp.EzGet.NuGet.Packages
 {
     public class NuGetPackageManager : DomainService, INuGetPackageManager
     {
         protected INuGetPackageRepository PackageRepository { get; }
+        protected IOptions<PacakgeBlobNameOptions> Options { get; }
 
-        public NuGetPackageManager(INuGetPackageRepository packageRepository)
+        public NuGetPackageManager(
+            INuGetPackageRepository packageRepository,
+            IOptions<PacakgeBlobNameOptions> options)
         {
             PackageRepository = packageRepository;
+            Options = options;
         }
 
-        public virtual async Task<NuGetPackage> CreateAsync([NotNull]PackageArchiveReader packageReader)
+        public virtual async Task<NuGetPackage> CreateAsync([NotNull] PackageArchiveReader packageReader)
         {
             Check.NotNull(packageReader, nameof(packageReader));
 
@@ -65,6 +71,38 @@ namespace EasyAbp.EzGet.NuGet.Packages
             package.AddTargetFrameworks(packageReader);
             package.AddDependencies(nuspec);
             return package;
+        }
+
+        public virtual async Task<string> GetNupkgBlobNameAsync([NotNull] NuGetPackage package)
+        {
+            Check.NotNull(package, nameof(package));
+            return $"{await GetBlobNameAsync(package)}.{NuGetDomainConsts.NupkgFileSuffix}";
+        }
+
+        public virtual async Task<string> GetNuspecBlobNameAsync([NotNull] NuGetPackage package)
+        {
+            Check.NotNull(package, nameof(package));
+            return $"{await GetBlobNameAsync(package)}.{NuGetDomainConsts.NuspecFileSuffix}";
+        }
+
+        public virtual Task<string> GetReadmeBlobNameAsync([NotNull] NuGetPackage package)
+        {
+            Check.NotNull(package, nameof(package));
+            var separator = Options.Value.BlobNameSeparator;
+            return Task.FromResult($"{package.PackageName}{separator}{package.NormalizedVersion}{separator}{NuGetDomainConsts.ReadmeFileName}");
+        }
+
+        public virtual Task<string> GetIconBlobNameAsync([NotNull] NuGetPackage package)
+        {
+            Check.NotNull(package, nameof(package));
+            var separator = Options.Value.BlobNameSeparator;
+            return Task.FromResult($"{package.PackageName}{separator}{package.NormalizedVersion}{separator}{NuGetDomainConsts.IconFileName}");
+        }
+
+        protected virtual Task<string> GetBlobNameAsync(NuGetPackage package)
+        {
+            var separator = Options.Value.BlobNameSeparator;
+            return Task.FromResult($"{package.PackageName}{separator}{package.NormalizedVersion}{separator}{package.PackageName}.{package.NormalizedVersion}");
         }
 
         private (Uri repositoryUrl, string repositoryType) GetRepositoryMetadata(NuspecReader nuspec)
