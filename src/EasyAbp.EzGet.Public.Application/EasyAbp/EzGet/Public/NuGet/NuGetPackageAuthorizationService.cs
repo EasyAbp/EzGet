@@ -15,6 +15,11 @@ namespace EasyAbp.EzGet.Public.NuGet
             AuthorizationService = authorizationService;
         }
 
+        public virtual async Task CheckDefaultAsync()
+        {
+            await AuthorizationService.CheckAsync(EzGetPublicPermissions.NuGetPackages.Default);
+        }
+
         public virtual async Task CheckCreationAsync()
         {
             await AuthorizationService.CheckAsync(EzGetPublicPermissions.NuGetPackages.Create);

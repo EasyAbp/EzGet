@@ -14,5 +14,6 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input);
         Task UnlistAsync(string packageName, string version);
         Task RelistAsync(string packageName, string version);
+        Task<List<string>> GetVersionListByPackageName(string packageName);
     }
 }

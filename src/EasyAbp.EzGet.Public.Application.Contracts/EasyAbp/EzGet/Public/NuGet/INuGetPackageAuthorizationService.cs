@@ -7,7 +7,7 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     public interface INuGetPackageAuthorizationService 
     {
-        //Task<bool> IsGrantedCreationAsync();
+        Task CheckDefaultAsync();
         Task CheckCreationAsync();
         Task CheckUnlistAsync();
         Task CheckRelistAsync();

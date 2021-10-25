@@ -18,5 +18,10 @@ namespace EasyAbp.EzGet.NuGet.Packages
             ISpecification<NuGetPackage> specification,
             bool includeDetails = true,
             CancellationToken cancellationToken = default);
+
+        Task<List<NuGetPackage>> GetListByPackageNameAsync(
+            string packageName,
+            bool includeDetails = true,
+            CancellationToken cancellationToken = default)
     }
 }

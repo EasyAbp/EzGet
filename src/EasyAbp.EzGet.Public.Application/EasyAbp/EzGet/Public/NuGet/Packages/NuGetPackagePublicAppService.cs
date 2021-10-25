@@ -5,6 +5,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Specifications;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
@@ -26,12 +28,13 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
 
         public virtual async Task<NuGetPackageDto> GetAsync(Guid id)
         {
-            //TODO: Except unlist package
+            await NuGetPackageAuthorizationService.CheckDefaultAsync();
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.GetAsync(id));
         }
 
         public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version)
         {
+            await NuGetPackageAuthorizationService.CheckDefaultAsync();
             var specification = new UniqueNuGetPackageSpecification(packageName, version)
                 .And(new ListedNuGetPackageSpecification());
             var package = await NuGetPackageRepository.GetAsync(specification);
@@ -101,6 +104,13 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
 
             package.Listed = true;
             await NuGetPackageRepository.UpdateAsync(package);
+        }
+
+        public virtual async Task<List<string>> GetVersionListByPackageName(string packageName)
+        {
+            await NuGetPackageAuthorizationService.CheckDefaultAsync();
+            var packages = await NuGetPackageRepository.GetListByPackageNameAsync(packageName, false);
+            return packages.Select(p => p.NormalizedVersion).ToList();
         }
     }
 }

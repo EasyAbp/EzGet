@@ -31,6 +31,11 @@ namespace EasyAbp.EzGet.Public.NuGet
             CurrentUser = currentUser;
         }
 
+        public virtual async Task CheckDefaultAsync()
+        {
+            await CheckAsync(EzGetPublicPermissions.NuGetPackages.Default);
+        }
+
         public virtual async Task CheckCreationAsync()
         {
             await CheckAsync(EzGetPublicPermissions.NuGetPackages.Create);

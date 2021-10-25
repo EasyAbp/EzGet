@@ -31,9 +31,19 @@ namespace EasyAbp.EzGet.NuGet.Packages
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            return await (await GetDbSetAsync())
+            return await (includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync()))
                 .Where(specification.ToExpression())
                 .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
+        }
+
+        public virtual async Task<List<NuGetPackage>> GetListByPackageNameAsync(
+            string packageName,
+            bool includeDetails = true,
+            CancellationToken cancellationToken = default)
+        {
+            return await (includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync()))
+                .Where(p => p.PackageName == packageName)
+                .ToListAsync(GetCancellationToken(cancellationToken));
         }
 
         public override async Task<IQueryable<NuGetPackage>> WithDetailsAsync()

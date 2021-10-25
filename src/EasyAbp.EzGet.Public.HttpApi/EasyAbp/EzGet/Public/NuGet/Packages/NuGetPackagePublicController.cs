@@ -54,5 +54,12 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         {
             return NuGetPackagePublicAppService.GetAsync(packageName, version);
         }
+
+        [HttpGet]
+        [Route("{packageName}/versions")]
+        public Task<List<string>> GetVersionListByPackageName(string packageName)
+        {
+            return NuGetPackagePublicAppService.GetVersionListByPackageName(packageName);
+        }
     }
 }
