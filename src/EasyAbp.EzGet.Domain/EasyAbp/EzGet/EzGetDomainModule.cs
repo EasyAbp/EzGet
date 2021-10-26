@@ -18,7 +18,7 @@ namespace EasyAbp.EzGet
         {
             Configure<PacakgeBlobNameOptions>(options =>
             {
-                options.BlobNameSeparator = Path.PathSeparator.ToString();
+                options.BlobNameSeparator = Path.DirectorySeparatorChar.ToString();
             });
         }
     }

@@ -22,6 +22,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
         Task<List<NuGetPackage>> GetListByPackageNameAsync(
             string packageName,
             bool includeDetails = true,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default);
     }
 }

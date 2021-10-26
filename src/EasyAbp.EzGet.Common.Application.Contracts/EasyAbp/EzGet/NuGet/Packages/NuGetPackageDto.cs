@@ -32,8 +32,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
         public string NormalizedVersion { get; set; }
         public string OriginalVersion { get; set; }
 
-        public ICollection<PackageDependencyDto> Dependencies { get; }
-        public ICollection<PackageTypeDto> PackageTypes { get; }
-        public ICollection<TargetFrameworkDto> TargetFrameworks { get; }
+        public ICollection<PackageDependencyDto> Dependencies { get; set; }
+        public ICollection<PackageTypeDto> PackageTypes { get; set; }
+        public ICollection<TargetFrameworkDto> TargetFrameworks { get; set; }
     }
 }

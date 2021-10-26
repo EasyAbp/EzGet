@@ -74,7 +74,6 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                         await BlobContainer.SaveAsync(await NuGetPackageManager.GetIconBlobNameAsync(package), iconStream);
                     }
 
-                    packageStream.Position = 0;
                     await BlobContainer.SaveAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package), packageStream);
                     await BlobContainer.SaveAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package), nuspecStream);
 
