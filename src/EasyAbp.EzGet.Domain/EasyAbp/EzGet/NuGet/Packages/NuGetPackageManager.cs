@@ -109,6 +109,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             return Task.FromResult($"{package.PackageName}{separator}{package.NormalizedVersion}{separator}{package.PackageName}.{package.NormalizedVersion}");
         }
 
+        #region private methods
         private (Uri repositoryUrl, string repositoryType) GetRepositoryMetadata(NuspecReader nuspec)
         {
             var repository = nuspec.GetRepositoryMetadata();
@@ -175,5 +176,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
             return SemVerLevelEnum.Unknown;
         }
+        #endregion
     }
 }
