@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.BlobStoring;
+using System.IO;
 
 namespace EasyAbp.EzGet.NuGet.Packages
 {
@@ -16,13 +17,16 @@ namespace EasyAbp.EzGet.NuGet.Packages
     {
         protected INuGetPackageRepository PackageRepository { get; }
         protected IOptions<PacakgeBlobNameOptions> Options { get; }
+        protected IBlobContainer<NuGetContainer> BlobContainer { get; }
 
         public NuGetPackageManager(
             INuGetPackageRepository packageRepository,
-            IOptions<PacakgeBlobNameOptions> options)
+            IOptions<PacakgeBlobNameOptions> options,
+            IBlobContainer<NuGetContainer> blobContainer)
         {
             PackageRepository = packageRepository;
             Options = options;
+            BlobContainer = blobContainer;
         }
 
         public virtual async Task<NuGetPackage> CreateAsync([NotNull] PackageArchiveReader packageReader)

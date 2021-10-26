@@ -41,10 +41,35 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version)
         {
             await NuGetPackageAuthorizationService.CheckDefaultAsync();
-            var specification = new UniqueNuGetPackageSpecification(packageName, version)
-                .And(new ListedNuGetPackageSpecification());
-            var package = await NuGetPackageRepository.GetAsync(specification);
+            var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
+
+            if (package == null)
+                return null;
+
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
+        }
+
+
+        public virtual async Task<byte[]> GetPackageContentAsync(string packageName, string version)
+        {
+            await NuGetPackageAuthorizationService.CheckDefaultAsync();
+            var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
+
+            if (package == null)
+                return null;
+
+            return await BlobContainer.GetAllBytesOrNullAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package));
+        }
+
+        public virtual async Task<byte[]> GetPackageManifestAsync(string packageName, string version)
+        {
+            await NuGetPackageAuthorizationService.CheckDefaultAsync();
+            var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
+
+            if (package == null)
+                return null;
+
+            return await BlobContainer.GetAllBytesOrNullAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package));
         }
 
         public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
@@ -121,6 +146,12 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             await NuGetPackageAuthorizationService.CheckDefaultAsync();
             var packages = await NuGetPackageRepository.GetListByPackageNameAsync(packageName, false);
             return packages.Select(p => p.NormalizedVersion).ToList();
+        }
+
+        private ISpecification<NuGetPackage> GetUniqueListedSpecification(string packageName, string version)
+        {
+            return new UniqueNuGetPackageSpecification(packageName, version)
+                    .And(new ListedNuGetPackageSpecification());
         }
     }
 }

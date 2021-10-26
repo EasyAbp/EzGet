@@ -21,6 +21,41 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             NuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public Task<NuGetPackageDto> GetAsync(Guid id)
+        {
+            return NuGetPackagePublicAppService.GetAsync(id);
+        }
+
+        [HttpGet]
+        [Route("{packageName}/{version}")]
+        public Task<NuGetPackageDto> GetAsync(string packageName, string version)
+        {
+            return NuGetPackagePublicAppService.GetAsync(packageName, version);
+        }
+
+        [HttpGet]
+        [Route("{packageName}/{version}/package-content")]
+        public Task<byte[]> GetPackageContentAsync(string packageName, string version)
+        {
+            return NuGetPackagePublicAppService.GetPackageContentAsync(packageName, version);
+        }
+
+        [HttpGet]
+        [Route("{packageName}/{version}/package-manifest")]
+        public Task<byte[]> GetPackageManifestAsync(string packageName, string version)
+        {
+            return NuGetPackagePublicAppService.GetPackageManifestAsync(packageName, version);
+        }
+
+        [HttpGet]
+        [Route("{packageName}/versions")]
+        public Task<List<string>> GetVersionListByPackageName(string packageName)
+        {
+            return NuGetPackagePublicAppService.GetVersionListByPackageName(packageName);
+        }
+
         [HttpPost]
         public virtual Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
         {
@@ -39,27 +74,6 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public Task RelistAsync(string packageName, string version)
         {
             return NuGetPackagePublicAppService.RelistAsync(packageName, version);
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        public Task<NuGetPackageDto> GetAsync(Guid id)
-        {
-            return NuGetPackagePublicAppService.GetAsync(id);
-        }
-
-        [HttpGet]
-        [Route("{packageName}/{version}")]
-        public Task<NuGetPackageDto> GetAsync(string packageName, string version)
-        {
-            return NuGetPackagePublicAppService.GetAsync(packageName, version);
-        }
-
-        [HttpGet]
-        [Route("{packageName}/versions")]
-        public Task<List<string>> GetVersionListByPackageName(string packageName)
-        {
-            return NuGetPackagePublicAppService.GetVersionListByPackageName(packageName);
         }
     }
 }
