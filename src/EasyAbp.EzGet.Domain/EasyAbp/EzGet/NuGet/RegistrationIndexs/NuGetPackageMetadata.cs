@@ -21,36 +21,105 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
         public string MinClientVersion { get; }
         public DateTimeOffset Published { get; }
         public bool RequireLicenseAcceptance { get; }
-        public string Summary { get; set; }
-        public IReadOnlyList<string> Tags { get; }
+        public string Summary { get; }
         public string Title { get; }
+        public IReadOnlyList<string> Tags { get; }
 
-        public IReadOnlyList<DependencyGroupItem> DependencyGroups { get; set; }
-        public PackageDeprecation Deprecation { get; set; }
+        public IReadOnlyList<DependencyGroupItem> DependencyGroups { get; }
+        public PackageDeprecation Deprecation { get; }
+
+        public NuGetPackageMetadata(
+            string catalogUrl,
+            string packageName,
+            string version,
+            string authors,
+            string description,
+            string language,
+            string iconUrl,
+            string licenseUrl,
+            string projectUrl,
+            string packageContentUrl,
+            bool? listed,
+            string minClientVersion,
+            DateTimeOffset published,
+            bool requireLicenseAcceptance,
+            string summary,
+            string title,
+            IReadOnlyList<string> tags,
+            IReadOnlyList<DependencyGroupItem> dependencyGroups,
+            PackageDeprecation deprecation = null)
+        {
+            CatalogUrl = catalogUrl;
+            PackageName = packageName;
+            Version = version;
+            Authors = authors;
+            Description = description;
+            Language = language;
+            IconUrl = iconUrl;
+            LicenseUrl = licenseUrl;
+            ProjectUrl = projectUrl;
+            PackageContentUrl = packageContentUrl;
+            Listed = listed;
+            MinClientVersion = minClientVersion;
+            Published = published;
+            RequireLicenseAcceptance = requireLicenseAcceptance;
+            Summary = summary;
+            Title = title;
+            Tags = tags;
+            DependencyGroups = dependencyGroups;
+            Deprecation = deprecation;
+        }
     }
 
     public class DependencyGroupItem
     {
         public string TargetFramework { get; }
-        public IReadOnlyList<DependencyItem> Dependencies { get; set; }
+        public IReadOnlyList<DependencyItem> Dependencies { get; }
+
+        public DependencyGroupItem(
+            string targetFramework,
+            IReadOnlyList<DependencyItem> dependencyItems)
+        {
+            TargetFramework = targetFramework;
+            Dependencies = dependencyItems;
+        }
     }
 
     public class DependencyItem
     {
         public string DependencyPackageName { get; }
         public string Range { get; }
+
+        public DependencyItem(string dependencyPackageName, string range)
+        {
+            DependencyPackageName = dependencyPackageName;
+            Range = range;
+        }
     }
 
     public class PackageDeprecation
     {
-        public IReadOnlyList<string> Reasons { get; set; }
-        public string Message { get; set; }
-        public AlternatePackage AlternatePackage { get; set; }
+        public IReadOnlyList<string> Reasons { get; }
+        public string Message { get; }
+        public AlternatePackage AlternatePackage { get; }
+
+        public PackageDeprecation(string message, IReadOnlyList<string> reasons, AlternatePackage alternatePackage)
+        {
+            Message = message;
+            Reasons = reasons;
+            AlternatePackage = alternatePackage;
+        }
     }
 
     public class AlternatePackage
     {
-        public string PackageName { get; set; }
-        public string Range { get; set; }
+        public string PackageName { get; }
+        public string Range { get; }
+
+        public AlternatePackage(string packageName, string range)
+        {
+            PackageName = packageName;
+            Range = range;
+        }
     }
 }

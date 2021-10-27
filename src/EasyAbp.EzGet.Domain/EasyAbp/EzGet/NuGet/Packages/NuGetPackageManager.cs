@@ -17,16 +17,13 @@ namespace EasyAbp.EzGet.NuGet.Packages
     {
         protected INuGetPackageRepository PackageRepository { get; }
         protected IOptions<PacakgeBlobNameOptions> Options { get; }
-        protected IBlobContainer<NuGetContainer> BlobContainer { get; }
 
         public NuGetPackageManager(
             INuGetPackageRepository packageRepository,
-            IOptions<PacakgeBlobNameOptions> options,
-            IBlobContainer<NuGetContainer> blobContainer)
+            IOptions<PacakgeBlobNameOptions> options)
         {
             PackageRepository = packageRepository;
             Options = options;
-            BlobContainer = blobContainer;
         }
 
         public virtual async Task<NuGetPackage> CreateAsync([NotNull] PackageArchiveReader packageReader)

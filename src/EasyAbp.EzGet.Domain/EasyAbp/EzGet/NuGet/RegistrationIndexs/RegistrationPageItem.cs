@@ -6,7 +6,18 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
 {
     public class RegistrationPageItem
     {
-        public string RegistrationPageItemUrl { get; }
+        public string RegistrationLeafUrl { get; }
         public string PackageContentUrl { get; }
+        public NuGetPackageMetadata PackageMetadata { get; }
+
+        public RegistrationPageItem(
+            string registrationLeafUrl,
+            string packageContentUrl,
+            NuGetPackageMetadata packageMetadata)
+        {
+            RegistrationLeafUrl = registrationLeafUrl;
+            PackageContentUrl = packageContentUrl;
+            PackageMetadata = packageMetadata;
+        }
     }
 }

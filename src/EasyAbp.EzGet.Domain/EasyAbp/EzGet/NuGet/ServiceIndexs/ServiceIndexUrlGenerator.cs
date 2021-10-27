@@ -14,29 +14,54 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
             EzGetConfiguration = ezGetConfiguration;
         }
 
-        public async Task<string> GetServiceIndexUrlAsync()
+        public virtual async Task<string> GetServiceIndexUrlAsync()
         {
             return await EzGetConfiguration.GetHostUrlAsync() + ServiceIndexUrlConsts.ServiceIndexUrl;
         }
 
-        public async Task<string> GetPackageBaseAddressResourceUrlAsync()
+        public virtual async Task<string> GetPackageBaseAddressResourceUrlAsync()
         {
             return await EzGetConfiguration.GetHostUrlAsync() + ServiceIndexUrlConsts.PackageBaseAddressUrl;
         }
 
-        public async Task<string> GetRegistrationsBaseUrlResourceUrlAsync()
+        public virtual async Task<string> GetRegistrationsBaseUrlResourceUrlAsync()
         {
             return await EzGetConfiguration.GetHostUrlAsync() + ServiceIndexUrlConsts.RegistrationsBaseUrlUrl;
         }
 
-        public async Task<string> GetSearchQueryServiceResourceUrlAsync()
+        public virtual async Task<string> GetRegistrationIndexUrlAsync(string id)
+        {
+            return $"{await EzGetConfiguration.GetHostUrlAsync()}{ServiceIndexUrlConsts.RegistrationsBaseUrlUrl}/{id}/index.json";
+        }
+
+        public virtual async Task<string> GetRegistrationLeafUrlAsync(string id, string version)
+        {
+            return $"{await EzGetConfiguration.GetHostUrlAsync()}{ServiceIndexUrlConsts.RegistrationsBaseUrlUrl}/{id}/{version}.json";
+        }
+
+        public virtual async Task<string> GetSearchQueryServiceResourceUrlAsync()
         {
             return await EzGetConfiguration.GetHostUrlAsync() + ServiceIndexUrlConsts.ServiceIndexUrl;
         }
 
-        public async Task<string> GetPackagePublishResourceUrlAsync()
+        public virtual async Task<string> GetPackagePublishResourceUrlAsync()
         {
             return await EzGetConfiguration.GetHostUrlAsync() + ServiceIndexUrlConsts.PackagePublishUrl;
+        }
+
+        public virtual async Task<string> GetPackageDownloadUrlAsync(string id, string version)
+        {
+            return $"{await EzGetConfiguration.GetHostUrlAsync()}{ServiceIndexUrlConsts.PackageBaseAddressUrl}/{id}/{version}/{id}.{version}.nupkg";
+        }
+
+        public virtual async Task<string> GetPacakgeIconUrlAsync(string id, string version)
+        {
+            return $"{await EzGetConfiguration.GetHostUrlAsync()}{ServiceIndexUrlConsts.PackageBaseAddressUrl}/{id}/{version}/icon";
+        }
+
+        public virtual async Task<string> GetPackageReadmeUrlAsync(string id, string version)
+        {
+            return $"{await EzGetConfiguration.GetHostUrlAsync()}{ServiceIndexUrlConsts.PackageBaseAddressUrl}/{id}/{version}/readme";
         }
     }
 }
