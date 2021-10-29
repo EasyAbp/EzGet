@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
-    [Route(ServiceIndexUrlConsts.PackageSearchUrl)]
+    [Route(ServiceIndexUrlConsts.SearchQueryServiceUrl)]
     public class NuGetPackageSearchApiController : ControllerBase
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
