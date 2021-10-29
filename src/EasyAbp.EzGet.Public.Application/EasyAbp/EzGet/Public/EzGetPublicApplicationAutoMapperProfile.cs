@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using EasyAbp.EzGet.NuGet.Packages;
 using EasyAbp.EzGet.NuGet.RegistrationIndexs;
+using EasyAbp.EzGet.Public.NuGet.Packages;
 using EasyAbp.EzGet.Public.NuGet.RegistrationIndexs;
 
 namespace EasyAbp.EzGet.Public
@@ -19,6 +21,11 @@ namespace EasyAbp.EzGet.Public
             CreateMap<RegistrationPageItem, RegistrationPageItemDto>();
             CreateMap<RegistrationPage, RegistrationPageDto>();
             CreateMap<RegistrationIndex, RegistrationIndexDto>();
+
+            CreateMap<SearchResultVersion, SearchResultVersionDto>();
+            CreateMap<SearchResultPackageType, SearchResultPackageTypeDto>();
+            CreateMap<NuGetPackageSearchResult, NuGetPackageSearchResultDto>();
+            CreateMap<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>();
         }
     }
 }

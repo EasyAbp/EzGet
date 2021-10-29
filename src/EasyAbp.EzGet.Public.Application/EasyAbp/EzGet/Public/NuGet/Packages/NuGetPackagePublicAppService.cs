@@ -18,18 +18,33 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected INuGetPackageAuthorizationService NuGetPackageAuthorizationService { get; }
         protected IBlobContainer<NuGetContainer> BlobContainer { get; }
+        protected INuGetPackageSearcher NuGetPackageSearcher { get; }
 
 
         public NuGetPackagePublicAppService(
             INuGetPackageManager nuGetPackageManager,
             INuGetPackageRepository nuGetPackageRepository,
             INuGetPackageAuthorizationService nuGetPackageAuthorizationService,
-            IBlobContainer<NuGetContainer> blobContainer)
+            IBlobContainer<NuGetContainer> blobContainer,
+            INuGetPackageSearcher nuGetPackageSearcher)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
             NuGetPackageAuthorizationService = nuGetPackageAuthorizationService;
             BlobContainer = blobContainer;
+            NuGetPackageSearcher = nuGetPackageSearcher;
+        }
+
+        public virtual async Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input)
+        {
+            return ObjectMapper.Map<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>(
+                await NuGetPackageSearcher.SearchListAsync(
+                    input.SkipCount,
+                    input.MaxResultCount,
+                    input.Filter,
+                    input.IncludePrerelease,
+                    input.IncludeSemVer2,
+                    input.PackageType));
         }
 
         public virtual async Task<NuGetPackageDto> GetAsync(Guid id)

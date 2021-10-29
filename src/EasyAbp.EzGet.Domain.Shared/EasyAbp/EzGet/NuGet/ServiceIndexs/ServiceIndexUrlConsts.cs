@@ -7,5 +7,6 @@
         public const string SearchQueryServiceUrl = "v3/search";
         public const string RegistrationsBaseUrlUrl = "v3/registration";
         public const string PackageBaseAddressUrl = "v3/package";
+        public const string PackageSearchUrl = "v3/search";
     }
 }

@@ -7,7 +7,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
     public class NuGetPackageSearchListResult
     {
         public long Count { get; }
-        public IReadOnlyList<NuGetPackageSearchResult> Packages { get; set; }
+        public IReadOnlyList<NuGetPackageSearchResult> Packages { get; }
 
         public NuGetPackageSearchListResult(long count, IReadOnlyList<NuGetPackageSearchResult> packages)
         {

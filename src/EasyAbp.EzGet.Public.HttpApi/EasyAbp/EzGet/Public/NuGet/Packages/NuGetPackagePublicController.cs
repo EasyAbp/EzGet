@@ -75,5 +75,12 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         {
             return NuGetPackagePublicAppService.RelistAsync(packageName, version);
         }
+
+        [HttpGet]
+        [Route("search")]
+        public Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input)
+        {
+            return NuGetPackagePublicAppService.SearchListAsync(input);
+        }
     }
 }
