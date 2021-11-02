@@ -3,5 +3,6 @@
     public class EzGetAspNetCoreAuthenticationConsts
     {
         public const string EzGetCredentialAuthenticationScheme = "EzGetCredential";
+        public const string NuGetApiKeyHeader = "X-NuGet-ApiKey";
     }
 }

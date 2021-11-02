@@ -11,6 +11,7 @@ using Volo.Abp.BlobStoring;
 using EasyAbp.EzGet.NuGet;
 using Microsoft.AspNetCore.Authorization;
 using EasyAbp.EzGet.Public.Permissions;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {

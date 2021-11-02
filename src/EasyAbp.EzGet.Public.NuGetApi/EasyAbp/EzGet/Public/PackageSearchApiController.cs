@@ -11,11 +11,11 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
     [Route(ServiceIndexUrlConsts.SearchQueryServiceUrl)]
-    public class NuGetPackageSearchApiController : ControllerBase
+    public class PackageSearchApiController : ControllerBase
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
 
-        public NuGetPackageSearchApiController(INuGetPackagePublicAppService nuGetPackagePublicAppService)
+        public PackageSearchApiController(INuGetPackagePublicAppService nuGetPackagePublicAppService)
         {
             _nuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }

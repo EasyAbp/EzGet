@@ -37,13 +37,20 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.Threading;
 using Volo.Abp.VirtualFileSystem;
+using EasyAbp.EzGet.Public;
+using EasyAbp.EzGet.AspNetCore.Authentication;
+using EasyAbp.EzGet.Admin;
+using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.BlobStoring;
 
 namespace EasyAbp.EzGet
 {
     [DependsOn(
         typeof(EzGetWebModule),
-        typeof(EzGetCommonApplicationModule),
         typeof(EzGetEntityFrameworkCoreModule),
+        typeof(EzGetPublicApplicationModule),
+        typeof(EzGetAdminApplicationModule),
+        typeof(EzGetPublicNuGetApiModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpAutofacModule),
         typeof(AbpAccountWebModule),
@@ -64,7 +71,8 @@ namespace EasyAbp.EzGet
         typeof(AbpTenantManagementEntityFrameworkCoreModule),
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule)
+        typeof(AbpSwashbuckleModule),
+        typeof(AbpBlobStoringFileSystemModule)
         )]
     public class EzGetWebUnifiedModule : AbpModule
     {
@@ -84,9 +92,17 @@ namespace EasyAbp.EzGet
                 {
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Domain.Shared", Path.DirectorySeparatorChar)));
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Domain", Path.DirectorySeparatorChar)));
-                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetCommonApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Application.Contracts", Path.DirectorySeparatorChar)));
-                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetCommonApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Application", Path.DirectorySeparatorChar)));
-                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Web", Path.DirectorySeparatorChar)));
+
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetCommonApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Common.Application.Contracts", Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetCommonApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Common.Application", Path.DirectorySeparatorChar)));
+
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetPublicApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Public.Application.Contracts", Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetPublicApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Public.Application", Path.DirectorySeparatorChar)));
+
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetAdminApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Admin.Application.Contracts", Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetAdminApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Admin.Application", Path.DirectorySeparatorChar)));
+
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Common.Web", Path.DirectorySeparatorChar)));
                 });
             }
 
@@ -120,6 +136,19 @@ namespace EasyAbp.EzGet
             {
                 options.IsEnabled = MultiTenancyConsts.IsEnabled;
             });
+
+            Configure<AbpBlobStoringOptions>(options =>
+            {
+                options.Containers.ConfigureDefault(container =>
+                {
+                    container.UseFileSystem(fileSystem =>
+                    {
+                        fileSystem.BasePath = Path.Combine(Directory.GetCurrentDirectory(), "Pacakges");
+                    });
+                });
+            });
+
+            context.Services.AddAuthentication().AddEzGetCredential();
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

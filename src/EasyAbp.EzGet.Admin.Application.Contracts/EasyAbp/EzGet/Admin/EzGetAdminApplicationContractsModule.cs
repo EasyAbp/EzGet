@@ -1,7 +1,7 @@
 ﻿using System;
 using Volo.Abp.Modularity;
 
-namespace EasyAbp.EzGet.Admin.Application.Contracts
+namespace EasyAbp.EzGet.Admin
 {
     [DependsOn(
         typeof(EzGetCommonApplicationContractsModule)

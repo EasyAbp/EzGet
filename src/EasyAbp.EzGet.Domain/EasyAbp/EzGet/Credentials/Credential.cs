@@ -15,11 +15,11 @@ namespace EasyAbp.EzGet.Credentials
         public string Description { get; }
         public DateTime? Expires { get; set; }
         public Guid? TenantId { get; }
-        public virtual ICollection<Scope> Scopes { get; }
+        public virtual ICollection<CredentialScope> Scopes { get; }
 
         private Credential()
         {
-            Scopes = new List<Scope>();
+            Scopes = new List<CredentialScope>();
         }
 
         public Credential(
@@ -45,7 +45,7 @@ namespace EasyAbp.EzGet.Credentials
 
         public void AddScope(string globPattern, ScopeAllowActionEnum allowAction)
         {
-            Scopes.Add(new Scope(this, globPattern, allowAction));
+            Scopes.Add(new CredentialScope(this, globPattern, allowAction));
         }
 
         public bool HasExpired()

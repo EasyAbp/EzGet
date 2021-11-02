@@ -1,5 +1,7 @@
-﻿using EasyAbp.EzGet.NuGet.ServiceIndexs;
+﻿using EasyAbp.EzGet.AspNetCore.Authentication;
+using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.Packages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -7,11 +9,12 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-publish-resource
     [Route(ServiceIndexUrlConsts.PackagePublishUrl)]
-    public class NuGetPackagePublishApiController : ControllerBase
+    [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetCredentialAuthenticationScheme)]
+    public class PackagePublishApiController : ControllerBase
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
 
-        public NuGetPackagePublishApiController(INuGetPackagePublicAppService nuGetPackagePublicAppService)
+        public PackagePublishApiController(INuGetPackagePublicAppService nuGetPackagePublicAppService)
         {
             _nuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }

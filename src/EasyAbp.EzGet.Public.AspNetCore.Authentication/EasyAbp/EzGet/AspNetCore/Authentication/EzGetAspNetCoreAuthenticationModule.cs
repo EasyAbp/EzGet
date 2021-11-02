@@ -7,12 +7,5 @@ namespace EasyAbp.EzGet.AspNetCore.Authentication
         )]
     public class EzGetAspNetCoreAuthenticationModule : AbpModule
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            Configure<EzGetCredentialAuthenticationOptions>(options =>
-            {
-                options.NuGetApiKeyHeader = "X-NuGet-ApiKey";
-            });
-        }
     }
 }
