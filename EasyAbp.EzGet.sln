@@ -61,7 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{2DA204
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.HttpApi", "src\EasyAbp.EzGet.Public.HttpApi\EasyAbp.EzGet.Public.HttpApi.csproj", "{61683F06-25F0-44CC-B4B3-A8E21057343C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.AspNetCore.Authentication", "src\EasyAbp.EzGet.AspNetCore.Authentication\EasyAbp.EzGet.AspNetCore.Authentication.csproj", "{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.AspNetCore.Authentication", "src\EasyAbp.EzGet.Public.AspNetCore.Authentication\EasyAbp.EzGet.Public.AspNetCore.Authentication.csproj", "{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -196,7 +196,7 @@ Global
 		{B7581F91-77A5-406D-BA85-736A35E4E40B} = {649A3FFA-182F-4E56-9717-E6A9A2BEC545}
 		{2DA204F5-647E-4500-955F-958581CC1640} = {649A3FFA-182F-4E56-9717-E6A9A2BEC545}
 		{61683F06-25F0-44CC-B4B3-A8E21057343C} = {2DA204F5-647E-4500-955F-958581CC1640}
-		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033} = {B7581F91-77A5-406D-BA85-736A35E4E40B}
+		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033} = {2DA204F5-647E-4500-955F-958581CC1640}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}
