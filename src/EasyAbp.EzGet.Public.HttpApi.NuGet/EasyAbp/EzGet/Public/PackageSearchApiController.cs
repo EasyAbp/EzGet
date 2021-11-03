@@ -22,7 +22,7 @@ namespace EasyAbp.EzGet.Public.NuGet
         }
 
         [HttpGet]
-        public virtual Task<NuGetPackageSearchListResultDto> GetAsync(
+        public virtual async Task<IActionResult> GetAsync(
             [FromQuery(Name = "q")] string query,
             [FromQuery] int skip,
             [FromQuery] int take,
@@ -30,7 +30,7 @@ namespace EasyAbp.EzGet.Public.NuGet
             [FromQuery] string semVerLevel,
             [FromQuery] string packageType)
         {
-            return _nuGetPackagePublicAppService.SearchListAsync(new SearcherListInput
+            return new JsonResult(await _nuGetPackagePublicAppService.SearchListAsync(new SearcherListInput
             {
                 Filter = query,
                 SkipCount = skip,
@@ -38,7 +38,7 @@ namespace EasyAbp.EzGet.Public.NuGet
                 IncludePrerelease = prerelease,
                 IncludeSemVer2 = semVerLevel == "2.0.0",
                 PackageType = packageType
-            });
+            }));
         }
     }
 }

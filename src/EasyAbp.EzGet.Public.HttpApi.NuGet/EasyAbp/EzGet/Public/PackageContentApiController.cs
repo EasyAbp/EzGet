@@ -24,10 +24,10 @@ namespace EasyAbp.EzGet.Public.NuGet
 
         [HttpGet]
         [Route("{id}/index.json")]
-        public virtual async Task<VersionsModel> GetVersionsAsync(string id)
+        public virtual async Task<IActionResult> GetVersionsAsync(string id)
         {
             var versionList = await NuGetPackagePublicAppService.GetVersionListByPackageName(id);
-            return new VersionsModel { Versions = versionList };
+            return new JsonResult(new VersionsModel { Versions = versionList });
         }
 
         [HttpGet]

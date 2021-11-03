@@ -23,9 +23,9 @@ namespace EasyAbp.EzGet.Public.NuGet
 
         [HttpGet]
         [Route("{id}/index.json")]
-        public virtual Task<RegistrationIndexDto> GetAsync(string id)
+        public virtual async Task<IActionResult> GetAsync(string id)
         {
-            return _registrationIndexAppService.GetAsync(id);
+            return new JsonResult(await _registrationIndexAppService.GetAsync(id));
         }
     }
 }
