@@ -9,14 +9,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp.BlobStoring;
 using EasyAbp.EzGet.NuGet;
+using Microsoft.AspNetCore.Authorization;
+using EasyAbp.EzGet.Public.Permissions;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
+    [Authorize]
     public class NuGetPackagePublicAppService : EzGetPublicAppServiceBase, INuGetPackagePublicAppService
     {
         protected INuGetPackageManager NuGetPackageManager { get; }
         protected INuGetPackageRepository NuGetPackageRepository { get; }
-        protected INuGetPackageAuthorizationService NuGetPackageAuthorizationService { get; }
         protected IBlobContainer<NuGetContainer> BlobContainer { get; }
         protected INuGetPackageSearcher NuGetPackageSearcher { get; }
 
@@ -24,17 +27,16 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public NuGetPackagePublicAppService(
             INuGetPackageManager nuGetPackageManager,
             INuGetPackageRepository nuGetPackageRepository,
-            INuGetPackageAuthorizationService nuGetPackageAuthorizationService,
             IBlobContainer<NuGetContainer> blobContainer,
             INuGetPackageSearcher nuGetPackageSearcher)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
-            NuGetPackageAuthorizationService = nuGetPackageAuthorizationService;
             BlobContainer = blobContainer;
             NuGetPackageSearcher = nuGetPackageSearcher;
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input)
         {
             return ObjectMapper.Map<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>(
@@ -47,15 +49,15 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     input.PackageType));
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageDto> GetAsync(Guid id)
         {
-            await NuGetPackageAuthorizationService.CheckDefaultAsync();
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.GetAsync(id));
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version)
         {
-            await NuGetPackageAuthorizationService.CheckDefaultAsync();
             var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
 
             if (package == null)
@@ -64,10 +66,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
         }
 
-
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<byte[]> GetPackageContentAsync(string packageName, string version)
         {
-            await NuGetPackageAuthorizationService.CheckDefaultAsync();
             var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
 
             if (package == null)
@@ -76,9 +77,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             return await BlobContainer.GetAllBytesOrNullAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package));
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<byte[]> GetPackageManifestAsync(string packageName, string version)
         {
-            await NuGetPackageAuthorizationService.CheckDefaultAsync();
             var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
 
             if (package == null)
@@ -87,10 +88,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             return await BlobContainer.GetAllBytesOrNullAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package));
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Create)]
         public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
         {
-            await NuGetPackageAuthorizationService.CheckCreationAsync();
-
             using (var packageStream = input.File.GetStream())
             {
                 using (var packageReader = new PackageArchiveReader(packageStream, leaveStreamOpen: true))
@@ -122,10 +122,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             }
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Unlist)]
         public virtual async Task UnlistAsync(string packageName, string version)
         {
-            await NuGetPackageAuthorizationService.CheckUnlistAsync();
-
             var package = await NuGetPackageRepository.GetAsync(
                 new UniqueNuGetPackageSpecification(packageName, version),
                 false);
@@ -139,10 +138,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             await NuGetPackageRepository.UpdateAsync(package);
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Relist)]
         public virtual async Task RelistAsync(string packageName, string version)
         {
-            await NuGetPackageAuthorizationService.CheckRelistAsync();
-
             var package = await NuGetPackageRepository.GetAsync(
                 new UniqueNuGetPackageSpecification(packageName, version),
                 false);
@@ -156,9 +154,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             await NuGetPackageRepository.UpdateAsync(package);
         }
 
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<List<string>> GetVersionListByPackageName(string packageName)
         {
-            await NuGetPackageAuthorizationService.CheckDefaultAsync();
             var packages = await NuGetPackageRepository.GetListByPackageNameAsync(packageName, false);
             return packages.Select(p => p.NormalizedVersion).ToList();
         }

@@ -13,6 +13,7 @@ namespace EasyAbp.EzGet.Public.Permissions
             var nuGetPackage = ezGetPulicGroup.AddPermission(EzGetPublicPermissions.NuGetPackages.Default, L("Permission:NuGetPakcagesPublic"));
             nuGetPackage.AddChild(EzGetPublicPermissions.NuGetPackages.Create, L("Permission:NuGetPakcages.Create"));
             nuGetPackage.AddChild(EzGetPublicPermissions.NuGetPackages.Unlist, L("Permission:NuGetPakcages.Unlist"));
+            nuGetPackage.AddChild(EzGetPublicPermissions.NuGetPackages.Relist, L("Permission:NuGetPakcages.Relist"));
         }
 
         private static LocalizableString L(string name)

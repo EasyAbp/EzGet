@@ -18,6 +18,7 @@
     </PackageReference>
     <PackageReference Include="Volo.Abp.Autofac" Version="4.4.3" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.BlobStoring.FileSystem" Version="4.4.3" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="4.4.3" />
     <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="4.4.3" />
     <PackageReference Include="Volo.Abp.Swashbuckle" Version="4.4.3" />
@@ -40,9 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Common.Application\EasyAbp.EzGet.Common.Application.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Admin.Application\EasyAbp.EzGet.Admin.Application.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.Common.Web\EasyAbp.EzGet.Common.Web.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.EntityFrameworkCore\EasyAbp.EzGet.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.Application\EasyAbp.EzGet.Public.Application.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.HttpApi.NuGet\EasyAbp.EzGet.Public.HttpApi.NuGet.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.HttpApi\EasyAbp.EzGet.Public.HttpApi.csproj" />
     <ProjectReference Include="..\EasyAbp.EzGet.Host.Shared\EasyAbp.EzGet.Host.Shared.csproj" />
   </ItemGroup>
 

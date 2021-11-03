@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29001.49
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Domain.Shared", "src\EasyAbp.EzGet.Domain.Shared\EasyAbp.EzGet.Domain.Shared.csproj", "{D64C1577-4929-4B60-939E-96DE1534891A}"
 EndProject
@@ -59,7 +59,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{B7581F91-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{2DA204F5-647E-4500-955F-958581CC1640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Public.HttpApi", "src\EasyAbp.EzGet.Public.HttpApi\EasyAbp.EzGet.Public.HttpApi.csproj", "{61683F06-25F0-44CC-B4B3-A8E21057343C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.HttpApi", "src\EasyAbp.EzGet.Public.HttpApi\EasyAbp.EzGet.Public.HttpApi.csproj", "{61683F06-25F0-44CC-B4B3-A8E21057343C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.AspNetCore.Authentication", "src\EasyAbp.EzGet.Public.AspNetCore.Authentication\EasyAbp.EzGet.Public.AspNetCore.Authentication.csproj", "{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Public.HttpApi.NuGet", "src\EasyAbp.EzGet.Public.HttpApi.NuGet\EasyAbp.EzGet.Public.HttpApi.NuGet.csproj", "{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -159,6 +163,14 @@ Global
 		{61683F06-25F0-44CC-B4B3-A8E21057343C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61683F06-25F0-44CC-B4B3-A8E21057343C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61683F06-25F0-44CC-B4B3-A8E21057343C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,6 +202,8 @@ Global
 		{B7581F91-77A5-406D-BA85-736A35E4E40B} = {649A3FFA-182F-4E56-9717-E6A9A2BEC545}
 		{2DA204F5-647E-4500-955F-958581CC1640} = {649A3FFA-182F-4E56-9717-E6A9A2BEC545}
 		{61683F06-25F0-44CC-B4B3-A8E21057343C} = {2DA204F5-647E-4500-955F-958581CC1640}
+		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033} = {2DA204F5-647E-4500-955F-958581CC1640}
+		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE} = {2DA204F5-647E-4500-955F-958581CC1640}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}

@@ -7,16 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using EasyAbp.EzGet.Public.NuGet.Models;
 using EasyAbp.EzGet.Public.NuGet.Packages;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
     [Route(ServiceIndexUrlConsts.PackageBaseAddressUrl)]
-    public class NuGetPackageContentApiController : ControllerBase
+    public class PackageContentApiController : AbpController
     {
         protected INuGetPackagePublicAppService NuGetPackagePublicAppService { get; }
 
-        public NuGetPackageContentApiController(INuGetPackagePublicAppService nuGetPackagePublicAppService)
+        public PackageContentApiController(INuGetPackagePublicAppService nuGetPackagePublicAppService)
         {
             NuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
@@ -30,7 +31,7 @@ namespace EasyAbp.EzGet.Public.NuGet
         }
 
         [HttpGet]
-        [Route("{id}/{version}/{id}.{version}.nupkg")]
+        [Route("{id}/{version}/{idDotVersion}.nupkg")]
         public virtual async Task<IActionResult> GetPackageContentAsync(string id, string version)
         {
             var content = await NuGetPackagePublicAppService.GetPackageContentAsync(id, version);
@@ -42,7 +43,7 @@ namespace EasyAbp.EzGet.Public.NuGet
         }
 
         [HttpGet]
-        [Route("{id}/{version}/{id}.{version}.nuspec")]
+        [Route("{id}/{version}/{idDotVersion}.nuspec")]
         public virtual async Task<IActionResult> GetPackageManifestAsync(string id, string version)
         {
             var manifest = await NuGetPackagePublicAppService.GetPackageManifestAsync(id, version);

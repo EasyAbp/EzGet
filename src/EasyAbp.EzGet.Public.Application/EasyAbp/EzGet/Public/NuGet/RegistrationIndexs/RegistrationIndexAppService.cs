@@ -11,22 +11,17 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
     {
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected IRegistrationIndexBuilder RegistrationIndexBuilder { get; }
-        protected INuGetPackageAuthorizationService NuGetPackageAuthorizationService { get; }
 
         public RegistrationIndexAppService(
             INuGetPackageRepository nuGetPackageRepository,
-            IRegistrationIndexBuilder registrationIndexBuilder,
-            INuGetPackageAuthorizationService nuGetPackageAuthorizationService)
+            IRegistrationIndexBuilder registrationIndexBuilder)
         {
             NuGetPackageRepository = nuGetPackageRepository;
             RegistrationIndexBuilder = registrationIndexBuilder;
-            NuGetPackageAuthorizationService = nuGetPackageAuthorizationService;
         }
 
         public virtual async Task<RegistrationIndexDto> GetAsync(string packageName)
         {
-            await NuGetPackageAuthorizationService.CheckDefaultAsync();
-
             var packageList = await NuGetPackageRepository.GetListByPackageNameAsync(packageName);
             return ObjectMapper.Map<RegistrationIndex, RegistrationIndexDto>(
                 await RegistrationIndexBuilder.BuildAsync(packageList));

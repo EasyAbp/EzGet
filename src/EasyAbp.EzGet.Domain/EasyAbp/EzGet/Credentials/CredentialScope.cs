@@ -7,13 +7,17 @@ using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EzGet.Credentials
 {
-    public class Scope : Entity<Guid>
+    public class CredentialScope : Entity<Guid>
     {
         public Guid CredentialId { get; }
         public string GlobPattern { get; }
         public ScopeAllowActionEnum AllowAction { get; }
 
-        public Scope([NotNull] Credential credential, string globPattern, ScopeAllowActionEnum allowAction)
+        private CredentialScope()
+        {
+        }
+
+        public CredentialScope([NotNull] Credential credential, string globPattern, ScopeAllowActionEnum allowAction)
         {
             Check.NotNull(credential, nameof(credential));
             CredentialId = credential.Id;

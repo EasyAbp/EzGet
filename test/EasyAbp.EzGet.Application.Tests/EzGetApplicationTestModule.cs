@@ -1,4 +1,4 @@
-﻿using EasyAbp.EzGet.Admin.Application;
+﻿using EasyAbp.EzGet.Admin;
 using EasyAbp.EzGet.Public;
 using Volo.Abp.Modularity;
 using Volo.Abp.BlobStoring.FileSystem;

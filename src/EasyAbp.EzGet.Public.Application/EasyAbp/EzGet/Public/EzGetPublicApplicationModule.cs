@@ -6,7 +6,8 @@ using Volo.Abp.Modularity;
 namespace EasyAbp.EzGet.Public
 {
     [DependsOn(
-        typeof(EzGetCommonApplicationModule)
+        typeof(EzGetCommonApplicationModule),
+        typeof(EzGetPublicApplicationContractsModule)
         )]
     public class EzGetPublicApplicationModule : AbpModule
     {
