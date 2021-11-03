@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 using EasyAbp.EzGet.Public.NuGet.Models;
 using EasyAbp.EzGet.Public.NuGet.Packages;
 using Volo.Abp.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using EasyAbp.EzGet.AspNetCore.Authentication;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
     [Route(ServiceIndexUrlConsts.PackageBaseAddressUrl)]
+    [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageContentApiController : AbpController
     {
         protected INuGetPackagePublicAppService NuGetPackagePublicAppService { get; }

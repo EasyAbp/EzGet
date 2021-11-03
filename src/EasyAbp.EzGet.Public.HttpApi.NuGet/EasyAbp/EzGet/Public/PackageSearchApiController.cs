@@ -1,5 +1,7 @@
-﻿using EasyAbp.EzGet.NuGet.ServiceIndexs;
+﻿using EasyAbp.EzGet.AspNetCore.Authentication;
+using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.Packages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
     [Route(ServiceIndexUrlConsts.SearchQueryServiceUrl)]
+    [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageSearchApiController : AbpController
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;

@@ -1,5 +1,7 @@
-﻿using EasyAbp.EzGet.NuGet.ServiceIndexs;
+﻿using EasyAbp.EzGet.AspNetCore.Authentication;
+using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.ServiceIndexs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc;
@@ -8,6 +10,7 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/service-index
     [Route(ServiceIndexUrlConsts.ServiceIndexUrl)]
+    [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class ServiceIndexApiController : AbpController
     {
         protected IServiceIndexAppService ServiceIndexAppService { get; }

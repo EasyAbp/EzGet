@@ -1,5 +1,7 @@
-﻿using EasyAbp.EzGet.NuGet.ServiceIndexs;
+﻿using EasyAbp.EzGet.AspNetCore.Authentication;
+using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.RegistrationIndexs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource
     [Route(ServiceIndexUrlConsts.RegistrationsBaseUrlUrl)]
+    [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class RegistrationIndexApiController : AbpController
     {
         private readonly IRegistrationIndexAppService _registrationIndexAppService;

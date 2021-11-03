@@ -150,7 +150,9 @@ namespace EasyAbp.EzGet
                 });
             });
 
-            context.Services.AddAuthentication().AddEzGetCredential();
+            context.Services.AddAuthentication()
+                .AddEzGetCredential()
+                .AddEzGetBasicAuthentication();
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

@@ -46,5 +46,47 @@ namespace EasyAbp.EzGet.AspNetCore.Authentication
                 displayName,
                 configureOptions);
         }
+
+        public static AuthenticationBuilder AddEzGetBasicAuthentication(
+            this AuthenticationBuilder builder)
+        {
+            return builder.AddScheme<AuthenticationSchemeOptions, EzGetBasicAuthenticationHandler>(
+                EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme,
+                null,
+                delegate { });
+        }
+
+        public static AuthenticationBuilder AddEzGetBasicAuthentication(
+            this AuthenticationBuilder builder,
+            Action<AuthenticationSchemeOptions> configureOptions)
+        {
+            return builder.AddScheme<AuthenticationSchemeOptions, EzGetBasicAuthenticationHandler>(
+                EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme,
+                null,
+                configureOptions);
+        }
+
+        public static AuthenticationBuilder AddEzGetBasicAuthentication(
+            this AuthenticationBuilder builder,
+            string authenticationScheme,
+            Action<AuthenticationSchemeOptions> configureOptions)
+        {
+            return builder.AddScheme<AuthenticationSchemeOptions, EzGetBasicAuthenticationHandler>(
+                authenticationScheme,
+                null,
+                configureOptions);
+        }
+
+        public static AuthenticationBuilder AddEzGetBasicAuthentication(
+            this AuthenticationBuilder builder,
+            string authenticationScheme,
+            string displayName,
+            Action<AuthenticationSchemeOptions> configureOptions)
+        {
+            return builder.AddScheme<AuthenticationSchemeOptions, EzGetBasicAuthenticationHandler>(
+                authenticationScheme,
+                displayName,
+                configureOptions);
+        }
     }
 }
