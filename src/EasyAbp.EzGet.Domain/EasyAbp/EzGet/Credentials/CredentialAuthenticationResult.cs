@@ -5,12 +5,12 @@ using System.Text;
 
 namespace EasyAbp.EzGet.Credentials
 {
-    public class CredentialAuthenticateResult
+    public class CredentialAuthenticationResult
     {
         public bool Success { get; }
         public EzGetUser User { get; }
 
-        public CredentialAuthenticateResult(bool success, EzGetUser user)
+        public CredentialAuthenticationResult(bool success, EzGetUser user)
         {
             Success = success;
             User = user;

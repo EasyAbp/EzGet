@@ -9,6 +9,6 @@ namespace EasyAbp.EzGet.Credentials
 {
     public interface ICredentialAuthenticator
     {
-        Task<CredentialAuthenticateResult> AuthenticateAsync([NotNull]string credentialValue);
+        Task<CredentialAuthenticationResult> AuthenticateAsync([NotNull]string credentialValue);
     }
 }

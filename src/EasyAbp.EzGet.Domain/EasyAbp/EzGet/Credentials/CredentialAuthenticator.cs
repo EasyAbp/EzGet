@@ -22,7 +22,7 @@ namespace EasyAbp.EzGet.Credentials
             EzGetUserLookupService = ezGetUserLookupService;
         }
 
-        public async Task<CredentialAuthenticateResult> AuthenticateAsync([NotNull]string credentialValue)
+        public async Task<CredentialAuthenticationResult> AuthenticateAsync([NotNull]string credentialValue)
         {
             Check.NotNullOrWhiteSpace(credentialValue, nameof(credentialValue));
 
@@ -30,17 +30,17 @@ namespace EasyAbp.EzGet.Credentials
 
             if (null == credential)
             {
-                return new CredentialAuthenticateResult(false, null);
+                return new CredentialAuthenticationResult(false, null);
             }
 
             var user = await EzGetUserLookupService.FindByIdAsync(credential.UserId);
 
             if (null == user)
             {
-                return new CredentialAuthenticateResult(false, null);
+                return new CredentialAuthenticationResult(false, null);
             }
 
-            return new CredentialAuthenticateResult(true, user);
+            return new CredentialAuthenticationResult(true, user);
         }
     }
 }

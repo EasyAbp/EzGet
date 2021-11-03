@@ -63,7 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.HttpAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.AspNetCore.Authentication", "src\EasyAbp.EzGet.Public.AspNetCore.Authentication\EasyAbp.EzGet.Public.AspNetCore.Authentication.csproj", "{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Public.HttpApi.NuGet", "src\EasyAbp.EzGet.Public.HttpApi.NuGet\EasyAbp.EzGet.Public.HttpApi.NuGet.csproj", "{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.HttpApi.NuGet", "src\EasyAbp.EzGet.Public.HttpApi.NuGet\EasyAbp.EzGet.Public.HttpApi.NuGet.csproj", "{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Abp.Identity.Domain", "src\EasyAbp.EzGet.Abp.Identity.Domain\EasyAbp.EzGet.Abp.Identity.Domain.csproj", "{F401246D-7C02-45AB-9C12-85C4B6262526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +173,10 @@ Global
 		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F401246D-7C02-45AB-9C12-85C4B6262526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F401246D-7C02-45AB-9C12-85C4B6262526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F401246D-7C02-45AB-9C12-85C4B6262526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F401246D-7C02-45AB-9C12-85C4B6262526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -204,6 +210,7 @@ Global
 		{61683F06-25F0-44CC-B4B3-A8E21057343C} = {2DA204F5-647E-4500-955F-958581CC1640}
 		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033} = {2DA204F5-647E-4500-955F-958581CC1640}
 		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE} = {2DA204F5-647E-4500-955F-958581CC1640}
+		{F401246D-7C02-45AB-9C12-85C4B6262526} = {B7581F91-77A5-406D-BA85-736A35E4E40B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}

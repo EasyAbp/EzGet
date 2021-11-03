@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace></RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Identity.Domain" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyAbp.EzGet.Domain\EasyAbp.EzGet.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

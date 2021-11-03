@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Abp.Identity.Domain\EasyAbp.EzGet.Abp.Identity.Domain.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.Admin.Application\EasyAbp.EzGet.Admin.Application.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.Common.Web\EasyAbp.EzGet.Common.Web.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.EntityFrameworkCore\EasyAbp.EzGet.EntityFrameworkCore.csproj" />
