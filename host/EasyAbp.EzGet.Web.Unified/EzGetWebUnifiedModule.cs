@@ -51,6 +51,7 @@ namespace EasyAbp.EzGet
         typeof(EzGetPublicApplicationModule),
         typeof(EzGetAdminApplicationModule),
         typeof(EzGetPublicNuGetApiModule),
+        typeof(EzGetPublicHttpApiModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpAutofacModule),
         typeof(AbpAccountWebModule),

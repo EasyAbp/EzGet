@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
     [Route(ServiceIndexUrlConsts.SearchQueryServiceUrl)]
-    public class PackageSearchApiController : ControllerBase
+    public class PackageSearchApiController : AbpController
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
 

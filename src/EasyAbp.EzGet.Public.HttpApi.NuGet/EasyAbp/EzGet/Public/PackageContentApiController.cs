@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using EasyAbp.EzGet.Public.NuGet.Models;
 using EasyAbp.EzGet.Public.NuGet.Packages;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
     [Route(ServiceIndexUrlConsts.PackageBaseAddressUrl)]
-    public class PackageContentApiController : ControllerBase
+    public class PackageContentApiController : AbpController
     {
         protected INuGetPackagePublicAppService NuGetPackagePublicAppService { get; }
 

@@ -3,14 +3,18 @@ using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.Packages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-publish-resource
     [Route(ServiceIndexUrlConsts.PackagePublishUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetCredentialAuthenticationScheme)]
-    public class PackagePublishApiController : ControllerBase
+    public class PackagePublishApiController : AbpController
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
 

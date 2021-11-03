@@ -45,7 +45,8 @@
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.Common.Web\EasyAbp.EzGet.Common.Web.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.EntityFrameworkCore\EasyAbp.EzGet.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.Application\EasyAbp.EzGet.Public.Application.csproj" />
-    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.NuGetApi\EasyAbp.EzGet.Public.NuGetApi.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.HttpApi.NuGet\EasyAbp.EzGet.Public.HttpApi.NuGet.csproj" />
+    <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.HttpApi\EasyAbp.EzGet.Public.HttpApi.csproj" />
     <ProjectReference Include="..\EasyAbp.EzGet.Host.Shared\EasyAbp.EzGet.Host.Shared.csproj" />
   </ItemGroup>
 

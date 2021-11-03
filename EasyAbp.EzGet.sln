@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.HttpAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.AspNetCore.Authentication", "src\EasyAbp.EzGet.Public.AspNetCore.Authentication\EasyAbp.EzGet.Public.AspNetCore.Authentication.csproj", "{A4A91A78-C2E5-42BA-9887-2AE53C8C1033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Public.NuGetApi", "src\EasyAbp.EzGet.Public.NuGetApi\EasyAbp.EzGet.Public.NuGetApi.csproj", "{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Public.HttpApi.NuGet", "src\EasyAbp.EzGet.Public.HttpApi.NuGet\EasyAbp.EzGet.Public.HttpApi.NuGet.csproj", "{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

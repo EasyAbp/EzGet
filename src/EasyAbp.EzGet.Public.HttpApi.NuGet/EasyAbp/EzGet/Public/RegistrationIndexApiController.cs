@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource
     [Route(ServiceIndexUrlConsts.RegistrationsBaseUrlUrl)]
-    public class RegistrationIndexApiController : ControllerBase
+    public class RegistrationIndexApiController : AbpController
     {
         private readonly IRegistrationIndexAppService _registrationIndexAppService;
 
