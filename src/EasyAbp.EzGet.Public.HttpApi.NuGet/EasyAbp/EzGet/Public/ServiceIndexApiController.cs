@@ -11,7 +11,7 @@ namespace EasyAbp.EzGet.Public.NuGet
     //See: https://docs.microsoft.com/en-us/nuget/api/service-index
     [Route(ServiceIndexUrlConsts.ServiceIndexUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
-    public class ServiceIndexApiController : AbpController
+    public class ServiceIndexApiController : EzGetHttpApiNuGetControllerBase
     {
         protected IServiceIndexAppService ServiceIndexAppService { get; }
 

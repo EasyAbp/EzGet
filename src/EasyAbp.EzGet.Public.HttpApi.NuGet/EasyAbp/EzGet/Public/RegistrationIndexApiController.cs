@@ -15,7 +15,7 @@ namespace EasyAbp.EzGet.Public.NuGet
     //See: https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource
     [Route(ServiceIndexUrlConsts.RegistrationsBaseUrlUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
-    public class RegistrationIndexApiController : AbpController
+    public class RegistrationIndexApiController : EzGetHttpApiNuGetControllerBase
     {
         private readonly IRegistrationIndexAppService _registrationIndexAppService;
 

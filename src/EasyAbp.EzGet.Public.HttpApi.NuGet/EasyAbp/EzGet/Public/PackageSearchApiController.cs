@@ -15,7 +15,7 @@ namespace EasyAbp.EzGet.Public.NuGet
     //See: https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
     [Route(ServiceIndexUrlConsts.SearchQueryServiceUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
-    public class PackageSearchApiController : AbpController
+    public class PackageSearchApiController : EzGetHttpApiNuGetControllerBase
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
 

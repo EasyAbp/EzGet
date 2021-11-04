@@ -14,7 +14,7 @@ namespace EasyAbp.EzGet.Public.NuGet
     //See: https://docs.microsoft.com/en-us/nuget/api/package-publish-resource
     [Route(ServiceIndexUrlConsts.PackagePublishUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetCredentialAuthenticationScheme)]
-    public class PackagePublishApiController : AbpController
+    public class PackagePublishApiController : EzGetHttpApiNuGetControllerBase
     {
         private readonly INuGetPackagePublicAppService _nuGetPackagePublicAppService;
 
