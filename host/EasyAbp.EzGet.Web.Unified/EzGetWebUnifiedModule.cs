@@ -50,7 +50,7 @@ namespace EasyAbp.EzGet
         typeof(EzGetEntityFrameworkCoreModule),
         typeof(EzGetPublicApplicationModule),
         typeof(EzGetAdminApplicationModule),
-        typeof(EzGetPublicNuGetApiModule),
+        typeof(EzGetPublicHttpApiNuGetModule),
         typeof(EzGetPublicHttpApiModule),
         typeof(EzGetAbpIdentityDomainModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),

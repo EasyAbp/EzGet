@@ -10,7 +10,7 @@ namespace EasyAbp.EzGet.Public
         typeof(EzGetPublicApplicationModule),
         typeof(AbpAspNetCoreMvcModule)
         )]
-    public class EzGetPublicNuGetApiModule : AbpModule
+    public class EzGetPublicHttpApiNuGetModule : AbpModule
     {
         //TODO: Add Exception filter, handle AbpValidationException, AbpAuthorizationException, EntityNotFoundException, IBusinessException
     }
