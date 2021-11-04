@@ -26,12 +26,12 @@ namespace EasyAbp.EzGet.Public.NuGet
 
         [HttpGet]
         public virtual async Task<IActionResult> GetAsync(
-            [FromQuery(Name = "q")] string query,
-            [FromQuery] int skip,
-            [FromQuery] int take,
-            [FromQuery] bool prerelease,
-            [FromQuery] string semVerLevel,
-            [FromQuery] string packageType)
+            [FromQuery(Name = "q")] string query = null,
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 20,
+            [FromQuery] bool prerelease = false,
+            [FromQuery] string semVerLevel = null,
+            [FromQuery] string packageType = null)
         {
             return new JsonResult(await _nuGetPackagePublicAppService.SearchListAsync(new SearcherListInput
             {

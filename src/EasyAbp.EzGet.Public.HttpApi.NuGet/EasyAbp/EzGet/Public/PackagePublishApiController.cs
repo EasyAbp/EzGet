@@ -2,12 +2,15 @@
 using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.Packages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.Content;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
@@ -23,9 +26,13 @@ namespace EasyAbp.EzGet.Public.NuGet
             _nuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
 
-        [HttpPost]
-        public virtual Task CreateAsync(CreateNuGetPackageInputWithStream input)
+        [HttpPut]
+        public virtual Task CreateAsync()
         {
+            var input = new CreateNuGetPackageInputWithStream
+            {
+                File = new RemoteStreamContent(GetUploadStreamOrNull(HttpContext.Request))
+            };
             return _nuGetPackagePublicAppService.CreateAsync(input);
         }
 
@@ -57,6 +64,22 @@ namespace EasyAbp.EzGet.Public.NuGet
 
             await _nuGetPackagePublicAppService.RelistAsync(id, version);
             return NoContent();
+        }
+
+        private Stream GetUploadStreamOrNull(HttpRequest request)
+        {
+            Stream rawUploadStream;
+
+            if (request.HasFormContentType && request.Form.Files.Count > 0)
+            {
+                rawUploadStream = request.Form.Files[0].OpenReadStream();
+            }
+            else
+            {
+                rawUploadStream = request.Body;
+            }
+
+            return rawUploadStream;
         }
     }
 }

@@ -58,7 +58,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 var latest = versions.First();
                 var iconUrl = latest.HasEmbeddedIcon ?
                     await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(latest.PackageName, latest.GetNuGetVersion().ToNormalizedString().ToLowerInvariant()) :
-                    latest.IconUrl.AbsoluteUri;
+                    latest.IconUrl?.AbsoluteUri;
 
                 var packageResult = new NuGetPackageSearchResult(
                     latest.PackageName,
@@ -66,8 +66,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
                     latest.Description,
                     latest.Authors,
                     iconUrl,
-                    latest.LicenseUrl.AbsoluteUri,
-                    latest.ProjectUrl.AbsoluteUri,
+                    latest.LicenseUrl?.AbsoluteUri,
+                    latest.ProjectUrl?.AbsoluteUri,
                     await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(latest.PackageName),
                     latest.Summary,
                     latest.Tags,
@@ -123,7 +123,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string packageType = null,
             CancellationToken cancellationToken = default)
         {
-            filter = filter.ToLower();
+            filter = filter?.ToLower();
 
             var query = AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType)
                 .Select(p => p.PackageName)
@@ -147,7 +147,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string packageType = null,
             CancellationToken cancellationToken = default)
         {
-            filter = filter.ToLower();
+            filter = filter?.ToLower();
             return await AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
         }
@@ -169,9 +169,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
             return query.Where(p => p.IsPrerelease == includePrerelease)
                 .WhereIf(!includeSemVer2, p => p.SemVerLevel != SemVerLevelEnum.SemVer2)
-                .WhereIf(includeSemVer2, p => p.SemVerLevel == SemVerLevelEnum.SemVer2)
-                .WhereIf(string.IsNullOrWhiteSpace(filter), p => p.PackageName.ToLower().Contains(filter))
-                .WhereIf(string.IsNullOrWhiteSpace(packageType), p => p.PackageTypes.Any(t => t.Name == packageType))
+                .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.ToLower().Contains(filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(packageType), p => p.PackageTypes.Any(t => t.Name == packageType))
                 .Where(p => p.Listed == true);
         }
     }

@@ -32,7 +32,7 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
             resources.AddRange(
                 BuildResource("SearchQueryService",
                 await ServiceIndexUrlGenerator.GetSearchQueryServiceResourceUrlAsync(),
-                "3.0.0-rc"));
+                "3.0.0-rc", "3.0.0-beta", string.Empty));
 
             resources.AddRange(
                 BuildResource("RegistrationsBaseUrl",

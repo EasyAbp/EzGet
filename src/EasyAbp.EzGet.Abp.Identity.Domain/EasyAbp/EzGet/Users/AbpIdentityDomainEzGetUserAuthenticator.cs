@@ -6,16 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Identity;
+using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EzGet.Users
 {
-    public class AbpIdentityDomainUserAuthenticator : IEzGetUserAuthenticator
+    public class AbpIdentityDomainEzGetUserAuthenticator : IEzGetUserAuthenticator, ITransientDependency
     {
         protected IIdentityUserRepository IdentityUserRepository { get; }
         protected UserManager<IdentityUser> UserManager { get; }
         protected IEzGetUserLookupService EzGetUserLookupService { get; }
 
-        public AbpIdentityDomainUserAuthenticator(
+        public AbpIdentityDomainEzGetUserAuthenticator(
             IIdentityUserRepository identityUserRepository,
             UserManager<IdentityUser> userManager,
             IEzGetUserLookupService ezGetUserLookupService)

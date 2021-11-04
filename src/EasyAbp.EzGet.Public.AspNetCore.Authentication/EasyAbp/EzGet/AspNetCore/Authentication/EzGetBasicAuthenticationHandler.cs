@@ -44,10 +44,10 @@ namespace EasyAbp.EzGet.AspNetCore.Authentication
                 return Fail("Token is empty or white space or not Basic Authentication");
             }
 
-            var token = headerValue[..headerValue.IndexOf(" ")];
+            var token = headerValue[headerValue.IndexOf(" ")..];
             var decodeToken = DecodeBase64(token);
             var userName = decodeToken[..decodeToken.IndexOf(":")];
-            var password = decodeToken[decodeToken.IndexOf(":")..];
+            var password = decodeToken[(decodeToken.IndexOf(":") + 1)..];
 
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
             {

@@ -15,7 +15,6 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
     [Route(ServiceIndexUrlConsts.PackageBaseAddressUrl)]
-    [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageContentApiController : EzGetHttpApiNuGetControllerBase
     {
         protected INuGetPackagePublicAppService NuGetPackagePublicAppService { get; }

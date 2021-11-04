@@ -41,7 +41,7 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
 
         public virtual async Task<string> GetSearchQueryServiceResourceUrlAsync()
         {
-            return await EzGetConfiguration.GetHostUrlAsync() + ServiceIndexUrlConsts.ServiceIndexUrl;
+            return await EzGetConfiguration.GetHostUrlAsync() + ServiceIndexUrlConsts.SearchQueryServiceUrl;
         }
 
         public virtual async Task<string> GetPackagePublishResourceUrlAsync()
