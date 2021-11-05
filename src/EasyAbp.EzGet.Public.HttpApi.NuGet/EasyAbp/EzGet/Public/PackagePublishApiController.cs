@@ -11,7 +11,6 @@ using Volo.Abp.Content;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-publish-resource
-    [Route(ServiceIndexUrlConsts.PackagePublishUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetCredentialAuthenticationScheme)]
     public class PackagePublishApiController : EzGetHttpApiNuGetControllerBase
     {
@@ -22,7 +21,6 @@ namespace EasyAbp.EzGet.Public.NuGet
             _nuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
 
-        [HttpPut]
         public virtual Task CreateAsync()
         {
             var input = new CreateNuGetPackageInputWithStream
@@ -32,8 +30,6 @@ namespace EasyAbp.EzGet.Public.NuGet
             return _nuGetPackagePublicAppService.CreateAsync(input);
         }
 
-        [HttpDelete]
-        [Route("{id}/{version}")]
         public virtual async Task<IActionResult> UnlistAsync(string id, string version)
         {
             var package = await _nuGetPackagePublicAppService.GetAsync(id, version);
@@ -47,8 +43,6 @@ namespace EasyAbp.EzGet.Public.NuGet
             return NoContent();
         }
 
-        [HttpPost]
-        [Route("{id}/{version}")]
         public virtual async Task<IActionResult> RelistAsync(string id, string version)
         {
             var package = await _nuGetPackagePublicAppService.GetAsync(id, version);

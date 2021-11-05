@@ -191,7 +191,10 @@ namespace EasyAbp.EzGet
 
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
-            app.UseConfiguredEndpoints();
+            app.UseConfiguredEndpoints(endpoint =>
+            {
+                endpoint.MapEzGetEndpoints();
+            });
 
             using (var scope = context.ServiceProvider.CreateScope())
             {
