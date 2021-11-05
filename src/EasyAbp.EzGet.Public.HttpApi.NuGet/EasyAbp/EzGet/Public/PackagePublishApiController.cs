@@ -4,12 +4,8 @@ using EasyAbp.EzGet.Public.NuGet.Packages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Content;
 
 namespace EasyAbp.EzGet.Public.NuGet

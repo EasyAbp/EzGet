@@ -20,9 +20,18 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
             RegistrationIndexAppService = registrationIndexAppService;
         }
 
-        public Task<RegistrationIndexDto> GetAsync(string packageName)
+        [HttpGet]
+        [Route("{packageName}")]
+        public Task<RegistrationIndexDto> GetIndexAsync(string packageName)
         {
-            return RegistrationIndexAppService.GetAsync(packageName);
+            return RegistrationIndexAppService.GetIndexAsync(packageName);
+        }
+
+        [HttpGet]
+        [Route("{pacakgeName}/{version}")]
+        public Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version)
+        {
+            throw new NotImplementedException();
         }
     }
 }

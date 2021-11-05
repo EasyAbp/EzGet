@@ -12,9 +12,6 @@ namespace EasyAbp.EzGet.Public
     {
         public EzGetPublicApplicationAutoMapperProfile()
         {
-            /* You can configure your AutoMapper mapping configuration here.
-             * Alternatively, you can split your mapping configurations
-             * into multiple profile classes for a better organization. */
             CreateMap<AlternatePackage, AlternatePackageDto>();
             CreateMap<PackageDeprecation, PackageDeprecationDto>();
             CreateMap<DependencyItem, DependencyItemDto>();
@@ -23,6 +20,7 @@ namespace EasyAbp.EzGet.Public
             CreateMap<RegistrationPageItem, RegistrationPageItemDto>();
             CreateMap<RegistrationPage, RegistrationPageDto>();
             CreateMap<RegistrationIndex, RegistrationIndexDto>();
+            CreateMap<RegistrationLeaf, RegistrationLeafDto>();
 
             CreateMap<SearchResultVersion, SearchResultVersionDto>();
             CreateMap<SearchResultPackageType, SearchResultPackageTypeDto>();

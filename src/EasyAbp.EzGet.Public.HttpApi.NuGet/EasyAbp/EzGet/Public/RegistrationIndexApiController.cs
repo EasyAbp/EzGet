@@ -3,12 +3,7 @@ using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.RegistrationIndexs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet.Public.NuGet
 {
@@ -26,9 +21,16 @@ namespace EasyAbp.EzGet.Public.NuGet
 
         [HttpGet]
         [Route("{id}/index.json")]
-        public virtual async Task<IActionResult> GetAsync(string id)
+        public virtual async Task<IActionResult> GetIndexAsync(string id)
         {
-            return new JsonResult(await _registrationIndexAppService.GetAsync(id));
+            return new JsonResult(await _registrationIndexAppService.GetIndexAsync(id));
+        }
+
+        [HttpGet]
+        [Route("{id}/{version}.json")]
+        public virtual async Task<IActionResult> GetLeafAsync(string id, string version)
+        {
+            return new JsonResult(await _registrationIndexAppService.GetLeafAsync(id, version));
         }
     }
 }

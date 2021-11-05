@@ -1,13 +1,8 @@
 ﻿using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EasyAbp.EzGet.Public.NuGet.Models;
 using EasyAbp.EzGet.Public.NuGet.Packages;
-using Volo.Abp.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using EasyAbp.EzGet.AspNetCore.Authentication;
 
@@ -15,6 +10,7 @@ namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
     [Route(ServiceIndexUrlConsts.PackageBaseAddressUrl)]
+    [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageContentApiController : EzGetHttpApiNuGetControllerBase
     {
         protected INuGetPackagePublicAppService NuGetPackagePublicAppService { get; }

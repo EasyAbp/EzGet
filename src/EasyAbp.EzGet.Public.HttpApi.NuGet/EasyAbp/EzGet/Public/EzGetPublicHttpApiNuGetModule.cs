@@ -1,7 +1,6 @@
 ﻿using EasyAbp.EzGet.AspNetCore.Authentication;
 using Volo.Abp.Modularity;
 using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.Authorization;
 
 namespace EasyAbp.EzGet.Public
 {

@@ -9,6 +9,7 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
 {
     public interface IRegistrationIndexBuilder
     {
-        Task<RegistrationIndex> BuildAsync([NotNull] IReadOnlyList<NuGetPackage> nuGetPackages);
+        Task<RegistrationIndex> BuildIndexAsync([NotNull] IReadOnlyList<NuGetPackage> nuGetPackages);
+        Task<RegistrationLeaf> BuildLeafAsync([NotNull] NuGetPackage nuGetPackage);
     }
 }

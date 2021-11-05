@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
@@ -26,8 +27,10 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
             ServiceIndexUrlGenerator = serviceIndexUrlGenerator;
         }
 
-        public virtual async Task<RegistrationIndex> BuildAsync([NotNull] IReadOnlyList<NuGetPackage> nuGetPackages)
+        public virtual async Task<RegistrationIndex> BuildIndexAsync([NotNull] IReadOnlyList<NuGetPackage> nuGetPackages)
         {
+            Check.NotNull(nuGetPackages, nameof(nuGetPackages));
+
             if (nuGetPackages.Count <= 0)
                 return null;
 
@@ -54,6 +57,18 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
                         await ToRegistrationPageItemListAsync(sortedPackages)
                     )
                 });
+        }
+
+        public virtual async Task<RegistrationLeaf> BuildLeafAsync([NotNull] NuGetPackage nuGetPackage)
+        {
+            Check.NotNull(nuGetPackage, nameof(nuGetPackage));
+
+            return new RegistrationLeaf(
+                await ServiceIndexUrlGenerator.GetRegistrationLeafUrlAsync(nuGetPackage.PackageName, nuGetPackage.NormalizedVersion),
+                nuGetPackage.Listed,
+                await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(nuGetPackage.PackageName, nuGetPackage.NormalizedVersion),
+                nuGetPackage.Published,
+                await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(nuGetPackage.PackageName));
         }
 
         private async Task<List<RegistrationPageItem>> ToRegistrationPageItemListAsync(IReadOnlyList<NuGetPackage> nuGetPackages)

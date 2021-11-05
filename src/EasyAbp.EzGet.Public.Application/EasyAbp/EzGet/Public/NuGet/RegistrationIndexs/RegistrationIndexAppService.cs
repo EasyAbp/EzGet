@@ -20,11 +20,18 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
             RegistrationIndexBuilder = registrationIndexBuilder;
         }
 
-        public virtual async Task<RegistrationIndexDto> GetAsync(string packageName)
+        public virtual async Task<RegistrationIndexDto> GetIndexAsync(string packageName)
         {
             var packageList = await NuGetPackageRepository.GetListByPackageNameAsync(packageName);
             return ObjectMapper.Map<RegistrationIndex, RegistrationIndexDto>(
-                await RegistrationIndexBuilder.BuildAsync(packageList));
+                await RegistrationIndexBuilder.BuildIndexAsync(packageList));
+        }
+
+        public virtual async Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version)
+        {
+            var package = await NuGetPackageRepository.GetAsync(new UniqueNuGetPackageSpecification(pacakgeName, version));
+            return ObjectMapper.Map<RegistrationLeaf, RegistrationLeafDto>(
+                await RegistrationIndexBuilder.BuildLeafAsync(package));
         }
     }
 }
