@@ -106,6 +106,7 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.Property(p => p.Value).IsRequired().HasMaxLength(CredentialConsts.MaxValueLength);
                 b.Property(p => p.Description).HasMaxLength(CredentialConsts.MaxDescriptionLength);
                 b.Property(p => p.Expires);
+                b.Property(p => p.GlobPattern).HasMaxLength(CredentialConsts.MaxGlobPatternLength);
                 b.HasMany(p => p.Scopes).WithOne();
             });
 
@@ -113,8 +114,8 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
             {
                 b.ToTable(options.TablePrefix + "CredentialScopes", options.Schema);
                 b.ConfigureByConvention();
+                b.HasKey(p => new object[] { p.CredentialId, p.AllowAction });
                 b.Property(p => p.CredentialId);
-                b.Property(p => p.GlobPattern).HasMaxLength(CredentialScopeConsts.MaxGlobPatternLength);
                 b.Property(p => p.AllowAction);
             });
         }

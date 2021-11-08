@@ -14,6 +14,14 @@ namespace EasyAbp.EzGet.Public.Permissions
             public const string Relist = Default + ".Relist";
         }
 
+        public static class Credentials
+        {
+            public const string Default = GroupName + ".Credentials";
+            public const string Create = Default + ".Create";
+            public const string Update = Default + ".Update";
+            public const string Delete = Default + ".Delete";
+        }
+
         public static string[] GetAll()
         {
             return ReflectionHelper.GetPublicConstantsRecursively(typeof(EzGetPublicPermissions));

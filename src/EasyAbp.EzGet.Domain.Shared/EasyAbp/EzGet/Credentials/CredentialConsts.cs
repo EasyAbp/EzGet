@@ -8,5 +8,6 @@ namespace EasyAbp.EzGet.Credentials
     {
         public const int MaxValueLength = 50;
         public const int MaxDescriptionLength = 100;
+        public const int MaxGlobPatternLength = 50;
     }
 }

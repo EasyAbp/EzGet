@@ -7,22 +7,25 @@ using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EzGet.Credentials
 {
-    public class CredentialScope : Entity<Guid>
+    public class CredentialScope : Entity
     {
         public Guid CredentialId { get; }
-        public string GlobPattern { get; }
         public ScopeAllowActionEnum AllowAction { get; }
 
         private CredentialScope()
         {
         }
 
-        public CredentialScope([NotNull] Credential credential, string globPattern, ScopeAllowActionEnum allowAction)
+        public CredentialScope([NotNull] Credential credential, ScopeAllowActionEnum allowAction)
         {
             Check.NotNull(credential, nameof(credential));
             CredentialId = credential.Id;
-            GlobPattern = globPattern;
             AllowAction = allowAction;
+        }
+
+        public override object[] GetKeys()
+        {
+            return new object[] { CredentialId, AllowAction };
         }
     }
 }

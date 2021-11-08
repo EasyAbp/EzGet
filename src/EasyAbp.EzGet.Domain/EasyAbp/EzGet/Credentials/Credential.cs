@@ -12,8 +12,9 @@ namespace EasyAbp.EzGet.Credentials
     {
         public Guid UserId { get; }
         public string Value { get; }
-        public string Description { get; }
-        public DateTime? Expires { get; set; }
+        public string Description { get; set; }
+        public DateTime? Expires { get; }
+        public string GlobPattern { get; }
         public Guid? TenantId { get; }
         public virtual ICollection<CredentialScope> Scopes { get; }
 
@@ -27,6 +28,7 @@ namespace EasyAbp.EzGet.Credentials
             Guid userId,
             [NotNull] string value,
             TimeSpan? expiration,
+            string globPattern,
             string description = null,
             Guid? tenantId = null)
             : this()
@@ -34,6 +36,7 @@ namespace EasyAbp.EzGet.Credentials
             Id = id;
             UserId = userId;
             Value = Check.NotNullOrWhiteSpace(value, nameof(value));
+            GlobPattern = globPattern;
             Description = description;
             TenantId = tenantId;
 
@@ -43,9 +46,9 @@ namespace EasyAbp.EzGet.Credentials
             }
         }
 
-        public void AddScope(string globPattern, ScopeAllowActionEnum allowAction)
+        public void AddScope(ScopeAllowActionEnum allowAction)
         {
-            Scopes.Add(new CredentialScope(this, globPattern, allowAction));
+            Scopes.Add(new CredentialScope(this, allowAction));
         }
 
         public bool HasExpired()
