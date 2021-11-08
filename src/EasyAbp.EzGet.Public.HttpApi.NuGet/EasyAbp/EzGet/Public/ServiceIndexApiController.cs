@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/service-index
-    [Route(ServiceIndexUrlConsts.ServiceIndexUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class ServiceIndexApiController : EzGetHttpApiNuGetControllerBase
     {
@@ -19,7 +18,6 @@ namespace EasyAbp.EzGet.Public.NuGet
             ServiceIndexAppService = serviceIndexAppService;
         }
 
-        [HttpGet]
         public virtual async Task<IActionResult> GetAsync()
         {
             var serviceIndex = await ServiceIndexAppService.GetAsync();

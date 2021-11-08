@@ -9,7 +9,6 @@ using EasyAbp.EzGet.AspNetCore.Authentication;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
-    [Route(ServiceIndexUrlConsts.PackageBaseAddressUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageContentApiController : EzGetHttpApiNuGetControllerBase
     {
@@ -20,16 +19,12 @@ namespace EasyAbp.EzGet.Public.NuGet
             NuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
 
-        [HttpGet]
-        [Route("{id}/index.json")]
         public virtual async Task<IActionResult> GetVersionsAsync(string id)
         {
             var versionList = await NuGetPackagePublicAppService.GetVersionListByPackageName(id);
             return new JsonResult(new VersionsModel { Versions = versionList });
         }
 
-        [HttpGet]
-        [Route("{id}/{version}/{idDotVersion}.nupkg")]
         public virtual async Task<IActionResult> GetPackageContentAsync(string id, string version)
         {
             var content = await NuGetPackagePublicAppService.GetPackageContentAsync(id, version);
@@ -40,8 +35,6 @@ namespace EasyAbp.EzGet.Public.NuGet
             return File(content, "application/octet-stream");
         }
 
-        [HttpGet]
-        [Route("{id}/{version}/{idDotVersion}.nuspec")]
         public virtual async Task<IActionResult> GetPackageManifestAsync(string id, string version)
         {
             var manifest = await NuGetPackagePublicAppService.GetPackageManifestAsync(id, version);

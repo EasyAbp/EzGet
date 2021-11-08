@@ -16,71 +16,137 @@ namespace EasyAbp.EzGet.Public
         public static void MapEzGetEndpoints(this IEndpointRouteBuilder endpoints)
         {
             MapPackagePublishRoutes(endpoints);
+            MapPackageContentRoutes(endpoints);
+            MapPackageSearchRoutes(endpoints);
+            MapRegistrationIndexRoutes(endpoints);
+            MapServiceIndexRoutes(endpoints);
+        }
+
+        private static void MapServiceIndexRoutes(IEndpointRouteBuilder endpoints)
+        {
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.ServiceIndex.Get,
+                ServiceIndexUrlConsts.ServiceIndexUrl,
+                nameof(ServiceIndexApiController),
+                nameof(ServiceIndexApiController.GetAsync),
+                "GET");
+        }
+
+        private static void MapRegistrationIndexRoutes(IEndpointRouteBuilder endpoints)
+        {
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.RegistrationIndex.GetIndex,
+                $"{ServiceIndexUrlConsts.RegistrationsBaseUrlUrl}/{{id}}/index.json",
+                nameof(RegistrationIndexApiController),
+                nameof(RegistrationIndexApiController.GetIndexAsync),
+                "GET");
+
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.RegistrationIndex.GetLeaf,
+                $"{ServiceIndexUrlConsts.RegistrationsBaseUrlUrl}/{{id}}/{{version}}.json",
+                nameof(RegistrationIndexApiController),
+                nameof(RegistrationIndexApiController.GetLeafAsync),
+                "GET");
+        }
+
+        private static void MapPackageSearchRoutes(IEndpointRouteBuilder endpoints)
+        {
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.PackageSearch.GetList,
+                ServiceIndexUrlConsts.SearchQueryServiceUrl,
+                nameof(PackageSearchApiController),
+                nameof(PackageSearchApiController.GetAsync),
+                "GET");
+        }
+
+        private static void MapPackageContentRoutes(IEndpointRouteBuilder endpoints)
+        {
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.PackageContent.GetVersions,
+                $"{ServiceIndexUrlConsts.PackageBaseAddressUrl}/{{id}}/index.json",
+                nameof(PackageContentApiController),
+                nameof(PackageContentApiController.GetVersionsAsync),
+                "GET");
+
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.PackageContent.GetPackageContent,
+                $"{ServiceIndexUrlConsts.PackageBaseAddressUrl}/{{id}}/{{version}}/{{idDotVersion}}.nupkg",
+                nameof(PackageContentApiController),
+                nameof(PackageContentApiController.GetPackageContentAsync),
+                "GET");
+
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.PackageContent.GetPackageContent,
+                $"{ServiceIndexUrlConsts.PackageBaseAddressUrl}/{{id}}/{{version}}/{{idDotVersion}}.nuspec",
+                nameof(PackageContentApiController),
+                nameof(PackageContentApiController.GetPackageManifestAsync),
+                "GET");
         }
 
         private static void MapPackagePublishRoutes(IEndpointRouteBuilder endpoints)
         {
-            //non feed
-            endpoints.MapControllerRoute(
-                name: EzGetRoutesName.PackagePublish.Create,
-                pattern: $"{ServiceIndexUrlConsts.PackagePublishUrl}",
-                defaults: new
-                {
-                    controller = GetControllerName(nameof(PackagePublishApiController)),
-                    action = GetActionName(nameof(PackagePublishApiController.CreateAsync))
-                },
-                constraints: new { httpMethod = new HttpMethodRouteConstraint("PUT") });
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.PackagePublish.Create,
+                ServiceIndexUrlConsts.PackagePublishUrl,
+                nameof(PackagePublishApiController),
+                nameof(PackagePublishApiController.CreateAsync),
+                "PUT");
+
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.PackagePublish.Unlist,
+                $"{ServiceIndexUrlConsts.PackagePublishUrl}/{{id}}/{{version}}",
+                nameof(PackagePublishApiController),
+                nameof(PackagePublishApiController.UnlistAsync),
+                "DELETE");
+
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.PackagePublish.Relist,
+                $"{ServiceIndexUrlConsts.PackagePublishUrl}/{{id}}/{{version}}",
+                nameof(PackagePublishApiController),
+                nameof(PackagePublishApiController.RelistAsync),
+                "POST");
+        }
+
+        private static void MapControllerRoute(
+            IEndpointRouteBuilder endpoints,
+            string name,
+            string pattern,
+            string controller,
+            string action,
+            string httpMethod)
+        {
+            var controllerName = GetControllerName(controller);
+            var actionName = GetActionName(action);
 
             endpoints.MapControllerRoute(
-                name: EzGetRoutesName.PackagePublish.Unlist,
-                pattern: $"{ServiceIndexUrlConsts.PackagePublishUrl}/{{id}}/{{version}}",
+                name: name,
+                pattern: pattern,
                 defaults: new
                 {
-                    controller = GetControllerName(nameof(PackagePublishApiController)),
-                    action = GetActionName(nameof(PackagePublishApiController.UnlistAsync))
+                    controller = controllerName,
+                    action = actionName
                 },
-                constraints: new { httpMethod = new HttpMethodRouteConstraint("DELETE") });
+                constraints: new { httpMethod = new HttpMethodRouteConstraint(httpMethod) });
 
             endpoints.MapControllerRoute(
-                name: EzGetRoutesName.PackagePublish.Relist,
-                pattern: $"{ServiceIndexUrlConsts.PackagePublishUrl}/{{id}}/{{version}}",
+                name: EzGetRoutesName.Feed + name,
+                pattern: $"{_feedPattern}/{pattern}",
                 defaults: new
                 {
-                    controller = GetControllerName(nameof(PackagePublishApiController)),
-                    action = GetActionName(nameof(PackagePublishApiController.RelistAsync))
+                    controller = controllerName,
+                    action = actionName
                 },
-                constraints: new { httpMethod = new HttpMethodRouteConstraint("POST") });
-
-            //feed
-            endpoints.MapControllerRoute(
-                name: EzGetRoutesName.Feed + EzGetRoutesName.PackagePublish.Create,
-                pattern: $"{_feedPattern}/{ServiceIndexUrlConsts.PackagePublishUrl}",
-                defaults: new
-                {
-                    controller = GetControllerName(nameof(PackagePublishApiController)),
-                    action = GetActionName(nameof(PackagePublishApiController.CreateAsync))
-                },
-                constraints: new { httpMethod = new HttpMethodRouteConstraint("PUT") });
-
-            endpoints.MapControllerRoute(
-                name: EzGetRoutesName.Feed + EzGetRoutesName.PackagePublish.Unlist,
-                pattern: $"{_feedPattern}/{ServiceIndexUrlConsts.PackagePublishUrl}/{{id}}/{{version}}",
-                defaults: new 
-                {
-                    controller = GetControllerName(nameof(PackagePublishApiController)),
-                    action = GetActionName(nameof(PackagePublishApiController.UnlistAsync))
-                },
-                constraints: new { httpMethod = new HttpMethodRouteConstraint("DELETE") });
-
-            endpoints.MapControllerRoute(
-                name: EzGetRoutesName.Feed + EzGetRoutesName.PackagePublish.Relist,
-                pattern: $"{ServiceIndexUrlConsts.PackagePublishUrl}/{{id}}/{{version}}",
-                defaults: new
-                {
-                    controller = GetControllerName(nameof(PackagePublishApiController)),
-                    action = GetActionName(nameof(PackagePublishApiController.RelistAsync))
-                },
-                constraints: new { httpMethod = new HttpMethodRouteConstraint("POST") });
+                constraints: new { httpMethod = new HttpMethodRouteConstraint(httpMethod) });
         }
 
         private static string GetControllerName(string controllerName)

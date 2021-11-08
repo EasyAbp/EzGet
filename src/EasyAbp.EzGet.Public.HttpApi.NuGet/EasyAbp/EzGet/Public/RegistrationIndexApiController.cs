@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource
-    [Route(ServiceIndexUrlConsts.RegistrationsBaseUrlUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class RegistrationIndexApiController : EzGetHttpApiNuGetControllerBase
     {
@@ -19,8 +18,6 @@ namespace EasyAbp.EzGet.Public.NuGet
             _registrationIndexAppService = registrationIndexAppService;
         }
 
-        [HttpGet]
-        [Route("{id}/index.json")]
         public virtual async Task<IActionResult> GetIndexAsync(string id)
         {
             return new JsonResult(await _registrationIndexAppService.GetIndexAsync(id));

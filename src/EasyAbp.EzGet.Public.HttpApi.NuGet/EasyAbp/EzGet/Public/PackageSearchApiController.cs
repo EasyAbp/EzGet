@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
-    [Route(ServiceIndexUrlConsts.SearchQueryServiceUrl)]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageSearchApiController : EzGetHttpApiNuGetControllerBase
     {
@@ -19,7 +18,6 @@ namespace EasyAbp.EzGet.Public.NuGet
             _nuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
 
-        [HttpGet]
         public virtual async Task<IActionResult> GetAsync(
             [FromQuery(Name = "q")] string query = null,
             [FromQuery] int skip = 0,
