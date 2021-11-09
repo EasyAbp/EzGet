@@ -1,5 +1,6 @@
 ﻿using System;
 using EasyAbp.EzGet.Credentials;
+using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.Packages;
 using EasyAbp.EzGet.Users;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
             optionsAction?.Invoke(options);
             ConfigureNuGetPackages(builder, options);
             ConfigureCredentials(builder, options);
+            ConfigureFeeds(builder, options);
             ConfigureUsers(builder, options);
         }
 
@@ -117,6 +119,27 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.HasKey(p => new object[] { p.CredentialId, p.AllowAction });
                 b.Property(p => p.CredentialId);
                 b.Property(p => p.AllowAction);
+            });
+        }
+
+        private static void ConfigureFeeds(ModelBuilder builder, EzGetModelBuilderConfigurationOptions options)
+        {
+            builder.Entity<Feed>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Feeds", options.Schema);
+                b.ConfigureByConvention();
+                b.HasIndex(p => p.FeedName);
+                b.Property(p => p.FeedName).HasMaxLength(FeedConsts.MaxFeedNameLenght);
+                b.Property(p => p.Description).HasMaxLength(FeedConsts.MaxDescriptionLength);
+                b.Property(p => p.FeedType);
+                b.HasMany(p => p.FeedCredentials).WithOne();
+            });
+
+            builder.Entity<FeedCredential>(b =>
+            {
+                b.ToTable(options.TablePrefix + "FeedCredentials", options.Schema);
+                b.ConfigureByConvention();
+                b.HasIndex(p => new object[] { p.FeedId, p.CredentialId });
             });
         }
 

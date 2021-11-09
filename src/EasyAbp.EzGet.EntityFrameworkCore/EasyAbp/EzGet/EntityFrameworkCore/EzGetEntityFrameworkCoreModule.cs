@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EzGet.Credentials;
+using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.Packages;
 using EasyAbp.EzGet.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 options.AddRepository<EzGetUser, EfCoreEzGetUserRepository>();
                 options.AddRepository<NuGetPackage, EfCoreNuGetPackageRepository>();
                 options.AddRepository<Credential, EfCoreCredentialRepository>();
+                options.AddRepository<Feed, EfCoreFeedRepository>();
             });
         }
     }
