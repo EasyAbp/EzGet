@@ -3,6 +3,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Users;
 using Volo.Abp.BlobStoring;
 using System.IO;
+using Volo.Abp.Caching;
 
 namespace EasyAbp.EzGet
 {
@@ -10,6 +11,7 @@ namespace EasyAbp.EzGet
         typeof(AbpDddDomainModule),
         typeof(AbpUsersDomainModule),
         typeof(AbpBlobStoringModule),
+        typeof(AbpCachingModule),
         typeof(EzGetDomainSharedModule)
     )]
     public class EzGetDomainModule : AbpModule

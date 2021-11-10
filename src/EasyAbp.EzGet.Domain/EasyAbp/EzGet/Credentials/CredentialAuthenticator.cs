@@ -11,14 +11,14 @@ namespace EasyAbp.EzGet.Credentials
 {
     public class CredentialAuthenticator : ICredentialAuthenticator, ITransientDependency
     {
-        protected ICredentialRepository CredentialRepository { get; }
+        protected ICredentialStore CredentialStore { get; }
         protected IEzGetUserLookupService EzGetUserLookupService { get; }
 
         public CredentialAuthenticator(
-            ICredentialRepository credentialRepository,
+            ICredentialStore credentialStore,
             IEzGetUserLookupService ezGetUserLookupService)
         {
-            CredentialRepository = credentialRepository;
+            CredentialStore = credentialStore;
             EzGetUserLookupService = ezGetUserLookupService;
         }
 
@@ -26,7 +26,7 @@ namespace EasyAbp.EzGet.Credentials
         {
             Check.NotNullOrWhiteSpace(credentialValue, nameof(credentialValue));
 
-            var credential = await CredentialRepository.FindByValueAsync(credentialValue);
+            var credential = await CredentialStore.GetAsync(credentialValue);
 
             if (null == credential)
             {

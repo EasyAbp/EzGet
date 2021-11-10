@@ -9,6 +9,6 @@ namespace EasyAbp.EzGet.Feeds
 {
     public interface IFeedRepository : IBasicRepository<Feed, Guid>
     {
-        Task<Feed> FindByNameAsync(string name, CancellationToken cancellationToken);
+        Task<Feed> FindByNameAsync(string name, CancellationToken cancellationToken = default);
     }
 }

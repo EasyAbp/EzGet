@@ -12,6 +12,7 @@
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="4.4.3" />
     <PackageReference Include="NuGet.Protocol" Version="$(NuGetPackageVersion)" />
     <PackageReference Include="Volo.Abp.Users.Domain" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.Caching" Version="4.4.3" />
     <ProjectReference Include="..\EasyAbp.EzGet.Domain.Shared\EasyAbp.EzGet.Domain.Shared.csproj" />
   </ItemGroup>
 
