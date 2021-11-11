@@ -21,38 +21,38 @@ namespace EasyAbp.EzGet.Public.NuGet
             _nuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
 
-        public virtual Task CreateAsync()
+        public virtual Task CreateAsync(string feedName = null)
         {
             var input = new CreateNuGetPackageInputWithStream
             {
                 File = new RemoteStreamContent(GetUploadStreamOrNull(HttpContext.Request))
             };
-            return _nuGetPackagePublicAppService.CreateAsync(input);
+            return _nuGetPackagePublicAppService.CreateAsync(input, feedName);
         }
 
-        public virtual async Task<IActionResult> UnlistAsync(string id, string version)
+        public virtual async Task<IActionResult> UnlistAsync(string id, string version, string feedName = null)
         {
-            var package = await _nuGetPackagePublicAppService.GetAsync(id, version);
+            var package = await _nuGetPackagePublicAppService.GetAsync(id, version, feedName);
 
             if (null == package)
             {
                 return NotFound();
             }
 
-            await _nuGetPackagePublicAppService.UnlistAsync(id, version);
+            await _nuGetPackagePublicAppService.UnlistAsync(id, version, feedName);
             return NoContent();
         }
 
-        public virtual async Task<IActionResult> RelistAsync(string id, string version)
+        public virtual async Task<IActionResult> RelistAsync(string id, string version, string feedName = null)
         {
-            var package = await _nuGetPackagePublicAppService.GetAsync(id, version);
+            var package = await _nuGetPackagePublicAppService.GetAsync(id, version, feedName);
 
             if (null == package)
             {
                 return NotFound();
             }
 
-            await _nuGetPackagePublicAppService.RelistAsync(id, version);
+            await _nuGetPackagePublicAppService.RelistAsync(id, version, feedName);
             return NoContent();
         }
 

@@ -24,7 +24,8 @@ namespace EasyAbp.EzGet.Public.NuGet
             [FromQuery] int take = 20,
             [FromQuery] bool prerelease = false,
             [FromQuery] string semVerLevel = null,
-            [FromQuery] string packageType = null)
+            [FromQuery] string packageType = null,
+            [FromRoute] string feedName = null)
         {
             return new JsonResult(await _nuGetPackagePublicAppService.SearchListAsync(new SearcherListInput
             {
@@ -33,7 +34,8 @@ namespace EasyAbp.EzGet.Public.NuGet
                 MaxResultCount = take,
                 IncludePrerelease = prerelease,
                 IncludeSemVer2 = semVerLevel == "2.0.0",
-                PackageType = packageType
+                PackageType = packageType,
+                FeedName = feedName
             }));
         }
     }

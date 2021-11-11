@@ -41,7 +41,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     var packageDto = await _nuGetPackagePublicAppService.CreateAsync(new CreateNuGetPackageInputWithStream
                     {
                         File = new RemoteStreamContent(fs, fileName)
-                    });
+                    }, null);
 
                     packageDto.ShouldNotBeNull();
                     packageDto.PackageName.ShouldBe("Gsx.Abp.Excel.Abstractions");

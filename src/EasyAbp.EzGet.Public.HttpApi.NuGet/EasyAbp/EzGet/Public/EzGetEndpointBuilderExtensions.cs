@@ -9,7 +9,7 @@ namespace EasyAbp.EzGet.Public
 {
     public static class EzGetEndpointBuilderExtensions
     {
-        private const string _feedPattern = "F/{feed}";
+        private const string _feedPattern = "F/{feedName}";
         private const string _asyncSuffix = "Async";
         private const string _controllerSuffix = "Controller";
 

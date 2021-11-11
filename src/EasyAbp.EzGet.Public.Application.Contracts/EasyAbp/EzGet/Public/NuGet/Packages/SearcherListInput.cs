@@ -11,5 +11,6 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public bool IncludePrerelease { get; set; }
         public bool IncludeSemVer2 { get; set; }
         public string PackageType { get; set; }
+        public string FeedName { get; set; }
     }
 }

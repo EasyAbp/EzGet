@@ -27,7 +27,9 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
             ServiceIndexUrlGenerator = serviceIndexUrlGenerator;
         }
 
-        public virtual async Task<RegistrationIndex> BuildIndexAsync([NotNull] IReadOnlyList<NuGetPackage> nuGetPackages)
+        public virtual async Task<RegistrationIndex> BuildIndexAsync(
+            [NotNull] IReadOnlyList<NuGetPackage> nuGetPackages,
+            string feedName)
         {
             Check.NotNull(nuGetPackages, nameof(nuGetPackages));
 
@@ -43,56 +45,58 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
             var sortedPackages = nuGetPackages.OrderBy(p => p.GetNuGetVersion()).ToList();
 
             return new RegistrationIndex(
-                await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(sortedPackages.First().PackageName),
+                await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(sortedPackages.First().PackageName, feedName),
                 DefaultTypes,
                 1,
                 new RegistrationPage[]
                 {
                     new RegistrationPage
                     (
-                        await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(pacakgeName),
+                        await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(pacakgeName, feedName),
                         sortedPackages.Count,
                         sortedPackages.First().GetNuGetVersion().ToNormalizedString().ToLowerInvariant(),
                         sortedPackages.Last().GetNuGetVersion().ToNormalizedString().ToLowerInvariant(),
-                        await ToRegistrationPageItemListAsync(sortedPackages)
+                        await ToRegistrationPageItemListAsync(sortedPackages, feedName)
                     )
                 });
         }
 
-        public virtual async Task<RegistrationLeaf> BuildLeafAsync([NotNull] NuGetPackage nuGetPackage)
+        public virtual async Task<RegistrationLeaf> BuildLeafAsync([NotNull] NuGetPackage nuGetPackage, string feedName)
         {
             Check.NotNull(nuGetPackage, nameof(nuGetPackage));
 
             return new RegistrationLeaf(
-                await ServiceIndexUrlGenerator.GetRegistrationLeafUrlAsync(nuGetPackage.PackageName, nuGetPackage.NormalizedVersion),
+                await ServiceIndexUrlGenerator.GetRegistrationLeafUrlAsync(nuGetPackage.PackageName, nuGetPackage.NormalizedVersion, feedName),
                 nuGetPackage.Listed,
-                await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(nuGetPackage.PackageName, nuGetPackage.NormalizedVersion),
+                await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(nuGetPackage.PackageName, nuGetPackage.NormalizedVersion, feedName),
                 nuGetPackage.Published,
-                await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(nuGetPackage.PackageName));
+                await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(nuGetPackage.PackageName, feedName));
         }
 
-        private async Task<List<RegistrationPageItem>> ToRegistrationPageItemListAsync(IReadOnlyList<NuGetPackage> nuGetPackages)
+        private async Task<List<RegistrationPageItem>> ToRegistrationPageItemListAsync(
+            IReadOnlyList<NuGetPackage> nuGetPackages,
+            string feedName)
         {
             var resultList = new List<RegistrationPageItem>(nuGetPackages.Count);
 
             foreach (var package in nuGetPackages)
             {
-                resultList.Add(await ToRegistrationPageItemAsync(package));
+                resultList.Add(await ToRegistrationPageItemAsync(package, feedName));
             }
 
             return resultList;
         }
 
-        private async Task<RegistrationPageItem> ToRegistrationPageItemAsync(NuGetPackage package)
+        private async Task<RegistrationPageItem> ToRegistrationPageItemAsync(NuGetPackage package, string feedName)
         {
             var lowerVersion = package.GetNuGetVersion().ToNormalizedString().ToLower();
             return new RegistrationPageItem(
-                await ServiceIndexUrlGenerator.GetRegistrationLeafUrlAsync(package.PackageName, lowerVersion),
-                await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(package.PackageName, lowerVersion),
-                await ToNuGetPackageMetadataAsync(package));
+                await ServiceIndexUrlGenerator.GetRegistrationLeafUrlAsync(package.PackageName, lowerVersion, feedName),
+                await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(package.PackageName, lowerVersion, feedName),
+                await ToNuGetPackageMetadataAsync(package, feedName));
         }
 
-        private async Task<NuGetPackageMetadata> ToNuGetPackageMetadataAsync(NuGetPackage package)
+        private async Task<NuGetPackageMetadata> ToNuGetPackageMetadataAsync(NuGetPackage package, string feedName)
         {
             var version = package.GetNuGetVersion().ToNormalizedString().ToLowerInvariant();
 
@@ -103,10 +107,10 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
                 string.Join(", ", package.Authors),
                 package.Description,
                 package.Language,
-                package.HasEmbeddedIcon ? await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(package.PackageName, version) : package.IconUrl?.AbsoluteUri,
+                package.HasEmbeddedIcon ? await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(package.PackageName, version, feedName) : package.IconUrl?.AbsoluteUri,
                 package.LicenseUrl?.AbsoluteUri,
                 package.ProjectUrl?.AbsoluteUri,
-                await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(package.PackageName, version),
+                await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(package.PackageName, version, feedName),
                 package.Listed,
                 package.MinClientVersion,
                 package.Published,

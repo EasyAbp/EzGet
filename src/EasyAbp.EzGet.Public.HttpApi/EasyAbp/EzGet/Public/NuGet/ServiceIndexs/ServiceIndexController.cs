@@ -21,9 +21,9 @@ namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
         }
 
         [HttpGet]
-        public Task<ServiceIndexDto> GetAsync()
+        public Task<ServiceIndexDto> GetAsync([FromQuery] string feedName)
         {
-            return ServiceIndexAppService.GetAsync();
+            return ServiceIndexAppService.GetAsync(feedName);
         }
     }
 }

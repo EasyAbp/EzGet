@@ -36,13 +36,15 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
         }
 
-        public virtual async Task<List<NuGetPackage>> GetListByPackageNameAsync(
+        public virtual async Task<List<NuGetPackage>> GetListByPackageNameAndFeedIdAsync(
             string packageName,
+            Guid? feedId = null,
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
             return await (includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync()))
                 .Where(p => p.PackageName == packageName)
+                .Where(p => p.FeedId == feedId)
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
 

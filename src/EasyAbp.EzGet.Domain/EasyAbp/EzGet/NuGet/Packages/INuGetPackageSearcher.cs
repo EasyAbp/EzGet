@@ -15,6 +15,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             bool includePrerelease,
             bool includeSemVer2,
             string packageType = null,
+            string feedName = null,
             CancellationToken cancellationToken = default);
     }
 }

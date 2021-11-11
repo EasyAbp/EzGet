@@ -39,7 +39,9 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "NuGetPackages", options.Schema);
                 b.ConfigureByConvention();
                 b.HasIndex(p => p.PackageName);
-                b.HasIndex(p => new { p.PackageName, p.NormalizedVersion }).IsUnique();
+                b.HasIndex(p => p.FeedId);
+                b.HasIndex(p => new { p.PackageName, p.NormalizedVersion, p.FeedId }).IsUnique();
+                b.Property(p => p.FeedId);
                 b.Property(p => p.PackageName).HasMaxLength(NuGetPackageConsts.MaxPackageNameLength).IsRequired();
                 b.Property(p => p.Authors).HasConversion(new AbpJsonValueConverter<string[]>());
                 b.Property(p => p.Description).HasMaxLength(NuGetPackageConsts.MaxDescriptionLength);
@@ -109,14 +111,14 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.Property(p => p.Description).HasMaxLength(CredentialConsts.MaxDescriptionLength);
                 b.Property(p => p.Expires);
                 b.Property(p => p.GlobPattern).HasMaxLength(CredentialConsts.MaxGlobPatternLength);
-                b.HasMany(p => p.Scopes).WithOne();
+                b.HasMany(p => p.Scopes).WithOne().HasForeignKey(p => p.CredentialId);
             });
 
             builder.Entity<CredentialScope>(b =>
             {
                 b.ToTable(options.TablePrefix + "CredentialScopes", options.Schema);
                 b.ConfigureByConvention();
-                b.HasKey(p => new object[] { p.CredentialId, p.AllowAction });
+                b.HasKey(p => new { p.CredentialId, p.AllowAction });
                 b.Property(p => p.CredentialId);
                 b.Property(p => p.AllowAction);
             });
@@ -132,14 +134,14 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.Property(p => p.FeedName).HasMaxLength(FeedConsts.MaxFeedNameLenght);
                 b.Property(p => p.Description).HasMaxLength(FeedConsts.MaxDescriptionLength);
                 b.Property(p => p.FeedType);
-                b.HasMany(p => p.FeedCredentials).WithOne();
+                b.HasMany(p => p.FeedCredentials).WithOne().HasForeignKey(p => p.FeedId);
             });
 
             builder.Entity<FeedCredential>(b =>
             {
                 b.ToTable(options.TablePrefix + "FeedCredentials", options.Schema);
                 b.ConfigureByConvention();
-                b.HasIndex(p => new object[] { p.FeedId, p.CredentialId });
+                b.HasKey(p => new { p.FeedId, p.CredentialId });
             });
         }
 

@@ -8,7 +8,7 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
 {
     public interface IRegistrationIndexAppService : IApplicationService
     {
-        Task<RegistrationIndexDto> GetIndexAsync(string packageName);
-        Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version);
+        Task<RegistrationIndexDto> GetIndexAsync(string packageName, string feedName);
+        Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version, string feedName);
     }
 }

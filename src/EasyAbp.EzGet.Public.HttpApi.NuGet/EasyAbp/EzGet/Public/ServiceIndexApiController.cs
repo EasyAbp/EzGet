@@ -18,9 +18,9 @@ namespace EasyAbp.EzGet.Public.NuGet
             ServiceIndexAppService = serviceIndexAppService;
         }
 
-        public virtual async Task<IActionResult> GetAsync()
+        public virtual async Task<IActionResult> GetAsync(string feedName = null)
         {
-            var serviceIndex = await ServiceIndexAppService.GetAsync();
+            var serviceIndex = await ServiceIndexAppService.GetAsync(feedName);
             return new JsonResult(serviceIndex);
         }
     }

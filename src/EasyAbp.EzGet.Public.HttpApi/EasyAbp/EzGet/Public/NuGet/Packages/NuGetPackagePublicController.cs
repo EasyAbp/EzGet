@@ -30,50 +30,50 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
 
         [HttpGet]
         [Route("{packageName}/{version}")]
-        public Task<NuGetPackageDto> GetAsync(string packageName, string version)
+        public Task<NuGetPackageDto> GetAsync(string packageName, string version, [FromQuery] string feedName = null)
         {
-            return NuGetPackagePublicAppService.GetAsync(packageName, version);
+            return NuGetPackagePublicAppService.GetAsync(packageName, version, feedName);
         }
 
         [HttpGet]
         [Route("{packageName}/{version}/package-content")]
-        public Task<byte[]> GetPackageContentAsync(string packageName, string version)
+        public Task<byte[]> GetPackageContentAsync(string packageName, string version, [FromQuery] string feedName = null)
         {
-            return NuGetPackagePublicAppService.GetPackageContentAsync(packageName, version);
+            return NuGetPackagePublicAppService.GetPackageContentAsync(packageName, version, feedName);
         }
 
         [HttpGet]
         [Route("{packageName}/{version}/package-manifest")]
-        public Task<byte[]> GetPackageManifestAsync(string packageName, string version)
+        public Task<byte[]> GetPackageManifestAsync(string packageName, string version, [FromQuery] string feedName = null)
         {
-            return NuGetPackagePublicAppService.GetPackageManifestAsync(packageName, version);
+            return NuGetPackagePublicAppService.GetPackageManifestAsync(packageName, version, feedName);
         }
 
         [HttpGet]
         [Route("{packageName}/versions")]
-        public Task<List<string>> GetVersionListByPackageName(string packageName)
+        public Task<List<string>> GetVersionListByPackageName(string packageName, [FromQuery] string feedName = null)
         {
-            return NuGetPackagePublicAppService.GetVersionListByPackageName(packageName);
+            return NuGetPackagePublicAppService.GetVersionListByPackageName(packageName, feedName);
         }
 
         [HttpPost]
-        public virtual Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
+        public virtual Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input, [FromQuery] string feedName = null)
         {
-            return NuGetPackagePublicAppService.CreateAsync(input);
+            return NuGetPackagePublicAppService.CreateAsync(input, feedName);
         }
 
         [HttpDelete]
         [Route("{packageName}/{version}")]
-        public Task UnlistAsync(string packageName, string version)
+        public Task UnlistAsync(string packageName, string version, [FromQuery] string feedName = null)
         {
-            return NuGetPackagePublicAppService.UnlistAsync(packageName, version);
+            return NuGetPackagePublicAppService.UnlistAsync(packageName, version, feedName);
         }
 
         [HttpPost]
         [Route("{packageName}/{version}")]
-        public Task RelistAsync(string packageName, string version)
+        public Task RelistAsync(string packageName, string version, [FromQuery] string feedName = null)
         {
-            return NuGetPackagePublicAppService.RelistAsync(packageName, version);
+            return NuGetPackagePublicAppService.RelistAsync(packageName, version, feedName);
         }
 
         [HttpGet]

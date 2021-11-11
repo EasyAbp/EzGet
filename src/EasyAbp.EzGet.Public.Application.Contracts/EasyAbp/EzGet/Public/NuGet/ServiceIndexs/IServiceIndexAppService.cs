@@ -8,6 +8,6 @@ namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
 {
     public interface IServiceIndexAppService : IApplicationService
     {
-        Task<ServiceIndexDto> GetAsync();
+        Task<ServiceIndexDto> GetAsync(string feedName);
     }
 }

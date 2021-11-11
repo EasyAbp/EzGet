@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EzGet.Credentials;
+using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.Public.Permissions;
 using EasyAbp.EzGet.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -15,8 +16,7 @@ namespace EasyAbp.EzGet.Public.Credentials
     {
         protected ICredentialRepository CredentialRepository { get; }
 
-        public CredentialPublicAppService(
-            ICredentialRepository credentialRepository)
+        public CredentialPublicAppService(ICredentialRepository credentialRepository)
         {
             CredentialRepository = credentialRepository;
         }

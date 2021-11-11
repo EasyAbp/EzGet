@@ -10,6 +10,8 @@ using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.BlobStoring;
 using System.IO;
+using EasyAbp.EzGet.Feeds;
+using Volo.Abp.Specifications;
 
 namespace EasyAbp.EzGet.NuGet.Packages
 {
@@ -17,16 +19,19 @@ namespace EasyAbp.EzGet.NuGet.Packages
     {
         protected INuGetPackageRepository PackageRepository { get; }
         protected IOptions<PacakgeBlobNameOptions> Options { get; }
+        protected IFeedStore FeedStore { get; }
 
         public NuGetPackageManager(
             INuGetPackageRepository packageRepository,
-            IOptions<PacakgeBlobNameOptions> options)
+            IOptions<PacakgeBlobNameOptions> options,
+            IFeedStore feedStore)
         {
             PackageRepository = packageRepository;
             Options = options;
+            FeedStore = feedStore;
         }
 
-        public virtual async Task<NuGetPackage> CreateAsync([NotNull] PackageArchiveReader packageReader)
+        public virtual async Task<NuGetPackage> CreateAsync([NotNull] PackageArchiveReader packageReader, string feedName = null)
         {
             Check.NotNull(packageReader, nameof(packageReader));
 
@@ -36,7 +41,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
             var packageName = nuspec.GetId();
             var version = nuspec.GetVersion();
 
-            if (await PackageRepository.ExistsAsync(new UniqueNuGetPackageSpecification(packageName, version.ToNormalizedString())))
+            if (await PackageRepository.ExistsAsync(
+                await GetUniqueListedSpecification(packageName, version.ToNormalizedString(), feedName)))
             {
                 throw new BusinessException(
                     EzGetErrorCodes.PackageAlreadyExisted,
@@ -46,6 +52,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
             var package = new NuGetPackage(
                 GuidGenerator.Create(),
+                await GetFeedIdOrNullAsync(feedName),
                 nuspec.GetId(),
                 nuspec.GetVersion(),
                 ParseAuthors(nuspec.GetAuthors()),
@@ -100,6 +107,25 @@ namespace EasyAbp.EzGet.NuGet.Packages
             return Task.FromResult($"{package.PackageName}{separator}{package.NormalizedVersion}{separator}{NuGetDomainConsts.IconFileName}");
         }
 
+        public virtual async Task<ISpecification<NuGetPackage>> GetUniqueListedSpecification(
+            [NotNull] string packageName,
+            [NotNull] string version,
+            string feedName = null)
+        {
+            Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
+            Check.NotNullOrWhiteSpace(version, nameof(version));
+
+            Guid? feedId = null;
+
+            if (!string.IsNullOrEmpty(feedName))
+            {
+                var feed = (await FeedStore.GetAsync(feedName)).Id;
+            }
+
+            return new UniqueNuGetPackageSpecification(packageName, version, feedId)
+                .And(new ListedNuGetPackageSpecification());
+        }
+
         protected virtual Task<string> GetBlobNameAsync(NuGetPackage package)
         {
             var separator = Options.Value.BlobNameSeparator;
@@ -107,6 +133,17 @@ namespace EasyAbp.EzGet.NuGet.Packages
         }
 
         #region private methods
+        private async Task<Guid?> GetFeedIdOrNullAsync(string feedName)
+        {
+            if (string.IsNullOrEmpty(feedName))
+            {
+                return null;
+            }
+
+            var feed = await FeedStore.GetAsync(feedName);
+            return feed?.Id;
+        }
+
         private (Uri repositoryUrl, string repositoryType) GetRepositoryMetadata(NuspecReader nuspec)
         {
             var repository = nuspec.GetRepositoryMetadata();

@@ -11,12 +11,12 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
     {
         Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input);
         Task<NuGetPackageDto> GetAsync(Guid id);
-        Task<NuGetPackageDto> GetAsync(string packageName, string version);
-        Task<byte[]> GetPackageContentAsync(string packageName, string version);
-        Task<byte[]> GetPackageManifestAsync(string packageName, string version);
-        Task<List<string>> GetVersionListByPackageName(string packageName);
-        Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input);
-        Task UnlistAsync(string packageName, string version);
-        Task RelistAsync(string packageName, string version);
+        Task<NuGetPackageDto> GetAsync(string packageName, string version, string feedName);
+        Task<byte[]> GetPackageContentAsync(string packageName, string version, string feedName);
+        Task<byte[]> GetPackageManifestAsync(string packageName, string version, string feedName);
+        Task<List<string>> GetVersionListByPackageName(string packageName, string feedName);
+        Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input, string feedName);
+        Task UnlistAsync(string packageName, string version, string feedName);
+        Task RelistAsync(string packageName, string version, string feedName);
     }
 }

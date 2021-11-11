@@ -1,10 +1,10 @@
 ﻿using EasyAbp.EzGet.EntityFrameworkCore;
+using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
@@ -14,16 +14,22 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EasyAbp.EzGet.NuGet.Packages
 {
     //TODO: Implementation using ES
-    public class EfCoreNuGetPackageSearcher : EfCoreRepository<IEzGetDbContext, NuGetPackage, Guid>, INuGetPackageSearcher, ITransientDependency
+    public class EfCoreNuGetPackageSearcher :
+        EfCoreRepository<IEzGetDbContext, NuGetPackage, Guid>,
+        INuGetPackageSearcher,
+        ITransientDependency
     {
         protected IServiceIndexUrlGenerator ServiceIndexUrlGenerator { get; }
+        protected IFeedStore FeedStore { get; }
 
         public EfCoreNuGetPackageSearcher(
             IDbContextProvider<IEzGetDbContext> dbContextProvider,
-            IServiceIndexUrlGenerator serviceIndexUrlGenerator)
+            IServiceIndexUrlGenerator serviceIndexUrlGenerator,
+            IFeedStore feedStore)
             : base(dbContextProvider)
         {
             ServiceIndexUrlGenerator = serviceIndexUrlGenerator;
+            FeedStore = feedStore;
         }
 
         public virtual async Task<NuGetPackageSearchListResult> SearchListAsync(
@@ -33,13 +39,22 @@ namespace EasyAbp.EzGet.NuGet.Packages
             bool includePrerelease,
             bool includeSemVer2,
             string packageType = null,
+            string feedName = null,
             CancellationToken cancellationToken = default)
         {
+            Guid? feedId = null;
+
+            if (!string.IsNullOrEmpty(feedName))
+            {
+                feedId = (await FeedStore.GetAsync(feedName)).Id;
+            }
+
             var count = await SearchListCountImplAsync(
                 filter,
                 includePrerelease,
                 includeSemVer2,
                 packageType,
+                feedId,
                 cancellationToken);
 
             var packageResultList = new List<NuGetPackageSearchResult>();
@@ -50,6 +65,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 includePrerelease,
                 includeSemVer2,
                 packageType,
+                feedId,
                 cancellationToken);
 
             foreach (var package in packages)
@@ -57,7 +73,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 var versions = package.OrderByDescending(p => p.GetNuGetVersion()).ToList();
                 var latest = versions.First();
                 var iconUrl = latest.HasEmbeddedIcon ?
-                    await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(latest.PackageName, latest.GetNuGetVersion().ToNormalizedString().ToLowerInvariant()) :
+                    await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(latest.PackageName, latest.GetNuGetVersion().ToNormalizedString().ToLowerInvariant(), feedName) :
                     latest.IconUrl?.AbsoluteUri;
 
                 var packageResult = new NuGetPackageSearchResult(
@@ -68,12 +84,12 @@ namespace EasyAbp.EzGet.NuGet.Packages
                     iconUrl,
                     latest.LicenseUrl?.AbsoluteUri,
                     latest.ProjectUrl?.AbsoluteUri,
-                    await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(latest.PackageName),
+                    await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(latest.PackageName, feedName),
                     latest.Summary,
                     latest.Tags,
                     latest.Downloads,
                     GetSearchResultPackageTypes(versions),
-                    await GetSearchResultVersionsAsync(versions));
+                    await GetSearchResultVersionsAsync(versions, feedName));
 
                 packageResultList.Add(packageResult);
             }
@@ -81,14 +97,14 @@ namespace EasyAbp.EzGet.NuGet.Packages
             return new NuGetPackageSearchListResult(count, packageResultList);
         }
 
-        private async Task<List<SearchResultVersion>> GetSearchResultVersionsAsync(List<NuGetPackage> packages)
+        private async Task<List<SearchResultVersion>> GetSearchResultVersionsAsync(List<NuGetPackage> packages, string feedName)
         {
             var result = new List<SearchResultVersion>();
 
             foreach (var package in packages)
             {
                 result.Add(new SearchResultVersion(
-                    await ServiceIndexUrlGenerator.GetRegistrationLeafUrlAsync(package.PackageName, package.GetNuGetVersion().ToNormalizedString().ToLowerInvariant()),
+                    await ServiceIndexUrlGenerator.GetRegistrationLeafUrlAsync(package.PackageName, package.GetNuGetVersion().ToNormalizedString().ToLowerInvariant(), feedName),
                     package.GetNuGetVersion().ToFullString(),
                     package.Downloads));
             }
@@ -120,12 +136,13 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string filter,
             bool includePrerelease,
             bool includeSemVer2,
-            string packageType = null,
+            string packageType,
+            Guid? feedId,
             CancellationToken cancellationToken = default)
         {
             filter = filter?.ToLower();
 
-            var query = AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType)
+            var query = AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType, feedId)
                 .Select(p => p.PackageName)
                 .OrderBy(p => p)
                 .Skip(skip)
@@ -133,7 +150,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
             var packageNames = await query.ToListAsync(GetCancellationToken(cancellationToken));
 
-            var packages = await AddSearchListFilters(await WithDetailsAsync(), filter, includePrerelease, includeSemVer2, packageType)
+            var packages = await AddSearchListFilters(await WithDetailsAsync(), filter, includePrerelease, includeSemVer2, packageType, feedId)
                 .Where(p => packageNames.Contains(p.PackageName))
                 .ToListAsync(GetCancellationToken(cancellationToken));
 
@@ -145,10 +162,11 @@ namespace EasyAbp.EzGet.NuGet.Packages
             bool includePrerelease,
             bool includeSemVer2,
             string packageType = null,
+            Guid? feedId = null,
             CancellationToken cancellationToken = default)
         {
             filter = filter?.ToLower();
-            return await AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType)
+            return await AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType, feedId)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
@@ -165,13 +183,15 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string filter,
             bool includePrerelease,
             bool includeSemVer2,
-            string packageType = null)
+            string packageType,
+            Guid? feedId)
         {
             return query.Where(p => p.IsPrerelease == includePrerelease)
                 .WhereIf(!includeSemVer2, p => p.SemVerLevel != SemVerLevelEnum.SemVer2)
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.ToLower().Contains(filter))
                 .WhereIf(!string.IsNullOrWhiteSpace(packageType), p => p.PackageTypes.Any(t => t.Name == packageType))
-                .Where(p => p.Listed == true);
+                .Where(p => p.Listed == true)
+                .Where(p => p.FeedId == feedId);
         }
     }
 }

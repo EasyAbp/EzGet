@@ -12,23 +12,24 @@ using EasyAbp.EzGet.NuGet;
 using Microsoft.AspNetCore.Authorization;
 using EasyAbp.EzGet.Public.Permissions;
 using Volo.Abp.Users;
+using EasyAbp.EzGet.Feeds;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
     [Authorize]
-    public class NuGetPackagePublicAppService : EzGetPublicAppServiceBase, INuGetPackagePublicAppService
+    public class NuGetPackagePublicAppService : EzGetPublicNuGetAppServiceBase, INuGetPackagePublicAppService
     {
         protected INuGetPackageManager NuGetPackageManager { get; }
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected IBlobContainer<NuGetContainer> BlobContainer { get; }
         protected INuGetPackageSearcher NuGetPackageSearcher { get; }
 
-
         public NuGetPackagePublicAppService(
             INuGetPackageManager nuGetPackageManager,
             INuGetPackageRepository nuGetPackageRepository,
             IBlobContainer<NuGetContainer> blobContainer,
-            INuGetPackageSearcher nuGetPackageSearcher)
+            INuGetPackageSearcher nuGetPackageSearcher,
+            IFeedStore feedStore) : base(feedStore)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
@@ -46,7 +47,8 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     input.Filter,
                     input.IncludePrerelease,
                     input.IncludeSemVer2,
-                    input.PackageType));
+                    input.PackageType,
+                    input.FeedName));
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
@@ -56,9 +58,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
-        public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version)
+        public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
+            var package = await NuGetPackageRepository.GetAsync(
+                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
 
             if (package == null)
                 return null;
@@ -67,9 +70,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
-        public virtual async Task<byte[]> GetPackageContentAsync(string packageName, string version)
+        public virtual async Task<byte[]> GetPackageContentAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
+            var package = await NuGetPackageRepository.GetAsync(
+                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
 
             if (package == null)
                 return null;
@@ -78,9 +82,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
-        public virtual async Task<byte[]> GetPackageManifestAsync(string packageName, string version)
+        public virtual async Task<byte[]> GetPackageManifestAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(GetUniqueListedSpecification(packageName, version));
+            var package = await NuGetPackageRepository.GetAsync(
+                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
 
             if (package == null)
                 return null;
@@ -89,7 +94,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Create)]
-        public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
+        public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input, string feedName = null)
         {
             using (var packageStream = input.File.GetStream())
             {
@@ -99,7 +104,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     Stream iconStream = null;
 
                     var nuspecStream = await packageReader.GetNuspecAsync(default);
-                    var package = await NuGetPackageManager.CreateAsync(packageReader);
+                    var package = await NuGetPackageManager.CreateAsync(packageReader, feedName);
                     await NuGetPackageRepository.InsertAsync(package);
 
                     if (package.HasReadme)
@@ -123,10 +128,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Unlist)]
-        public virtual async Task UnlistAsync(string packageName, string version)
+        public virtual async Task UnlistAsync(string packageName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(
-                new UniqueNuGetPackageSpecification(packageName, version),
+                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName),
                 false);
 
             if (!package.Listed)
@@ -139,10 +144,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Relist)]
-        public virtual async Task RelistAsync(string packageName, string version)
+        public virtual async Task RelistAsync(string packageName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(
-                new UniqueNuGetPackageSpecification(packageName, version),
+                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName),
                 false);
 
             if (package.Listed)
@@ -155,16 +160,14 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
-        public virtual async Task<List<string>> GetVersionListByPackageName(string packageName)
+        public virtual async Task<List<string>> GetVersionListByPackageName(string packageName, string feedName)
         {
-            var packages = await NuGetPackageRepository.GetListByPackageNameAsync(packageName, false);
-            return packages.Select(p => p.NormalizedVersion).ToList();
-        }
+            var packages = await NuGetPackageRepository.GetListByPackageNameAndFeedIdAsync(
+                packageName,
+                await GetFeedIdAsync(feedName),
+                false);
 
-        private ISpecification<NuGetPackage> GetUniqueListedSpecification(string packageName, string version)
-        {
-            return new UniqueNuGetPackageSpecification(packageName, version)
-                    .And(new ListedNuGetPackageSpecification());
+            return packages.Select(p => p.NormalizedVersion).ToList();
         }
     }
 }

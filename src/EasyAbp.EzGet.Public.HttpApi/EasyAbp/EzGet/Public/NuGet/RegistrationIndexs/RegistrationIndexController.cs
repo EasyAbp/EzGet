@@ -22,16 +22,16 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
 
         [HttpGet]
         [Route("{packageName}")]
-        public Task<RegistrationIndexDto> GetIndexAsync(string packageName)
+        public Task<RegistrationIndexDto> GetIndexAsync(string packageName, [FromQuery] string feedName)
         {
-            return RegistrationIndexAppService.GetIndexAsync(packageName);
+            return RegistrationIndexAppService.GetIndexAsync(packageName, feedName);
         }
 
         [HttpGet]
-        [Route("{pacakgeName}/{version}")]
-        public Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version)
+        [Route("{packageName}/{version}")]
+        public Task<RegistrationLeafDto> GetLeafAsync(string packageName, string version, [FromQuery] string feedName)
         {
-            throw new NotImplementedException();
+            return RegistrationIndexAppService.GetLeafAsync(packageName, version, feedName);
         }
     }
 }

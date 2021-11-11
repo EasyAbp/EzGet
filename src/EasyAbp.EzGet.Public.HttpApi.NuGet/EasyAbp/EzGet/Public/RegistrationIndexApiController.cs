@@ -18,16 +18,14 @@ namespace EasyAbp.EzGet.Public.NuGet
             _registrationIndexAppService = registrationIndexAppService;
         }
 
-        public virtual async Task<IActionResult> GetIndexAsync(string id)
+        public virtual async Task<IActionResult> GetIndexAsync(string id, string feedName = null)
         {
-            return new JsonResult(await _registrationIndexAppService.GetIndexAsync(id));
+            return new JsonResult(await _registrationIndexAppService.GetIndexAsync(id, feedName));
         }
 
-        [HttpGet]
-        [Route("{id}/{version}.json")]
-        public virtual async Task<IActionResult> GetLeafAsync(string id, string version)
+        public virtual async Task<IActionResult> GetLeafAsync(string id, string version, string feedName = null)
         {
-            return new JsonResult(await _registrationIndexAppService.GetLeafAsync(id, version));
+            return new JsonResult(await _registrationIndexAppService.GetLeafAsync(id, version, feedName));
         }
     }
 }

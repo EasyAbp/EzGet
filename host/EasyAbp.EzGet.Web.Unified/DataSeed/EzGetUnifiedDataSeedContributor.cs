@@ -37,7 +37,7 @@ namespace EasyAbp.EzGet.DataSeed
                 }
 
                 var user = await _identityUserRepository.FindByNormalizedUserNameAsync("admin");
-                var credential = new Credential(_guidGenerator.Create(), user.Id, "123", null);
+                var credential = new Credential(_guidGenerator.Create(), user.Id, "123", null, null);
                 await _credentialRepository.InsertAsync(credential);
             }
         }

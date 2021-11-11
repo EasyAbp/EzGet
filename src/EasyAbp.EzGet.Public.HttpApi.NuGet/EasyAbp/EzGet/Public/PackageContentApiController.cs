@@ -19,15 +19,15 @@ namespace EasyAbp.EzGet.Public.NuGet
             NuGetPackagePublicAppService = nuGetPackagePublicAppService;
         }
 
-        public virtual async Task<IActionResult> GetVersionsAsync(string id)
+        public virtual async Task<IActionResult> GetVersionsAsync(string id, string feedName = null)
         {
-            var versionList = await NuGetPackagePublicAppService.GetVersionListByPackageName(id);
+            var versionList = await NuGetPackagePublicAppService.GetVersionListByPackageName(id, feedName);
             return new JsonResult(new VersionsModel { Versions = versionList });
         }
 
-        public virtual async Task<IActionResult> GetPackageContentAsync(string id, string version)
+        public virtual async Task<IActionResult> GetPackageContentAsync(string id, string version, string feedName = null)
         {
-            var content = await NuGetPackagePublicAppService.GetPackageContentAsync(id, version);
+            var content = await NuGetPackagePublicAppService.GetPackageContentAsync(id, version, feedName);
 
             if(content == null)
                 return NotFound();
@@ -35,9 +35,9 @@ namespace EasyAbp.EzGet.Public.NuGet
             return File(content, "application/octet-stream");
         }
 
-        public virtual async Task<IActionResult> GetPackageManifestAsync(string id, string version)
+        public virtual async Task<IActionResult> GetPackageManifestAsync(string id, string version, string feedName = null)
         {
-            var manifest = await NuGetPackagePublicAppService.GetPackageManifestAsync(id, version);
+            var manifest = await NuGetPackagePublicAppService.GetPackageManifestAsync(id, version, feedName);
 
             if (manifest == null)
                 return NotFound();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EzGet.Feeds
 {
@@ -32,7 +33,7 @@ namespace EasyAbp.EzGet.Feeds
 
                 if (null == feed)
                 {
-                    return null;
+                    throw new EntityNotFoundException();
                 }
 
                 var feedCahceItem = new FeedCacheItem
