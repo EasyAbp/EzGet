@@ -1,15 +1,19 @@
-﻿using Volo.Abp.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace EasyAbp.EzGet.Public.Permissions
+namespace EasyAbp.EzGet.Admin.Permissions
 {
-    public static class EzGetPublicPermissions
+    public static class EzGetAdminPermissions
     {
-        public const string GroupName = "EzGet.Public";
+        public const string GroupName = "EzGet.Admin";
 
         public static class NuGetPackages
         {
             public const string Default = GroupName + ".NuGetPackages";
             public const string Create = Default + ".Create";
+            public const string Update = Default + ".Update";
+            public const string Delete = Default + ".Delete";
             public const string Unlist = Default + ".Unlist";
             public const string Relist = Default + ".Relist";
         }
@@ -30,9 +34,5 @@ namespace EasyAbp.EzGet.Public.Permissions
             public const string Delete = Default + ".Delete";
         }
 
-        public static string[] GetAll()
-        {
-            return ReflectionHelper.GetPublicConstantsRecursively(typeof(EzGetPublicPermissions));
-        }
     }
 }
