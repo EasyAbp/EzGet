@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.Packages;
+using System.Linq;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EzGet
@@ -8,9 +10,12 @@ namespace EasyAbp.EzGet
     {
         public EzGetCommonApplicationAutoMapperProfile()
         {
-            /* You can configure your AutoMapper mapping configuration here.
-             * Alternatively, you can split your mapping configurations
-             * into multiple profile classes for a better organization. */
+            CreateNuGet();
+            CreateFeeds();
+        }
+
+        private void CreateNuGet()
+        {
             CreateMap<TargetFramework, TargetFrameworkDto>();
             CreateMap<PackageType, PackageTypeDto>();
             CreateMap<PackageDependency, PackageDependencyDto>();
@@ -28,7 +33,14 @@ namespace EasyAbp.EzGet
                 .ForMember(
                 p => p.RepositoryUrl,
                 d => d.MapFrom(s => s.RepositoryUrl.AbsoluteUri));
+        }
 
+        private void CreateFeeds()
+        {
+            CreateMap<Feed, FeedDto>()
+                .ForMember(
+                p => p.CredentialIds,
+                d => d.MapFrom(s => s.FeedCredentials.Select(f => f.CredentialId)));
         }
     }
 }

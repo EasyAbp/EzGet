@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Services;
 
-namespace EasyAbp.EzGet.Public
+namespace EasyAbp.EzGet.Admin
 {
-    public abstract class EzGetPublicAppServiceBase : ApplicationService
+    public abstract class EzGetAdminAppServiceBase : ApplicationService
     {
-        protected EzGetPublicAppServiceBase()
+        protected EzGetAdminAppServiceBase()
         {
             LocalizationResource = typeof(EzGetResource);
-            ObjectMapperContext = typeof(EzGetPublicApplicationModule);
+            ObjectMapperContext = typeof(EzGetAdminApplicationModule);
         }
     }
 }

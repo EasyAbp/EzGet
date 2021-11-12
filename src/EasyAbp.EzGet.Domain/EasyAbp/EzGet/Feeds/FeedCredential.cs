@@ -14,5 +14,11 @@ namespace EasyAbp.EzGet.Feeds
         {
             return new object[] { FeedId, CredentialId };
         }
+
+        internal FeedCredential(Guid feedId, Guid credentialId)
+        {
+            FeedId = feedId;
+            CredentialId = credentialId;
+        }
     }
 }
