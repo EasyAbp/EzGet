@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Admin.Feeds
 {
@@ -25,6 +26,16 @@ namespace EasyAbp.EzGet.Admin.Feeds
         public virtual async Task<FeedDto> GetAsync(Guid id)
         {
             return ObjectMapper.Map<Feed, FeedDto>(await FeedRepository.GetAsync(id));
+        }
+
+        public virtual async Task<PagedResultDto<FeedDto>> GetListAsync(GetFeedsInput input)
+        {
+            var list = await FeedRepository.GetListAsync(input.Sorting, input.MaxResultCount, input.SkipCount, input.Filter);
+            var totalCount = await FeedRepository.GetCountAsync(input.Filter);
+
+            return new PagedResultDto<FeedDto>(
+                totalCount,
+                ObjectMapper.Map<List<Feed>, List<FeedDto>>(list));
         }
 
         public virtual async Task<FeedDto> CreateAsync(CreateFeedAdminDto input)
