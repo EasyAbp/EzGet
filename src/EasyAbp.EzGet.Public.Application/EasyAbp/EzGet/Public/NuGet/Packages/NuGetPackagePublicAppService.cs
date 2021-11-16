@@ -37,6 +37,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             NuGetPackageSearcher = nuGetPackageSearcher;
         }
 
+        [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input)
         {
@@ -51,12 +52,14 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     input.FeedName));
         }
 
+        [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageDto> GetAsync(Guid id)
         {
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(await NuGetPackageRepository.GetAsync(id));
         }
 
+        [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version, string feedName)
         {
@@ -69,6 +72,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
         }
 
+        [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<byte[]> GetPackageContentAsync(string packageName, string version, string feedName)
         {
@@ -81,6 +85,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             return await BlobContainer.GetAllBytesOrNullAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package));
         }
 
+        [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<byte[]> GetPackageManifestAsync(string packageName, string version, string feedName)
         {
@@ -159,6 +164,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
             await NuGetPackageRepository.UpdateAsync(package);
         }
 
+        [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<List<string>> GetVersionListByPackageName(string packageName, string feedName)
         {
