@@ -3,6 +3,7 @@ using EasyAbp.EzGet.Users;
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -49,6 +50,11 @@ namespace EasyAbp.EzGet.Feeds
             if (credential.UserId != feed.UserId)
             {
                 throw new BusinessException(EzGetErrorCodes.FeedCannotAddOtherUserCredential);
+            }
+
+            if (feed.FeedCredentials.Any(p => p.CredentialId == credentialId))
+            {
+                return;
             }
 
             feed.AddCredentialId(credentialId);
