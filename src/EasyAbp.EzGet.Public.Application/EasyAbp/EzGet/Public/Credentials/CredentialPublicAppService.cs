@@ -1,12 +1,11 @@
 ﻿using EasyAbp.EzGet.Credentials;
-using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.Public.Permissions;
-using EasyAbp.EzGet.Users;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.Public.Credentials
@@ -23,7 +22,24 @@ namespace EasyAbp.EzGet.Public.Credentials
 
         public virtual async Task<CredentialDto> GetAsync(Guid id)
         {
-            return ObjectMapper.Map<Credential, CredentialDto>(await CredentialRepository.GetAsync(id));
+            var credential = await CredentialRepository.GetAsync(id);
+
+            if (credential.UserId != CurrentUser.Id)
+            {
+                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisCredential);
+            }
+
+            return ObjectMapper.Map<Credential, CredentialDto>(credential);
+        }
+
+        public virtual async Task<PagedResultDto<CredentialDto>> GetListAsync(GetCredentialsInput input)
+        {
+            var list = await CredentialRepository.GetListAsync(CurrentUser.Id, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await CredentialRepository.GetCountAsync(CurrentUser.Id);
+
+            return new PagedResultDto<CredentialDto>(
+                totalCount,
+                ObjectMapper.Map<List<Credential>, List<CredentialDto>>(list));
         }
 
         [Authorize(EzGetPublicPermissions.Credentials.Create)]
@@ -56,7 +72,14 @@ namespace EasyAbp.EzGet.Public.Credentials
         [Authorize(EzGetPublicPermissions.Credentials.Delete)]
         public virtual async Task DeleteAsync(Guid id)
         {
-            await CredentialRepository.DeleteAsync(id);
+            var credential = await CredentialRepository.GetAsync(id);
+
+            if (credential.UserId != CurrentUser.Id)
+            {
+                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisCredential);
+            }
+
+            await CredentialRepository.DeleteAsync(credential);
         }
     }
 }

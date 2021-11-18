@@ -9,5 +9,6 @@
         public const string FeedCannotAddOtherUserCredential = "EasyAbp.EzGet:FeedCannotAddOtherUserCredential";
         public const string UserNotFound = "EasyAbp.EzGet:UserNotFound";
         public const string NoAuthorizeHandleThisFeed = "EasyAbp.EzGet:NoAuthorizeHandleThisFeed";
+        public const string NoAuthorizeHandleThisCredential = "EasyAbp.EzGet:NoAuthorizeHandleThisCredential";
     }
 }

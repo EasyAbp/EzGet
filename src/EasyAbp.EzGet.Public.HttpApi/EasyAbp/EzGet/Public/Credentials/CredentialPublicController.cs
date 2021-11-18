@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Public.Credentials
 {
@@ -45,6 +46,12 @@ namespace EasyAbp.EzGet.Public.Credentials
         public virtual Task<CredentialDto> UpdateAsync(Guid id, UpdateCredentialDto inpu)
         {
             return CredentialPublicAppService.UpdateAsync(id, inpu);
+        }
+
+        [HttpGet]
+        public virtual Task<PagedResultDto<CredentialDto>> GetListAsync(GetCredentialsInput input)
+        {
+            return CredentialPublicAppService.GetListAsync(input);
         }
     }
 }
