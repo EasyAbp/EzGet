@@ -73,7 +73,7 @@ namespace EasyAbp.EzGet.AspNetCore.Authentication
             return AuthenticateResult.Fail(failureMessage);
         }
 
-        public static string DecodeBase64(string code)
+        private string DecodeBase64(string code)
         {
             string decode;
             byte[] bytes = Convert.FromBase64String(code);
