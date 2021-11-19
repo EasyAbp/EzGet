@@ -119,7 +119,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
             if (!string.IsNullOrEmpty(feedName))
             {
-                var feed = (await FeedStore.GetAsync(feedName)).Id;
+                feedId = (await FeedStore.GetAsync(feedName)).Id;
             }
 
             return new UniqueNuGetPackageSpecification(packageName, version, feedId)

@@ -7,5 +7,6 @@ namespace EasyAbp.EzGet.Feeds
     public class FeedOptions
     {
         public string FeedPatternFormat { get; set; } = "F/{0}";
+        public string FeedRouteName { get; set; } = "feedName";
     }
 }

@@ -120,8 +120,10 @@ namespace EasyAbp.EzGet.NuGet.Packages
             OriginalVersion = nuGetVersion.OriginalVersion;
         }
 
-        public void AddPackageTypes(NuspecReader nuspec)
+        public void AddPackageTypes([NotNull] NuspecReader nuspec)
         {
+            Check.NotNull(nuspec, nameof(nuspec));
+
             var packageTypes = nuspec
                 .GetPackageTypes()
                 .Select(t => new PackageType(this, t.Name, t.Version.ToString()))
@@ -139,8 +141,10 @@ namespace EasyAbp.EzGet.NuGet.Packages
             PackageTypes.AddRange(packageTypes);
         }
 
-        public void AddDependencies(NuspecReader nuspec)
+        public void AddDependencies([NotNull] NuspecReader nuspec)
         {
+            Check.NotNull(nuspec, nameof(nuspec));
+
             var dependencies = new List<PackageDependency>();
 
             foreach (var group in nuspec.GetDependencyGroups())
@@ -161,8 +165,10 @@ namespace EasyAbp.EzGet.NuGet.Packages
             Dependencies.AddRange(dependencies);
         }
 
-        public void AddTargetFrameworks(PackageArchiveReader packageReader)
+        public void AddTargetFrameworks([NotNull] PackageArchiveReader packageReader)
         {
+            Check.NotNull(packageReader, nameof(packageReader));
+
             var targetFrameworks = packageReader
                 .GetSupportedFrameworks()
                 .Select(f => new TargetFramework(this, f.GetShortFolderName()))

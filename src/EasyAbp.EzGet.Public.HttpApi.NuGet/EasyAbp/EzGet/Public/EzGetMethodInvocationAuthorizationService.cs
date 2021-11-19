@@ -1,5 +1,6 @@
 ﻿using EasyAbp.EzGet.Feeds;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System.Linq;
 using Volo.Abp.Authorization;
 using Volo.Abp.DependencyInjection;
@@ -13,16 +14,19 @@ namespace EasyAbp.EzGet.Public
     {
         protected IFeedStore FeedStore { get; }
         protected IHttpContextAccessor HttpContextAccessor { get; }
+        protected IOptions<FeedOptions> Options { get; }
 
         public EzGetMethodInvocationAuthorizationService(
             IAbpAuthorizationPolicyProvider abpAuthorizationPolicyProvider,
             IAbpAuthorizationService abpAuthorizationService,
             IFeedStore feedStore,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IOptions<FeedOptions> options)
             : base(abpAuthorizationPolicyProvider, abpAuthorizationService)
         {
             FeedStore = feedStore;
             HttpContextAccessor = httpContextAccessor;
+            Options = options;
         }
 
         protected override bool AllowAnonymous(MethodInvocationAuthorizationContext context)
@@ -37,7 +41,7 @@ namespace EasyAbp.EzGet.Public
                 return false;
             }
 
-            if (!HttpContextAccessor.HttpContext.Request.RouteValues.TryGetValue(EzGetPublicHttpApiNuGetConsts.FeedRouteName, out var feedName) || null == feedName)
+            if (!HttpContextAccessor.HttpContext.Request.RouteValues.TryGetValue(Options.Value.FeedRouteName, out var feedName) || null == feedName)
             {
                 return false;
             }

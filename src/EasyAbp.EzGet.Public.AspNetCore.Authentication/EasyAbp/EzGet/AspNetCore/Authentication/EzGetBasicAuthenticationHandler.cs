@@ -1,4 +1,5 @@
-﻿using EasyAbp.EzGet.Users;
+﻿using EasyAbp.EzGet.Feeds;
+using EasyAbp.EzGet.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,8 @@ namespace EasyAbp.EzGet.AspNetCore.Authentication
     {
         protected IEzGetUserAuthenticator EzGetUserAuthenticator { get; }
         protected EzGetUserClaimsPrincipalGenerator EzGetUserClaimsPrincipalGenerator { get; }
+        protected IOptions<FeedOptions> FeedOptions { get; }
+        protected IFeedStore FeedStore { get; }
 
         private const string _authorizationBasicHeader = "Authorization";
         private const string _authorizationType = "Basic";
@@ -23,15 +26,28 @@ namespace EasyAbp.EzGet.AspNetCore.Authentication
             UrlEncoder encoder,
             ISystemClock clock,
             IEzGetUserAuthenticator ezGetUserAuthenticator,
-            EzGetUserClaimsPrincipalGenerator ezGetUserClaimsPrincipalGenerator)
+            EzGetUserClaimsPrincipalGenerator ezGetUserClaimsPrincipalGenerator,
+            IOptions<FeedOptions> feedOptions,
+            IFeedStore feedStore)
             : base(options, logger, encoder, clock)
         {
             EzGetUserAuthenticator = ezGetUserAuthenticator;
             EzGetUserClaimsPrincipalGenerator = ezGetUserClaimsPrincipalGenerator;
+            FeedOptions = feedOptions;
+            FeedStore = feedStore;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            if (Request.RouteValues.TryGetValue(FeedOptions.Value.FeedRouteName, out var feedName) && null != feedName)
+            {
+                var feed = await FeedStore.GetAsync(feedName.ToString());
+                if (feed.FeedType == FeedTypeEnum.Public)
+                {
+                    return AuthenticateResult.NoResult();
+                }
+            }
+
             if (!Request.Headers.ContainsKey(_authorizationBasicHeader))
             {
                 return Fail("Protocol error!");

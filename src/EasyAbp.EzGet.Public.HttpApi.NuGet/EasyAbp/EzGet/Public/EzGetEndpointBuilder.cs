@@ -1,19 +1,27 @@
-﻿using EasyAbp.EzGet.NuGet.ServiceIndexs;
+﻿using EasyAbp.EzGet.Feeds;
+using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
-using System;
+using Microsoft.Extensions.Options;
+using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.EzGet.Public
 {
-    public static class EzGetEndpointBuilderExtensions
+    public class EzGetEndpointBuilder : ITransientDependency
     {
-        private const string _feedPattern = "F/{"+ EzGetPublicHttpApiNuGetConsts.FeedRouteName + "}";
+        protected IOptions<FeedOptions> Options { get; }
+
         private const string _asyncSuffix = "Async";
         private const string _controllerSuffix = "Controller";
 
-        public static void MapEzGetEndpoints(this IEndpointRouteBuilder endpoints)
+        public EzGetEndpointBuilder(IOptions<FeedOptions> options)
+        {
+            Options = options;
+        }
+
+        public virtual void MapEzGetEndpoints(IEndpointRouteBuilder endpoints)
         {
             MapPackagePublishRoutes(endpoints);
             MapPackageContentRoutes(endpoints);
@@ -22,7 +30,7 @@ namespace EasyAbp.EzGet.Public
             MapServiceIndexRoutes(endpoints);
         }
 
-        private static void MapServiceIndexRoutes(IEndpointRouteBuilder endpoints)
+        private void MapServiceIndexRoutes(IEndpointRouteBuilder endpoints)
         {
             MapControllerRoute(
                 endpoints,
@@ -33,7 +41,7 @@ namespace EasyAbp.EzGet.Public
                 "GET");
         }
 
-        private static void MapRegistrationIndexRoutes(IEndpointRouteBuilder endpoints)
+        private void MapRegistrationIndexRoutes(IEndpointRouteBuilder endpoints)
         {
             MapControllerRoute(
                 endpoints,
@@ -52,7 +60,7 @@ namespace EasyAbp.EzGet.Public
                 "GET");
         }
 
-        private static void MapPackageSearchRoutes(IEndpointRouteBuilder endpoints)
+        private void MapPackageSearchRoutes(IEndpointRouteBuilder endpoints)
         {
             MapControllerRoute(
                 endpoints,
@@ -63,7 +71,7 @@ namespace EasyAbp.EzGet.Public
                 "GET");
         }
 
-        private static void MapPackageContentRoutes(IEndpointRouteBuilder endpoints)
+        private void MapPackageContentRoutes(IEndpointRouteBuilder endpoints)
         {
             MapControllerRoute(
                 endpoints,
@@ -90,7 +98,7 @@ namespace EasyAbp.EzGet.Public
                 "GET");
         }
 
-        private static void MapPackagePublishRoutes(IEndpointRouteBuilder endpoints)
+        private void MapPackagePublishRoutes(IEndpointRouteBuilder endpoints)
         {
             MapControllerRoute(
                 endpoints,
@@ -117,7 +125,7 @@ namespace EasyAbp.EzGet.Public
                 "POST");
         }
 
-        private static void MapControllerRoute(
+        private void MapControllerRoute(
             IEndpointRouteBuilder endpoints,
             string name,
             string pattern,
@@ -127,6 +135,8 @@ namespace EasyAbp.EzGet.Public
         {
             var controllerName = GetControllerName(controller);
             var actionName = GetActionName(action);
+            var optionsValue = Options.Value;
+            var parrentName = string.Format(optionsValue.FeedPatternFormat, "{" + optionsValue.FeedRouteName + "}");
 
             endpoints.MapControllerRoute(
                 name: name,
@@ -140,7 +150,7 @@ namespace EasyAbp.EzGet.Public
 
             endpoints.MapControllerRoute(
                 name: EzGetRoutesName.Feed + name,
-                pattern: $"{_feedPattern}/{pattern}",
+                pattern: $"{parrentName}/{pattern}",
                 defaults: new
                 {
                     controller = controllerName,
