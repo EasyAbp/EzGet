@@ -30,6 +30,16 @@ namespace EasyAbp.EzGet.Public.Permissions
             public const string Delete = Default + ".Delete";
         }
 
+        public static class RegistrationIndexs
+        {
+            public const string Default = GroupName + ".RegistrationIndexs";
+        }
+
+        public static class ServiceIndexs
+        {
+            public const string Default = GroupName + ".ServiceIndexs";
+        }
+
         public static string[] GetAll()
         {
             return ReflectionHelper.GetPublicConstantsRecursively(typeof(EzGetPublicPermissions));

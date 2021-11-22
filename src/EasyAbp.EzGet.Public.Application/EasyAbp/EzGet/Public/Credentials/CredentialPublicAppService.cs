@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.Public.Credentials
@@ -23,6 +24,11 @@ namespace EasyAbp.EzGet.Public.Credentials
         public virtual async Task<CredentialDto> GetAsync(Guid id)
         {
             var credential = await CredentialRepository.GetAsync(id);
+
+            if (null == credential)
+            {
+                throw new EntityNotFoundException(typeof(Credential), id);
+            }
 
             if (credential.UserId != CurrentUser.Id)
             {
@@ -65,6 +71,12 @@ namespace EasyAbp.EzGet.Public.Credentials
         public virtual async Task<CredentialDto> UpdateAsync(Guid id, UpdateCredentialDto inpu)
         {
             var credential = await CredentialRepository.GetAsync(id);
+
+            if (null == credential)
+            {
+                throw new EntityNotFoundException(typeof(Credential), id);
+            }
+
             credential.Description = inpu.Description;
             return ObjectMapper.Map<Credential, CredentialDto>(await CredentialRepository.UpdateAsync(credential));
         }
@@ -73,6 +85,11 @@ namespace EasyAbp.EzGet.Public.Credentials
         public virtual async Task DeleteAsync(Guid id)
         {
             var credential = await CredentialRepository.GetAsync(id);
+
+            if (null == credential)
+            {
+                throw new EntityNotFoundException(typeof(Credential), id);
+            }
 
             if (credential.UserId != CurrentUser.Id)
             {

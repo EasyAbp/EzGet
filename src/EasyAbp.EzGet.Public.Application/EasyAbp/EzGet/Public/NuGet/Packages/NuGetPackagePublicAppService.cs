@@ -4,19 +4,16 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Volo.Abp;
-using Volo.Abp.Specifications;
 using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp.BlobStoring;
 using EasyAbp.EzGet.NuGet;
 using Microsoft.AspNetCore.Authorization;
 using EasyAbp.EzGet.Public.Permissions;
-using Volo.Abp.Users;
 using EasyAbp.EzGet.Feeds;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
-    [Authorize]
     public class NuGetPackagePublicAppService : EzGetPublicNuGetAppServiceBase, INuGetPackagePublicAppService
     {
         protected INuGetPackageManager NuGetPackageManager { get; }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EzGet.Public.Feeds
 {
@@ -27,6 +28,11 @@ namespace EasyAbp.EzGet.Public.Feeds
         public virtual async Task<FeedDto> GetAsync(Guid id)
         {
             var feed = await FeedRepository.GetAsync(id);
+
+            if (null == feed)
+            {
+                throw new EntityNotFoundException(typeof(Feed), id);
+            }
 
             if (feed.UserId != CurrentUser.Id)
             {
@@ -64,6 +70,11 @@ namespace EasyAbp.EzGet.Public.Feeds
         {
             var feed = await FeedRepository.GetAsync(id);
 
+            if (null == feed)
+            {
+                throw new EntityNotFoundException(typeof(Feed), id);
+            }
+
             if (feed.UserId != CurrentUser.Id)
             {
                 throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisFeed);
@@ -86,6 +97,11 @@ namespace EasyAbp.EzGet.Public.Feeds
         public virtual async Task DeleteAsync(Guid id)
         {
             var feed = await FeedRepository.GetAsync(id);
+
+            if (null == feed)
+            {
+                throw new EntityNotFoundException(typeof(Feed), id);
+            }
 
             if (feed.UserId != CurrentUser.Id)
             {

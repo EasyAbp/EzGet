@@ -1,23 +1,24 @@
 ﻿using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.ServiceIndexs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using EasyAbp.EzGet.Public.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 
 namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
 {
-    public class ServiceIndexAppService : EzGetPublicNuGetAppServiceBase, IServiceIndexAppService
+    public class ServiceIndexPublicAppService : EzGetPublicNuGetAppServiceBase, IServiceIndexAppService
     {
         protected IServiceIndexManager ServiceIndexManager { get; }
 
-        public ServiceIndexAppService(
+        public ServiceIndexPublicAppService(
             IServiceIndexManager serviceIndexManager,
             IFeedStore feedStore) : base(feedStore)
         {
             ServiceIndexManager = serviceIndexManager;
         }
 
+        [AllowAnonymousIfFeedPublic]
+        [Authorize(EzGetPublicPermissions.ServiceIndexs.Default)]
         public virtual async Task<ServiceIndexDto> GetAsync(string feedName)
         {
             return ObjectMapper.Map<ServiceIndex, ServiceIndexDto>(await ServiceIndexManager.GetAsync(feedName));
