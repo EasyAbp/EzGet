@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.MultiTenancy;
 
-namespace EasyAbp.EzGet.Public.Credentials
+namespace EasyAbp.EzGet.Credentials
 {
     public class CredentialDto : FullAuditedEntityDto<Guid>, IMultiTenant
     {

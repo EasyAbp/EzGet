@@ -1,10 +1,7 @@
-﻿using EasyAbp.EzGet.Credentials;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using Volo.Abp.Application.Dtos;
 
-namespace EasyAbp.EzGet.Public.Credentials
+namespace EasyAbp.EzGet.Credentials
 {
     public class CredentialScopeDto : EntityDto
     {

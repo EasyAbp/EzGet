@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyAbp.EzGet.Credentials;
 using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.Packages;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace EasyAbp.EzGet
         {
             CreateNuGet();
             CreateFeeds();
+            CreateCredentials();
         }
 
         private void CreateNuGet()
@@ -41,6 +43,12 @@ namespace EasyAbp.EzGet
                 .ForMember(
                 p => p.CredentialIds,
                 d => d.MapFrom(s => s.FeedCredentials.Select(f => f.CredentialId)));
+        }
+
+        private void CreateCredentials()
+        {
+            CreateMap<CredentialScope, CredentialScopeDto>();
+            CreateMap<Credential, CredentialDto>();
         }
     }
 }
