@@ -65,7 +65,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.AspNet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.HttpApi.NuGet", "src\EasyAbp.EzGet.Public.HttpApi.NuGet\EasyAbp.EzGet.Public.HttpApi.NuGet.csproj", "{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Abp.Identity.Domain", "src\EasyAbp.EzGet.Abp.Identity.Domain\EasyAbp.EzGet.Abp.Identity.Domain.csproj", "{F401246D-7C02-45AB-9C12-85C4B6262526}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Abp.Identity.Domain", "src\EasyAbp.EzGet.Abp.Identity.Domain\EasyAbp.EzGet.Abp.Identity.Domain.csproj", "{F401246D-7C02-45AB-9C12-85C4B6262526}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Admin.HttpApi", "src\EasyAbp.EzGet.Admin.HttpApi\EasyAbp.EzGet.Admin.HttpApi.csproj", "{BBFFD028-C9C8-47DB-AB9E-677B3A3D0A2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Admin.HttpApi.Client", "src\EasyAbp.EzGet.Admin.HttpApi.Client\EasyAbp.EzGet.Admin.HttpApi.Client.csproj", "{C0D51017-D91F-40FB-A1C2-771F6598826B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Public.HttpApi.Client", "src\EasyAbp.EzGet.Public.HttpApi.Client\EasyAbp.EzGet.Public.HttpApi.Client.csproj", "{81116575-0E4D-4909-9560-A2BB8D686727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +183,18 @@ Global
 		{F401246D-7C02-45AB-9C12-85C4B6262526}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F401246D-7C02-45AB-9C12-85C4B6262526}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F401246D-7C02-45AB-9C12-85C4B6262526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBFFD028-C9C8-47DB-AB9E-677B3A3D0A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBFFD028-C9C8-47DB-AB9E-677B3A3D0A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBFFD028-C9C8-47DB-AB9E-677B3A3D0A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBFFD028-C9C8-47DB-AB9E-677B3A3D0A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0D51017-D91F-40FB-A1C2-771F6598826B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D51017-D91F-40FB-A1C2-771F6598826B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D51017-D91F-40FB-A1C2-771F6598826B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D51017-D91F-40FB-A1C2-771F6598826B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81116575-0E4D-4909-9560-A2BB8D686727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81116575-0E4D-4909-9560-A2BB8D686727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81116575-0E4D-4909-9560-A2BB8D686727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81116575-0E4D-4909-9560-A2BB8D686727}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -211,6 +229,9 @@ Global
 		{A4A91A78-C2E5-42BA-9887-2AE53C8C1033} = {2DA204F5-647E-4500-955F-958581CC1640}
 		{2AFF53D8-09BB-416A-BA1C-0D1CDD00F1BE} = {2DA204F5-647E-4500-955F-958581CC1640}
 		{F401246D-7C02-45AB-9C12-85C4B6262526} = {B7581F91-77A5-406D-BA85-736A35E4E40B}
+		{BBFFD028-C9C8-47DB-AB9E-677B3A3D0A2D} = {23076267-2DEE-4F90-803D-DE15B5D72BDF}
+		{C0D51017-D91F-40FB-A1C2-771F6598826B} = {23076267-2DEE-4F90-803D-DE15B5D72BDF}
+		{81116575-0E4D-4909-9560-A2BB8D686727} = {2DA204F5-647E-4500-955F-958581CC1640}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}

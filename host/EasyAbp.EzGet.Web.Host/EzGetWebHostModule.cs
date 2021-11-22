@@ -53,7 +53,7 @@ namespace EasyAbp.EzGet
 {
     [DependsOn(
         typeof(EzGetWebModule),
-        typeof(EzGetHttpApiClientModule),
+        typeof(EzGetCommonHttpApiClientModule),
         typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
         typeof(AbpAspNetCoreMvcClientModule),
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),

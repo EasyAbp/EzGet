@@ -4,7 +4,7 @@ using Volo.Abp.Modularity;
 namespace EasyAbp.EzGet
 {
     [DependsOn(
-        typeof(EzGetHttpApiClientModule),
+        typeof(EzGetCommonHttpApiClientModule),
         typeof(AbpHttpClientIdentityModelModule)
         )]
     public class EzGetConsoleApiClientModule : AbpModule
