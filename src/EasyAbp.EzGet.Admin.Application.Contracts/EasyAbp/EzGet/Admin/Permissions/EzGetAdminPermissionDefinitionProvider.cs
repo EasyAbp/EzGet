@@ -24,8 +24,6 @@ namespace EasyAbp.EzGet.Admin.Permissions
             nuGetPackage.AddChild(EzGetAdminPermissions.NuGetPackages.Create, L("Permission:NuGetPakcages.Create"));
             nuGetPackage.AddChild(EzGetAdminPermissions.NuGetPackages.Update, L("Permission:NuGetPakcages.Update"));
             nuGetPackage.AddChild(EzGetAdminPermissions.NuGetPackages.Delete, L("Permission:NuGetPakcages.Delete"));
-            nuGetPackage.AddChild(EzGetAdminPermissions.NuGetPackages.Unlist, L("Permission:NuGetPakcages.Unlist"));
-            nuGetPackage.AddChild(EzGetAdminPermissions.NuGetPackages.Relist, L("Permission:NuGetPakcages.Relist"));
         }
 
         private void DefineCredentials(PermissionGroupDefinition ezGetAdminGroup)
