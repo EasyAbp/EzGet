@@ -68,7 +68,7 @@ namespace EasyAbp.EzGet.Public.Credentials
         }
 
         [Authorize(EzGetPublicPermissions.Credentials.Update)]
-        public virtual async Task<CredentialDto> UpdateAsync(Guid id, UpdateCredentialDto inpu)
+        public virtual async Task<CredentialDto> UpdateAsync(Guid id, UpdateCredentialDto input)
         {
             var credential = await CredentialRepository.GetAsync(id);
 
@@ -77,7 +77,7 @@ namespace EasyAbp.EzGet.Public.Credentials
                 throw new EntityNotFoundException(typeof(Credential), id);
             }
 
-            credential.Description = inpu.Description;
+            credential.Description = input.Description;
             return ObjectMapper.Map<Credential, CredentialDto>(await CredentialRepository.UpdateAsync(credential));
         }
 
