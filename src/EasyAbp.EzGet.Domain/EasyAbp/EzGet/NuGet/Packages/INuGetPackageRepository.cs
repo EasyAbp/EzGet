@@ -24,5 +24,19 @@ namespace EasyAbp.EzGet.NuGet.Packages
             Guid? feedId = null,
             bool includeDetails = true,
             CancellationToken cancellationToken = default);
+
+        Task<List<NuGetPackage>> GetListAsync(
+            string filter = null,
+            Guid? feedId = null,
+            string sorting = null,
+            int maxResultCount = int.MaxValue,
+            int skipCount = 0,
+            bool includeDetails = true,
+            CancellationToken cancellationToken = default);
+
+        Task<long> GetCountAsync(
+            string filter = null,
+            Guid? feedId = null,
+            CancellationToken cancellationToken = default);
     }
 }

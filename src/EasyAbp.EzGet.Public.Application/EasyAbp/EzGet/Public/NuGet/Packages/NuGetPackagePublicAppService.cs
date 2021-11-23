@@ -11,6 +11,7 @@ using EasyAbp.EzGet.NuGet;
 using Microsoft.AspNetCore.Authorization;
 using EasyAbp.EzGet.Public.Permissions;
 using EasyAbp.EzGet.Feeds;
+using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
@@ -64,7 +65,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                 await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
 
             if (package == null)
-                return null;
+            {
+                throw new EntityNotFoundException(typeof(NuGetPackage));
+            }
 
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
         }
@@ -77,7 +80,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                 await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
 
             if (package == null)
-                return null;
+            {
+                throw new EntityNotFoundException(typeof(NuGetPackage));
+            }
 
             return await BlobContainer.GetAllBytesOrNullAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package));
         }
@@ -90,7 +95,9 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                 await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
 
             if (package == null)
-                return null;
+            {
+                throw new EntityNotFoundException(typeof(NuGetPackage));
+            }
 
             return await BlobContainer.GetAllBytesOrNullAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package));
         }

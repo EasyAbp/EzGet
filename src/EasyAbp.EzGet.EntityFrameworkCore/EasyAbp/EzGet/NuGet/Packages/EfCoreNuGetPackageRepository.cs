@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
@@ -46,6 +46,36 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 .Where(p => p.PackageName == packageName)
                 .Where(p => p.FeedId == feedId)
                 .ToListAsync(GetCancellationToken(cancellationToken));
+        }
+
+        public virtual async Task<List<NuGetPackage>> GetListAsync(
+            string filter = null,
+            Guid? feedId = null,
+            string sorting = null,
+            int maxResultCount = int.MaxValue,
+            int skipCount = 0,
+            bool includeDetails = true,
+            CancellationToken cancellationToken = default)
+        {
+            filter = filter.ToLower();
+
+            return await (includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
+                .Where(p => p.FeedId == feedId)
+                .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
+                .OrderBy(string.IsNullOrWhiteSpace(sorting) ? nameof(NuGetPackage.CreationTime) : sorting)
+                .PageBy(skipCount, maxResultCount)
+                .ToListAsync(GetCancellationToken(cancellationToken));
+        }
+
+        public virtual async Task<long> GetCountAsync(
+            string filter = null,
+            Guid? feedId = null,
+            CancellationToken cancellationToken = default)
+        {
+            return await (await GetQueryableAsync())
+                .Where(p => p.FeedId == feedId)
+                .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
+                .LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
         public override async Task<IQueryable<NuGetPackage>> WithDetailsAsync()

@@ -14,8 +14,6 @@ namespace EasyAbp.EzGet.Admin.Permissions
             public const string Create = Default + ".Create";
             public const string Update = Default + ".Update";
             public const string Delete = Default + ".Delete";
-            public const string Unlist = Default + ".Unlist";
-            public const string Relist = Default + ".Relist";
         }
 
         public static class Credentials
