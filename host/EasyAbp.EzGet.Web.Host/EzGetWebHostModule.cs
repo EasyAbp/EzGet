@@ -52,7 +52,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EzGet
 {
     [DependsOn(
-        typeof(EzGetWebModule),
+        typeof(EzGetCommonWebModule),
         typeof(EzGetCommonHttpApiClientModule),
         typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
         typeof(AbpAspNetCoreMvcClientModule),
@@ -179,7 +179,7 @@ namespace EasyAbp.EzGet
                 {
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Domain", Path.DirectorySeparatorChar)));
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetCommonApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Application.Contracts", Path.DirectorySeparatorChar)));
-                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Web", Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetCommonWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Web", Path.DirectorySeparatorChar)));
                 });
             }
         }

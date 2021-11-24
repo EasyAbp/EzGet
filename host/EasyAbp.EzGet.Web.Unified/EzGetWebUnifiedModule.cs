@@ -46,7 +46,7 @@ using Volo.Abp.BlobStoring;
 namespace EasyAbp.EzGet
 {
     [DependsOn(
-        typeof(EzGetWebModule),
+        typeof(EzGetCommonWebModule),
         typeof(EzGetEntityFrameworkCoreModule),
         typeof(EzGetPublicApplicationModule),
         typeof(EzGetAdminApplicationModule),
@@ -104,7 +104,7 @@ namespace EasyAbp.EzGet
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetAdminApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Admin.Application.Contracts", Path.DirectorySeparatorChar)));
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetAdminApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Admin.Application", Path.DirectorySeparatorChar)));
 
-                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Common.Web", Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetCommonWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Common.Web", Path.DirectorySeparatorChar)));
                 });
             }
 

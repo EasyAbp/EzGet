@@ -17,18 +17,18 @@ namespace EasyAbp.EzGet.Web
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)
         )]
-    public class EzGetWebModule : AbpModule
+    public class EzGetCommonWebModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
             {
-                options.AddAssemblyResource(typeof(EzGetResource), typeof(EzGetWebModule).Assembly);
+                options.AddAssemblyResource(typeof(EzGetResource), typeof(EzGetCommonWebModule).Assembly);
             });
 
             PreConfigure<IMvcBuilder>(mvcBuilder =>
             {
-                mvcBuilder.AddApplicationPartIfNotExists(typeof(EzGetWebModule).Assembly);
+                mvcBuilder.AddApplicationPartIfNotExists(typeof(EzGetCommonWebModule).Assembly);
             });
         }
 
@@ -36,18 +36,18 @@ namespace EasyAbp.EzGet.Web
         {
             Configure<AbpNavigationOptions>(options =>
             {
-                options.MenuContributors.Add(new EzGetMenuContributor());
+                options.MenuContributors.Add(new EzGetCommonMenuContributor());
             });
 
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EzGetWebModule>();
+                options.FileSets.AddEmbedded<EzGetCommonWebModule>();
             });
 
-            context.Services.AddAutoMapperObjectMapper<EzGetWebModule>();
+            context.Services.AddAutoMapperObjectMapper<EzGetCommonWebModule>();
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<EzGetWebModule>(validate: true);
+                options.AddMaps<EzGetCommonWebModule>(validate: true);
             });
 
             Configure<RazorPagesOptions>(options =>

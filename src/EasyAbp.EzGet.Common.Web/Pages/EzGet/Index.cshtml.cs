@@ -1,6 +1,6 @@
 namespace EasyAbp.EzGet.Web.Pages.EzGet
 {
-    public class IndexModel : EzGetPageModel
+    public class IndexModel : EzGetCommonPageModel
     {
         public void OnGet()
         {

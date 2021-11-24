@@ -5,12 +5,12 @@ namespace EasyAbp.EzGet.Web.Pages
 {
     /* Inherit your PageModel classes from this class.
      */
-    public abstract class EzGetPageModel : AbpPageModel
+    public abstract class EzGetCommonPageModel : AbpPageModel
     {
-        protected EzGetPageModel()
+        protected EzGetCommonPageModel()
         {
             LocalizationResourceType = typeof(EzGetResource);
-            ObjectMapperContext = typeof(EzGetWebModule);
+            ObjectMapperContext = typeof(EzGetCommonWebModule);
         }
     }
 }

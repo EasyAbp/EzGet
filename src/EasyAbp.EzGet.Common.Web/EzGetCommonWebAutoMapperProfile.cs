@@ -2,9 +2,9 @@
 
 namespace EasyAbp.EzGet.Web
 {
-    public class EzGetWebAutoMapperProfile : Profile
+    public class EzGetCommonWebAutoMapperProfile : Profile
     {
-        public EzGetWebAutoMapperProfile()
+        public EzGetCommonWebAutoMapperProfile()
         {
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
