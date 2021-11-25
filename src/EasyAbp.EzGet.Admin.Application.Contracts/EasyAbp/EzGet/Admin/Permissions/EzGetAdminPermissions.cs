@@ -32,5 +32,9 @@ namespace EasyAbp.EzGet.Admin.Permissions
             public const string Delete = Default + ".Delete";
         }
 
+        public static class Users
+        {
+            public const string Default = GroupName + ".Users";
+        }
     }
 }

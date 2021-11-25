@@ -10,7 +10,8 @@ using Volo.Abp.VirtualFileSystem;
 namespace EasyAbp.EzGet.Admin.Web
 {
     [DependsOn(
-        typeof(EzGetCommonWebModule)
+        typeof(EzGetCommonWebModule),
+        typeof(EzGetAdminHttpApiModule)
         )]
     public class EzGetAdminWebModule : AbpModule
     {
@@ -23,13 +24,13 @@ namespace EasyAbp.EzGet.Admin.Web
 
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<EzGetCommonWebModule>();
+                options.FileSets.AddEmbedded<EzGetAdminWebModule>();
             });
 
             context.Services.AddAutoMapperObjectMapper<EzGetAdminWebModule>();
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<EzGetCommonWebModule>(validate: true);
+                options.AddMaps<EzGetAdminWebModule>(validate: true);
             });
 
             Configure<RazorPagesOptions>(options =>

@@ -2,6 +2,20 @@
     var l = abp.localization.getResource('EzGet');
     var _credentialAdminAppService = easyAbp.ezGet.admin.credentials.credentialAdmin;
 
+    var _editModal = new abp.ModalManager(
+        abp.appPath + 'EzGet/Credentials/EditModal'
+    );
+
+    var _createModal = new abp.ModalManager(
+        abp.appPath + 'EzGet/Credentials/CreateModal'
+    );
+
+    var _selectUserModal = new abp.ModalManager({
+        viewUrl: abp.appPath + 'EzGet/Users/SelectUserModal',
+        scriptUrl: '/Pages/EzGet/Users/selectUserModal.js',
+        modalClass: 'selectUserModal'
+    });
+
     var _dataTable = null;
 
     abp.ui.extensions.entityActions.get('ezGet.credential').addContributor(
@@ -43,4 +57,67 @@
             );
         }
     );
+
+    abp.ui.extensions.tableColumns.get('ezGet.credential').addContributor(
+        function (columnList) {
+            columnList.addManyTail(
+                [
+                    {
+                        title: l("Actions"),
+                        rowAction: {
+                            items: abp.ui.extensions.entityActions.get('ezGet.credential').actions.toArray()
+                        }
+                    },
+                    {
+                        title: l('UserId'),
+                        data: 'userId',
+                    },
+                    {
+                        title: l('Description'),
+                        data: 'description',
+                    },
+                    {
+                        title: l('Expires'),
+                        data: 'expires',
+                    }
+                ]
+            );
+        },
+        0 //adds as the first contributor
+    );
+
+    $(function () {
+        var getFilter = function () {
+            return {
+                filter: $('#EzGetCredentialsWrapper input.sreach-user-id').val()
+            };
+        };
+
+        var _$table = $('#CredentialsTable');
+        _dataTable = _$table.DataTable(
+            abp.libs.datatables.normalizeConfiguration({
+                order: [[1, 'asc']],
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                paging: true,
+                searching: false,
+                ajax: abp.libs.datatables.createAjax(_credentialAdminAppService.getList, getFilter),
+                columnDefs: abp.ui.extensions.tableColumns.get('ezGet.credential').columns.toArray()
+            })
+        );
+
+        $('#EzGetCredentialsWrapper button.select-user').click(function () {
+            _selectUserModal.open();
+        });
+
+        $('#EzGetCredentialsWrapper form.credentials-search-form').submit(function (e) {
+            e.preventDefault();
+            dataTable.ajax.reload();
+        });
+    });
+
+    _selectUserModal.onResult(function (arg) {
+        $('#EzGetCredentialsWrapper input.sreach-user-id').val(arg.id);
+    });
 })(jQuery);

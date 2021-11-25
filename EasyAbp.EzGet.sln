@@ -73,7 +73,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Admin.HttpApi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Public.HttpApi.Client", "src\EasyAbp.EzGet.Public.HttpApi.Client\EasyAbp.EzGet.Public.HttpApi.Client.csproj", "{81116575-0E4D-4909-9560-A2BB8D686727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.EzGet.Admin.Web", "src\EasyAbp.EzGet.Admin.Web\EasyAbp.EzGet.Admin.Web.csproj", "{20CA9491-4927-4701-AF9D-E87614EB3D50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.EzGet.Admin.Web", "src\EasyAbp.EzGet.Admin.Web\EasyAbp.EzGet.Admin.Web.csproj", "{20CA9491-4927-4701-AF9D-E87614EB3D50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
