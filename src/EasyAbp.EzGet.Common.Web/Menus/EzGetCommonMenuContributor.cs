@@ -16,7 +16,7 @@ namespace EasyAbp.EzGet.Web.Menus
         private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
         {
             //Add main menu items.
-            context.Menu.AddItem(new ApplicationMenuItem(EzGetCommonMenus.GroupName, displayName: "EzGet", "~/EzGet", icon: "fa fa-globe"));
+            //context.Menu.AddItem(new ApplicationMenuItem(EzGetCommonMenus.GroupName, displayName: "EzGet", "~/EzGet", icon: "fa fa-globe"));
 
             return Task.CompletedTask;
         }

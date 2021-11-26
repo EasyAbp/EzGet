@@ -1,7 +1,4 @@
 ﻿using EasyAbp.EzGet.Localization;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 
@@ -16,6 +13,7 @@ namespace EasyAbp.EzGet.Admin.Permissions
             DefineNuGetPackages(ezGetAdminGroup);
             DefineCredentials(ezGetAdminGroup);
             DefineFeeds(ezGetAdminGroup);
+            DefineEzGetUsers(ezGetAdminGroup);
         }
 
         private void DefineNuGetPackages(PermissionGroupDefinition ezGetAdminGroup)
@@ -40,6 +38,11 @@ namespace EasyAbp.EzGet.Admin.Permissions
             feed.AddChild(EzGetAdminPermissions.Feeds.Create, L("Permission:Feeds.Create"));
             feed.AddChild(EzGetAdminPermissions.Feeds.Update, L("Permission:Feeds.Update"));
             feed.AddChild(EzGetAdminPermissions.Feeds.Delete, L("Permission:Feeds.Delete"));
+        }
+
+        private void DefineEzGetUsers(PermissionGroupDefinition ezGetAdminGroup)
+        {
+            ezGetAdminGroup.AddPermission(EzGetAdminPermissions.Users.Default, L("Permission:EzGetUsersAdmin"));
         }
 
         private static LocalizableString L(string name)

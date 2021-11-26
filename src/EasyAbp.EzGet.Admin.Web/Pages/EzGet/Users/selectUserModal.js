@@ -1,6 +1,7 @@
 ﻿var abp = abp || {};
 (function ($) {
     var l = abp.localization.getResource('EzGet');
+    console.log(easyAbp.ezGet.admin);
     var _ezGetUserAppService = easyAbp.ezGet.admin.users.ezGetUser;
 
     var _modalPublicApi = null;
@@ -18,7 +19,7 @@
                     scrollX: true,
                     paging: true,
                     searching: true,
-                    ajax: abp.libs.datatables.createAjax(_ezGetUserAppService.search),
+                    ajax: abp.libs.datatables.createAjax(_ezGetUserAppService.getList),
                     columnDefs: abp.ui.extensions.tableColumns.get('ezGet.selectUsers').columns.toArray()
                 })
             );
@@ -34,7 +35,7 @@
                     [
                         {
                             text: l('Select'),
-                            visible: abp.auth.isGranted('EzGet.Admin.User'),
+                            visible: abp.auth.isGranted('EzGet.Admin.Users'),
                             action: function (data) {
                                 _modalPublicApi.setResult({ id: data.record.id });
                                 _modalPublicApi.close();

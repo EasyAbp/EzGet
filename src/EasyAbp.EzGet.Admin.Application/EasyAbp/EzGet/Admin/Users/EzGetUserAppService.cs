@@ -1,4 +1,6 @@
-﻿using EasyAbp.EzGet.Users;
+﻿using EasyAbp.EzGet.Admin.Permissions;
+using EasyAbp.EzGet.Users;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +9,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Admin.Users
 {
+    [Authorize(EzGetAdminPermissions.Users.Default)]
     public class EzGetUserAppService : EzGetAdminAppServiceBase, IEzGetUserAppService
     {
         protected IEzGetUserRepository EzGetUserRepository { get; }

@@ -24,9 +24,7 @@
                 [
                     {
                         text: l('Edit'),
-                        visible: abp.auth.isGranted(
-                            'EzGet.Credentials.Update'
-                        ),
+                        visible: abp.auth.isGranted('EzGet.Admin.Credentials.Update'),
                         action: function (data) {
                             _editModal.open({
                                 id: data.record.id,
@@ -35,9 +33,7 @@
                     },
                     {
                         text: l('Delete'),
-                        visible: abp.auth.isGranted(
-                            'EzGet.Credentials.Delete'
-                        ),
+                        visible: abp.auth.isGranted('EzGet.Admin.Credentials.Delete'),
                         confirmMessage: function (data) {
                             return l(
                                 'CredentialDeletionConfirmationMessage',
