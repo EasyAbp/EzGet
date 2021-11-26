@@ -1,7 +1,6 @@
 ﻿var abp = abp || {};
 (function ($) {
     var l = abp.localization.getResource('EzGet');
-    console.log(easyAbp.ezGet.admin);
     var _ezGetUserAppService = easyAbp.ezGet.admin.users.ezGetUser;
 
     var _modalPublicApi = null;

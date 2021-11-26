@@ -85,7 +85,7 @@
     $(function () {
         var getFilter = function () {
             return {
-                filter: $('#EzGetCredentialsWrapper input.sreach-user-id').val()
+                userId: $('#EzGetCredentialsWrapper input.sreach-user-id').val()
             };
         };
 
@@ -109,7 +109,7 @@
 
         $('#EzGetCredentialsWrapper form.credentials-search-form').submit(function (e) {
             e.preventDefault();
-            dataTable.ajax.reload();
+            _dataTable.ajax.reload();
         });
     });
 
