@@ -18,9 +18,13 @@ namespace EasyAbp.EzGet.Credentials
         {
         }
 
-        public virtual async Task<Credential> GetAsync(Guid id, Guid? userId, CancellationToken cancellationToken = default)
+        public virtual async Task<Credential> GetAsync(
+            Guid id,
+            Guid? userId,
+            bool includeDetails,
+            CancellationToken cancellationToken = default)
         {
-            return await (await GetDbSetAsync())
+            return await (includeDetails? (await WithDetailsAsync()) : (await GetDbSetAsync()))
                 .Where(p => p.Id == id)
                 .WhereIf(null != userId, p => p.UserId == userId)
                 .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
@@ -41,7 +45,7 @@ namespace EasyAbp.EzGet.Credentials
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            return await(includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
+            return await (includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
                 .WhereIf(null != userId, p => p.UserId == userId)
                 .OrderBy(string.IsNullOrWhiteSpace(sorting) ? nameof(Credential.CreationTime) : sorting)
                 .PageBy(skipCount, maxResultCount)
@@ -55,6 +59,11 @@ namespace EasyAbp.EzGet.Credentials
             return await (await GetQueryableAsync())
                 .WhereIf(null != userId, p => p.UserId == userId)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
+        }
+
+        public override async Task<IQueryable<Credential>> WithDetailsAsync()
+        {
+            return (await GetDbSetAsync()).Include(p => p.Scopes);
         }
     }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EasyAbp.EzGet.Credentials
+﻿namespace EasyAbp.EzGet.Credentials
 {
     public static class CredentialConsts
     {
-        public const int MaxValueLength = 50;
-        public const int MaxDescriptionLength = 100;
-        public const int MaxGlobPatternLength = 50;
+        public static int MaxValueLength { get; set; } = 50;
+        public static int MaxDescriptionLength { get; set; } = 100;
+        public static int MaxGlobPatternLength { get; set; } = 50;
     }
 }

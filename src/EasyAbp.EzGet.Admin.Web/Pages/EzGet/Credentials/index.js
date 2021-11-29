@@ -6,9 +6,10 @@
         abp.appPath + 'EzGet/Credentials/EditModal'
     );
 
-    var _createModal = new abp.ModalManager(
-        abp.appPath + 'EzGet/Credentials/CreateModal'
-    );
+    var _createModal = new abp.ModalManager({
+        viewUrl: abp.appPath + 'EzGet/Credentials/CreateModal',
+        modalClass: 'createCredential'
+    });
 
     var _selectUserModal = new abp.ModalManager({
         viewUrl: abp.appPath + 'EzGet/Users/SelectUserModal',
@@ -110,6 +111,11 @@
         $('#EzGetCredentialsWrapper form.credentials-search-form').submit(function (e) {
             e.preventDefault();
             _dataTable.ajax.reload();
+        });
+
+        $('#AbpContentToolbar button[name=CreateCredential]').click(function (e) {
+            e.preventDefault();
+            _createModal.open();
         });
     });
 

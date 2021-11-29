@@ -3,6 +3,7 @@ using EasyAbp.EzGet.Credentials;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
@@ -61,7 +62,21 @@ namespace EasyAbp.EzGet.Admin.Credentials
         public virtual async Task<CredentialDto> UpdateAsync(Guid id, UpdateCredentialDto input)
         {
             var credential = await CredentialRepository.GetAsync(id);
+
             credential.Description = input.Description;
+
+            var scopeList = credential.Scopes.ToList();
+
+            for (int i = scopeList.Count - 1; i >= 0; i--)
+            {
+                var scope = scopeList[i];
+
+                if (!input.Scopes.Any(p => p == scope.AllowAction))
+                {
+                    credential.Scopes.Remove(scope);
+                }
+            }
+
             return ObjectMapper.Map<Credential, CredentialDto>(await CredentialRepository.UpdateAsync(credential));
         }
 

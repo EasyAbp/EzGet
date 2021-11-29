@@ -9,7 +9,7 @@ namespace EasyAbp.EzGet.Credentials
 {
     public interface ICredentialRepository : IBasicRepository<Credential, Guid>
     {
-        Task<Credential> GetAsync(Guid id, Guid? userId, CancellationToken cancellationToken = default);
+        Task<Credential> GetAsync(Guid id, Guid? userId, bool includeDetails, CancellationToken cancellationToken = default);
         Task<Credential> FindByValueAsync(string value, CancellationToken cancellationToken = default);
         Task<List<Credential>> GetListAsync(
             Guid? userId = null,

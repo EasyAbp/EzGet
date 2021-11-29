@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyAbp.EzGet.Credentials;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,5 +8,6 @@ namespace EasyAbp.EzGet.Admin.Credentials
     public abstract class CreateOrUpdateCredentialDto
     {
         public string Description { get; set; }
+        public List<ScopeAllowActionEnum> Scopes { get; set; }
     }
 }

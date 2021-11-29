@@ -1,11 +1,15 @@
 ﻿using EasyAbp.EzGet.Admin.Web.Menus;
+using EasyAbp.EzGet.Localization;
 using EasyAbp.EzGet.Web;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.PageToolbars;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Localization;
+using EasyAbp.EzGet.Admin.Permissions;
 
 namespace EasyAbp.EzGet.Admin.Web
 {
@@ -36,6 +40,21 @@ namespace EasyAbp.EzGet.Admin.Web
             Configure<RazorPagesOptions>(options =>
             {
                 //Configure authorization.
+            });
+
+            Configure<AbpPageToolbarOptions>(options =>
+            {
+                options.Configure<Pages.EzGet.Credentials.IndexModel>(
+                        toolbar =>
+                        {
+                            toolbar.AddButton(
+                                LocalizableString.Create<EzGetResource>("NewCredential"),
+                                icon: "plus",
+                                name: "CreateCredential",
+                                requiredPolicyName: EzGetAdminPermissions.Credentials.Create
+                            );
+                        }
+                    );
             });
         }
     }

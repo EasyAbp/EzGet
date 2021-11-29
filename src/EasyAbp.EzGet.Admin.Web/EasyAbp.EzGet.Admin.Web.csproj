@@ -24,6 +24,11 @@
     <Content Remove="wwwroot\**\*.*" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Remove="Pages\EzGet\Credentials\createModal.js" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\EasyAbp.EzGet.Admin.HttpApi\EasyAbp.EzGet.Admin.HttpApi.csproj" />
     <ProjectReference Include="..\EasyAbp.EzGet.Common.Web\EasyAbp.EzGet.Common.Web.csproj" />

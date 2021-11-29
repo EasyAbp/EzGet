@@ -10,6 +10,5 @@ namespace EasyAbp.EzGet.Admin.Credentials
         public Guid UserId { get; set; }
         public TimeSpan? Expiration { get; set; }
         public string GlobPattern { get; set; }
-        public List<ScopeAllowActionEnum> Scopes { get; set; }
     }
 }
