@@ -6,16 +6,44 @@ using System.Text;
 using System.Threading.Tasks;
 using Shouldly;
 using Xunit;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.Admin.Credentials
 {
     public class CredentialAdminAppService_Tests : EzGetApplicationTestBase
     {
         private readonly ICredentialAdminAppService _credentialAdminAppService;
+        private readonly ICurrentUser _currentUser;
 
         public CredentialAdminAppService_Tests()
         {
             _credentialAdminAppService = GetRequiredService<ICredentialAdminAppService>();
+            _currentUser = GetRequiredService<ICurrentUser>();
+        }
+
+        [Fact]
+        public async Task CreateAsync()
+        {
+            var input = new CreateCredentialDto
+            {
+                UserId = _currentUser.Id.Value,
+                Expiration = TimeSpan.FromDays(1),
+                GlobPattern = "Gsx.Abp.*",
+                Description = "Test Credential",
+                Scopes = new List<ScopeAllowActionEnum>
+                {
+                    ScopeAllowActionEnum.Read,
+                    ScopeAllowActionEnum.Write
+                }
+            };
+
+            var credential = await _credentialAdminAppService.CreateAsync(input);
+            credential.Expires.HasValue.ShouldBeTrue();
+            credential.Expires.Value.Date.ShouldBe(DateTime.Now.Date.AddDays(1));
+            credential.GlobPattern.ShouldBe("Gsx.Abp.*");
+            credential.Description.ShouldBe("Test Credential");
+            credential.Scopes.Count.ShouldBe(2);
+            credential.Scopes.ToArray()[0].AllowAction.ShouldNotBe(credential.Scopes.ToArray()[1].AllowAction);
         }
 
         [Fact]
