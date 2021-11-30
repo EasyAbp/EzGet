@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 using Shouldly;
 using Xunit;
 using Volo.Abp.Users;
+using EasyAbp.EzGet.Users;
 
 namespace EasyAbp.EzGet.Admin.Credentials
 {
     public class CredentialAdminAppService_Tests : EzGetApplicationTestBase
     {
         private readonly ICredentialAdminAppService _credentialAdminAppService;
-        private readonly ICurrentUser _currentUser;
+        private readonly EzGetTestData _ezGetTestData;
+        private readonly IEzGetUserLookupService _ezGetUserLookupService;
 
         public CredentialAdminAppService_Tests()
         {
             _credentialAdminAppService = GetRequiredService<ICredentialAdminAppService>();
-            _currentUser = GetRequiredService<ICurrentUser>();
+            _ezGetTestData = GetRequiredService<EzGetTestData>();
+            _ezGetUserLookupService = GetRequiredService<IEzGetUserLookupService>();
         }
 
         [Fact]
@@ -26,7 +29,7 @@ namespace EasyAbp.EzGet.Admin.Credentials
         {
             var input = new CreateCredentialDto
             {
-                UserId = _currentUser.Id.Value,
+                UserId = _ezGetTestData.User1Id,
                 Expiration = TimeSpan.FromDays(1),
                 GlobPattern = "Gsx.Abp.*",
                 Description = "Test Credential",

@@ -15,18 +15,21 @@ namespace EasyAbp.EzGet
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
         private readonly ICredentialRepository _credentialRepository;
-        protected readonly ICurrentUser _currentUser;
+        private readonly IEzGetUserRepository _ezGetUserRepository;
+        private readonly EzGetTestData _ezGetTestData;
 
         public EzGetDataSeedContributor(
             IGuidGenerator guidGenerator,
             ICurrentTenant currentTenant,
             ICredentialRepository credentialRepository,
-            ICurrentUser currentUser)
+            IEzGetUserRepository ezGetUserRepository,
+            EzGetTestData ezGetTestData)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
             _credentialRepository = credentialRepository;
-            _currentUser = currentUser;
+            _ezGetUserRepository = ezGetUserRepository;
+            _ezGetTestData = ezGetTestData;
         }
 
         public async Task SeedAsync(DataSeedContext context)
@@ -37,21 +40,40 @@ namespace EasyAbp.EzGet
 
             using (_currentTenant.Change(context?.TenantId))
             {
+                await SeedEzGetUserAsync();
                 await SeedCredentialAsnyc();
             }
         }
 
         private async Task SeedCredentialAsnyc()
         {
-            var credential = new Credential(
-                _guidGenerator.Create(),
-                _currentUser.Id.Value,
+            var credential1 = new Credential(
+                _ezGetTestData.User1CredentialId,
+                _ezGetTestData.User1Id,
                 Guid.NewGuid().ToString(),
                 TimeSpan.FromDays(1),
                 null,
                 null);
 
-            await _credentialRepository.InsertAsync(credential);
+            var credential2 = new Credential(
+                _ezGetTestData.User2CredentialId,
+                _ezGetTestData.User2Id,
+                Guid.NewGuid().ToString(),
+                TimeSpan.FromDays(1),
+                null,
+                null);
+
+            await _credentialRepository.InsertAsync(credential1);
+            await _credentialRepository.InsertAsync(credential2);
+        }
+
+        private async Task SeedEzGetUserAsync()
+        {
+            var ezGetUser1 = new EzGetUser(new UserData(_ezGetTestData.User1Id, "user1", "user1@abp.io"));
+            await _ezGetUserRepository.InsertAsync(ezGetUser1);
+
+            var ezGetUser2 = new EzGetUser(new UserData(_ezGetTestData.User2Id, "user2", "user2@abp.io"));
+            await _ezGetUserRepository.InsertAsync(ezGetUser2);
         }
     }
 }
