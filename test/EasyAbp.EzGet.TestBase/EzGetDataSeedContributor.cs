@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using EasyAbp.EzGet.Credentials;
+using EasyAbp.EzGet.Users;
+using System;
+using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet
 {
@@ -10,15 +14,22 @@ namespace EasyAbp.EzGet
     {
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICurrentTenant _currentTenant;
+        private readonly ICredentialRepository _credentialRepository;
+        protected readonly ICurrentUser _currentUser;
 
         public EzGetDataSeedContributor(
-            IGuidGenerator guidGenerator, ICurrentTenant currentTenant)
+            IGuidGenerator guidGenerator,
+            ICurrentTenant currentTenant,
+            ICredentialRepository credentialRepository,
+            ICurrentUser currentUser)
         {
             _guidGenerator = guidGenerator;
             _currentTenant = currentTenant;
+            _credentialRepository = credentialRepository;
+            _currentUser = currentUser;
         }
 
-        public Task SeedAsync(DataSeedContext context)
+        public async Task SeedAsync(DataSeedContext context)
         {
             /* Instead of returning the Task.CompletedTask, you can insert your test data
              * at this point!
@@ -26,8 +37,21 @@ namespace EasyAbp.EzGet
 
             using (_currentTenant.Change(context?.TenantId))
             {
-                return Task.CompletedTask;
+                await SeedCredentialAsnyc();
             }
+        }
+
+        private async Task SeedCredentialAsnyc()
+        {
+            var credential = new Credential(
+                _guidGenerator.Create(),
+                _currentUser.Id.Value,
+                Guid.NewGuid().ToString(),
+                TimeSpan.FromDays(1),
+                null,
+                null);
+
+            await _credentialRepository.InsertAsync(credential);
         }
     }
 }
