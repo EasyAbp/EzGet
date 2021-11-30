@@ -13,7 +13,7 @@ namespace EasyAbp.EzGet.Credentials
         public Guid UserId { get; }
         public string Value { get; }
         public string Description { get; set; }
-        public DateTime? Expires { get; }
+        public DateTime? Expires { get; set; }
         public string GlobPattern { get; }
         public Guid? TenantId { get; }
         public virtual ICollection<CredentialScope> Scopes { get; }

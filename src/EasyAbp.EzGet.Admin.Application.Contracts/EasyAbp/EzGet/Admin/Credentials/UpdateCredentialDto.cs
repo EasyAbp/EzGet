@@ -6,5 +6,6 @@ namespace EasyAbp.EzGet.Admin.Credentials
 {
     public class UpdateCredentialDto : CreateOrUpdateCredentialDto
     {
+        public DateTime? Expires { get; set; }
     }
 }

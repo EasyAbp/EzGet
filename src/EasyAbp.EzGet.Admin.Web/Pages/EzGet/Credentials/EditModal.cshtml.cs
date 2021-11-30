@@ -3,6 +3,7 @@ using EasyAbp.EzGet.Credentials;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
@@ -43,7 +44,9 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
         {
             var input = new UpdateCredentialDto
             {
-                Description = CredentialInfo.Description
+                Description = CredentialInfo.Description,
+                Expires = CredentialInfo.Expires,
+                Scopes = new List<ScopeAllowActionEnum>()
             };
 
             if (CredentialInfo.Read)

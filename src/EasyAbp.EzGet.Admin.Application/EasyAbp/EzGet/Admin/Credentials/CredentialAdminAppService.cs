@@ -64,6 +64,7 @@ namespace EasyAbp.EzGet.Admin.Credentials
             var credential = await CredentialRepository.GetAsync(id);
 
             credential.Description = input.Description;
+            credential.Expires = input.Expires;
 
             var scopeList = credential.Scopes.ToList();
 
@@ -74,6 +75,14 @@ namespace EasyAbp.EzGet.Admin.Credentials
                 if (!input.Scopes.Any(p => p == scope.AllowAction))
                 {
                     credential.Scopes.Remove(scope);
+                }
+            }
+
+            foreach (var scope in input.Scopes)
+            {
+                if (!scopeList.Any(p => p.AllowAction == scope))
+                {
+                    credential.AddScope(scope);
                 }
             }
 
