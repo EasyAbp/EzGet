@@ -7,9 +7,10 @@ namespace EasyAbp.EzGet.Feeds
 {
     public class FeedDto : FullAuditedEntityDto<Guid>
     {
-        public string FeedName { get; }
+        public Guid UserId { get; set; }
+        public string FeedName { get; set; }
         public string Description { get; set; }
-        public FeedTypeEnum FeedType { get; }
-        public ICollection<Guid> CredentialIds { get; }
+        public FeedTypeEnum FeedType { get; set; }
+        public ICollection<Guid> CredentialIds { get; set; }
     }
 }

@@ -43,6 +43,13 @@ namespace EasyAbp.EzGet.Admin.Feeds
         }
 
         [HttpGet]
+        [Route("by-name/{name}")]
+        public virtual Task<FeedDto> GetByNameAsync(string name)
+        {
+            return FeedAdminAppService.GetByNameAsync(name);
+        }
+
+        [HttpGet]
         public virtual Task<PagedResultDto<FeedDto>> GetListAsync(GetFeedsInput input)
         {
             return FeedAdminAppService.GetListAsync(input);

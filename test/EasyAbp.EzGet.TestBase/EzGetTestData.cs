@@ -12,8 +12,8 @@ namespace EasyAbp.EzGet
         public Guid User1CredentialId { get; } = Guid.NewGuid();
         public Guid User2CredentialId { get; } = Guid.NewGuid();
 
-        public Guid User1FeedId { get; } = Guid.NewGuid();
-        public Guid User2FeedId { get; } = Guid.NewGuid();
+        public string User1FeedName { get; } = "feed1";
+        public string User2FeedName { get; } = "feed2";
 
         public Guid User1Id { get; } = Guid.NewGuid();
         public Guid User2Id { get; } = Guid.NewGuid();

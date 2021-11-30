@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EzGet.Credentials;
+using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.Users;
 using System;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace EasyAbp.EzGet
         private readonly ICurrentTenant _currentTenant;
         private readonly ICredentialRepository _credentialRepository;
         private readonly IEzGetUserRepository _ezGetUserRepository;
+        private readonly IFeedManager _feedManager;
+        private readonly IFeedRepository _feedRepository;
         private readonly EzGetTestData _ezGetTestData;
 
         public EzGetDataSeedContributor(
@@ -23,6 +26,8 @@ namespace EasyAbp.EzGet
             ICurrentTenant currentTenant,
             ICredentialRepository credentialRepository,
             IEzGetUserRepository ezGetUserRepository,
+            IFeedManager feedManager,
+            IFeedRepository feedRepository,
             EzGetTestData ezGetTestData)
         {
             _guidGenerator = guidGenerator;
@@ -30,6 +35,8 @@ namespace EasyAbp.EzGet
             _credentialRepository = credentialRepository;
             _ezGetUserRepository = ezGetUserRepository;
             _ezGetTestData = ezGetTestData;
+            _feedManager = feedManager;
+            _feedRepository = feedRepository;
         }
 
         public async Task SeedAsync(DataSeedContext context)
@@ -40,12 +47,34 @@ namespace EasyAbp.EzGet
 
             using (_currentTenant.Change(context?.TenantId))
             {
-                await SeedEzGetUserAsync();
-                await SeedCredentialAsnyc();
+                await SeedEzGetUsersAsync();
+                await SeedFeedsAsync();
+                await SeedCredentialsAsnyc();
             }
         }
 
-        private async Task SeedCredentialAsnyc()
+        private async Task SeedFeedsAsync()
+        {
+            var feed1 = await _feedManager.CreateAsync(
+                _ezGetTestData.User1Id,
+                _ezGetTestData.User1FeedName,
+                FeedTypeEnum.Public,
+                "Test feed");
+
+            await _feedManager.AddCredentialAsync(feed1, _ezGetTestData.User1CredentialId);
+
+            var feed2 = await _feedManager.CreateAsync(
+                _ezGetTestData.User2Id,
+                _ezGetTestData.User2FeedName,
+                FeedTypeEnum.Public,
+                "Test feed");
+
+            await _feedManager.AddCredentialAsync(feed2, _ezGetTestData.User2CredentialId);
+
+            await _feedRepository.InsertManyAsync(new Feed[] { feed1, feed2 });
+        }
+
+        private async Task SeedCredentialsAsnyc()
         {
             var credential1 = new Credential(
                 _ezGetTestData.User1CredentialId,
@@ -63,11 +92,10 @@ namespace EasyAbp.EzGet
                 null,
                 null);
 
-            await _credentialRepository.InsertAsync(credential1);
-            await _credentialRepository.InsertAsync(credential2);
+            await _credentialRepository.InsertManyAsync(new Credential[] { credential1, credential2 });
         }
 
-        private async Task SeedEzGetUserAsync()
+        private async Task SeedEzGetUsersAsync()
         {
             var ezGetUser1 = new EzGetUser(new UserData(_ezGetTestData.User1Id, "user1", "user1@abp.io"));
             await _ezGetUserRepository.InsertAsync(ezGetUser1);

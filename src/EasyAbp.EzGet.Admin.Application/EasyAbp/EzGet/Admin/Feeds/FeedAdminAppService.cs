@@ -28,6 +28,11 @@ namespace EasyAbp.EzGet.Admin.Feeds
             return ObjectMapper.Map<Feed, FeedDto>(await FeedRepository.GetAsync(id));
         }
 
+        public virtual async Task<FeedDto> GetByNameAsync(string name)
+        {
+            return ObjectMapper.Map<Feed, FeedDto>(await FeedRepository.FindByNameAsync(name));
+        }
+
         public virtual async Task<PagedResultDto<FeedDto>> GetListAsync(GetFeedsInput input)
         {
             var list = await FeedRepository.GetListAsync(input.Sorting, input.MaxResultCount, input.SkipCount, input.Filter);
