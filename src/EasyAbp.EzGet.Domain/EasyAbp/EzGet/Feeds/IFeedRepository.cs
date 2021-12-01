@@ -16,12 +16,14 @@ namespace EasyAbp.EzGet.Feeds
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             string filter = null,
+            string feedName = null,
             Guid? userId = null,
             bool includeDetails = true,
             CancellationToken cancellationToken = default);
 
         Task<long> GetCountAsync(
             string filter = null,
+            string feedName = null,
             Guid? userId = null,
             CancellationToken cancellationToken = default);
     }

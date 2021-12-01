@@ -35,8 +35,15 @@ namespace EasyAbp.EzGet.Admin.Feeds
 
         public virtual async Task<PagedResultDto<FeedDto>> GetListAsync(GetFeedsInput input)
         {
-            var list = await FeedRepository.GetListAsync(input.Sorting, input.MaxResultCount, input.SkipCount, input.Filter);
-            var totalCount = await FeedRepository.GetCountAsync(input.Filter);
+            var list = await FeedRepository.GetListAsync(
+                input.Sorting,
+                input.MaxResultCount,
+                input.SkipCount,
+                input.Filter,
+                input.FeedName,
+                input.UserId);
+
+            var totalCount = await FeedRepository.GetCountAsync(input.Filter, input.FeedName, input.UserId);
 
             return new PagedResultDto<FeedDto>(
                 totalCount,

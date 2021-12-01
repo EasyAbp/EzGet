@@ -35,12 +35,14 @@ namespace EasyAbp.EzGet.Feeds
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             string filter = null,
+            string feedName = null,
             Guid? userId = null,
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
             return await (includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
                 .WhereIf(!string.IsNullOrEmpty(filter), p => p.FeedName.Contains(filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(feedName), p => p.FeedName == feedName)
                 .WhereIf(null != userId, p => p.UserId == userId)
                 .OrderBy(string.IsNullOrWhiteSpace(sorting) ? nameof(Feed.CreationTime) : sorting)
                 .PageBy(skipCount, maxResultCount)
@@ -49,11 +51,13 @@ namespace EasyAbp.EzGet.Feeds
 
         public virtual async Task<long> GetCountAsync(
             string filter = null,
+            string feedName = null,
             Guid? userId = null,
             CancellationToken cancellationToken = default)
         {
             return await (await GetQueryableAsync())
                 .WhereIf(!string.IsNullOrEmpty(filter), p => p.FeedName.Contains(filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(feedName), p => p.FeedName == feedName)
                 .WhereIf(null != userId, p => p.UserId == userId)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
         }

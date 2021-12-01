@@ -8,5 +8,7 @@ namespace EasyAbp.EzGet.Admin.Feeds
     public class GetFeedsInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
+        public string FeedName { get; set; }
+        public Guid? UserId { get; set; }
     }
 }
