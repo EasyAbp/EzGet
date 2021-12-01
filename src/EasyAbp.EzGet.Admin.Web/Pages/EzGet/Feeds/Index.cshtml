@@ -1,0 +1,29 @@
+﻿@page
+@using EasyAbp.EzGet.Admin.Web.Pages
+@using EasyAbp.EzGet.Admin.Web.Menus
+@using EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
+@using EasyAbp.EzGet.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Pages.Shared.Components.AbpPageToolbar
+
+@model IndexModel
+
+@inject IStringLocalizer<EzGetResource> L
+@inject IPageLayout PageLayout
+
+@{
+    PageLayout.Content.Title = L["Feeds"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:EzGet"].Value);
+    PageLayout.Content.MenuItemName = EzGetAdminMenus.Credentials.CredentialsMenu;
+}
+
+@section scripts {
+    <abp-script-bundle>
+        <abp-script src="/Pages/EzGet/Feeds/index.js"/>
+    </abp-script-bundle>
+}
+
+@section content_toolbar {
+    @await Component.InvokeAsync(typeof(AbpPageToolbarViewComponent), new { pageName = typeof(IndexModel).FullName })
+}

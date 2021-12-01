@@ -55,6 +55,18 @@ namespace EasyAbp.EzGet.Admin.Web
                             );
                         }
                     );
+
+                options.Configure<Pages.EzGet.Feeds.IndexModel>(
+                        toolbar =>
+                        {
+                            toolbar.AddButton(
+                                LocalizableString.Create<EzGetResource>("NewFeed"),
+                                icon: "plus",
+                                name: "CreateFeed",
+                                requiredPolicyName: EzGetAdminPermissions.Feeds.Create
+                            );
+                        }
+                    );
             });
         }
     }

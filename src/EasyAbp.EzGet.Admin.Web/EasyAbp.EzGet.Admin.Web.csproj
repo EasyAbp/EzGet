@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\EzGet\Feeds\" />
     <Folder Include="Pages\EzGet\NuGet\Packages\" />
   </ItemGroup>
 </Project>
