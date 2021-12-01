@@ -44,9 +44,9 @@ namespace EasyAbp.EzGet.Admin.Feeds
 
         [HttpGet]
         [Route("by-name/{name}")]
-        public virtual Task<FeedDto> GetByNameAsync(string name)
+        public virtual Task<FeedDto> FindByNameAsync(string name)
         {
-            return FeedAdminAppService.GetByNameAsync(name);
+            return FeedAdminAppService.FindByNameAsync(name);
         }
 
         [HttpGet]

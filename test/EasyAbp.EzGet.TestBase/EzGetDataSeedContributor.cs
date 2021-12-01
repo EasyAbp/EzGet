@@ -48,8 +48,8 @@ namespace EasyAbp.EzGet
             using (_currentTenant.Change(context?.TenantId))
             {
                 await SeedEzGetUsersAsync();
-                await SeedFeedsAsync();
                 await SeedCredentialsAsnyc();
+                await SeedFeedsAsync();
             }
         }
 
@@ -71,7 +71,7 @@ namespace EasyAbp.EzGet
 
             await _feedManager.AddCredentialAsync(feed2, _ezGetTestData.User2CredentialId);
 
-            await _feedRepository.InsertManyAsync(new Feed[] { feed1, feed2 });
+            await _feedRepository.InsertManyAsync(new Feed[] { feed1, feed2 }, true);
         }
 
         private async Task SeedCredentialsAsnyc()
@@ -92,16 +92,14 @@ namespace EasyAbp.EzGet
                 null,
                 null);
 
-            await _credentialRepository.InsertManyAsync(new Credential[] { credential1, credential2 });
+            await _credentialRepository.InsertManyAsync(new Credential[] { credential1, credential2 }, true);
         }
 
         private async Task SeedEzGetUsersAsync()
         {
             var ezGetUser1 = new EzGetUser(new UserData(_ezGetTestData.User1Id, "user1", "user1@abp.io"));
-            await _ezGetUserRepository.InsertAsync(ezGetUser1);
-
             var ezGetUser2 = new EzGetUser(new UserData(_ezGetTestData.User2Id, "user2", "user2@abp.io"));
-            await _ezGetUserRepository.InsertAsync(ezGetUser2);
+            await _ezGetUserRepository.InsertManyAsync(new EzGetUser[] { ezGetUser1 , ezGetUser2 }, true);
         }
     }
 }

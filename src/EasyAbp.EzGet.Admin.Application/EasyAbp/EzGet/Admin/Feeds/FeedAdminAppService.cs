@@ -28,7 +28,7 @@ namespace EasyAbp.EzGet.Admin.Feeds
             return ObjectMapper.Map<Feed, FeedDto>(await FeedRepository.GetAsync(id));
         }
 
-        public virtual async Task<FeedDto> GetByNameAsync(string name)
+        public virtual async Task<FeedDto> FindByNameAsync(string name)
         {
             return ObjectMapper.Map<Feed, FeedDto>(await FeedRepository.FindByNameAsync(name));
         }

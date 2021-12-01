@@ -44,9 +44,29 @@ namespace EasyAbp.EzGet.Admin.Feeds
             feed.CredentialIds.First().ShouldBe(_ezGetTestData.User1CredentialId);
         }
 
-        //[Fact]
-        //public async Task UpdateAsync()
-        //{
-        //}
+        [Fact]
+        public async Task UpdateAsync()
+        {
+            var feed = await _feedAdminAppService.FindByNameAsync(_ezGetTestData.User1FeedName);
+
+            var updateInput = new UpdateFeedAdminDto
+            {
+                UserId = _ezGetTestData.User2Id,
+                Description = "update test",
+                FeedType = FeedTypeEnum.Private,
+                CredentialIds = new List<Guid>
+                {
+                    _ezGetTestData.User2CredentialId
+                }
+            };
+
+            var newFeed = await _feedAdminAppService.UpdateAsync(feed.Id, updateInput);
+            newFeed.UserId.ShouldBe(_ezGetTestData.User2Id);
+            newFeed.FeedName.ShouldBe(feed.FeedName);
+            newFeed.Description.ShouldBe("update test");
+            newFeed.FeedType.ShouldBe(FeedTypeEnum.Private);
+            newFeed.CredentialIds.Count.ShouldBe(1);
+            newFeed.CredentialIds.First().ShouldBe(_ezGetTestData.User2CredentialId);
+        }
     }
 }
