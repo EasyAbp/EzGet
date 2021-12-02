@@ -71,6 +71,7 @@ namespace EasyAbp.EzGet.Admin.Feeds
                 await FeedManager.SetUserIdAsync(feed, input.UserId);
             }
 
+            feed.ConcurrencyStamp = input.ConcurrencyStamp;
             feed.Description = input.Description;
             feed.FeedType = input.FeedType;
 

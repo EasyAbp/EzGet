@@ -63,6 +63,7 @@ namespace EasyAbp.EzGet.Admin.Credentials
         {
             var credential = await CredentialRepository.GetAsync(id);
 
+            credential.ConcurrencyStamp = input.ConcurrencyStamp;
             credential.Description = input.Description;
             credential.Expires = input.Expires;
 
