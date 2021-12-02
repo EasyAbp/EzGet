@@ -1,0 +1,34 @@
+﻿@page
+@using EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
+@using EasyAbp.EzGet.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+
+@model CreateModalModel
+
+@inject IStringLocalizer<EzGetResource> L
+
+@{
+    Layout = null;
+}
+
+<form method="post" asp-page="/EzGet/Feeds/CreateModal">
+    <abp-modal>
+        <abp-modal-header title="@L["NewFeeds"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <div class="form-group">
+                <label for="FeedInfo_UserId">@L["UserId"]</label>
+                <div class="input-group">
+                    <input asp-for="FeedInfo.UserId" type="text" class="form-control sreach-user-id" placeholder="@L["UserId"].Value">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary select-user" type="button">@L["SelectUser"]</button>
+                    </div>
+                </div>
+            </div>
+            <abp-input asp-for="FeedInfo.FeedName" />
+            <abp-input asp-for="FeedInfo.Description" />
+            <abp-select asp-for="FeedInfo.FeedType" />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel | AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

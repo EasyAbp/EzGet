@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <None Remove="Pages\EzGet\Credentials\createModal.js" />
+    <None Remove="Pages\EzGet\Feeds\createModal.js" />
+    <None Remove="Pages\EzGet\Feeds\editModal.js" />
     <None Remove="Pages\EzGet\Feeds\index.js" />
   </ItemGroup>
 

@@ -1,0 +1,34 @@
+﻿@page
+@using EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
+@using EasyAbp.EzGet.Localization
+@using Microsoft.Extensions.Localization
+
+@model EditModalModel
+
+@inject IStringLocalizer<EzGetResource> L
+
+@{
+    Layout = null;
+}
+
+<form method="post" asp-page="/EzGet/Feeds/EditModal">
+    <abp-modal>
+        <abp-modal-header title="@L["EditFeed"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-input asp-for="FeedInfo.Id" />
+            <abp-input asp-for="FeedInfo.ConcurrencyStamp" />
+            <abp-input asp-for="FeedInfo.FeedName" />
+            <div class="form-group">
+                <label for="FeedInfo_UserId">@L["UserId"]</label>
+                <div class="input-group">
+                    <input asp-for="FeedInfo.UserId" type="text" class="form-control sreach-user-id" placeholder="@L["UserId"].Value">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary select-user" type="button">@L["SelectUser"]</button>
+                    </div>
+                </div>
+            </div>
+            <abp-input asp-for="FeedInfo.Description" />
+            <abp-select asp-for="FeedInfo.FeedType" />
+        </abp-modal-body>
+    </abp-modal>
+</form>

@@ -42,16 +42,12 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var input = new CreateCredentialDto
-            {
-                UserId = CredentialInfo.UserId,
-                Description = CredentialInfo.Description,
-                GlobPattern = CredentialInfo.GlobPattern,
-                Expiration = GetTimeSpan(CredentialInfo.ExpirationType),
-                Scopes = new List<ScopeAllowActionEnum>()
-            };
+            var input = ObjectMapper.Map<CredentialInfoViewModel, CreateCredentialDto>(CredentialInfo);
 
-            if(CredentialInfo.Read)
+            input.Expiration = GetTimeSpan(CredentialInfo.ExpirationType);
+            input.Scopes ??= new List<ScopeAllowActionEnum>();
+
+            if (CredentialInfo.Read)
                 input.Scopes.Add(ScopeAllowActionEnum.Read);
 
             if(CredentialInfo.Write)

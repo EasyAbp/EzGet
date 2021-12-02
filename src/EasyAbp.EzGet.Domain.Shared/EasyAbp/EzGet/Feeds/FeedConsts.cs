@@ -6,7 +6,7 @@ namespace EasyAbp.EzGet.Feeds
 {
     public static class FeedConsts
     {
-        public const int MaxFeedNameLenght = 20;
-        public const int MaxDescriptionLength = 100;
+        public static int MaxFeedNameLenght { get; set; } = 20;
+        public static int MaxDescriptionLength { get; set; } = 100;
     }
 }

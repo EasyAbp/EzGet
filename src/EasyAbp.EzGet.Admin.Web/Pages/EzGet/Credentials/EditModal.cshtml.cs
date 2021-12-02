@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Validation;
 
 namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
@@ -42,12 +43,9 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
-            var input = new UpdateCredentialDto
-            {
-                Description = CredentialInfo.Description,
-                Expires = CredentialInfo.Expires,
-                Scopes = new List<ScopeAllowActionEnum>()
-            };
+            var input = ObjectMapper.Map<CredentialInfoViewModel, UpdateCredentialDto>(CredentialInfo);
+
+            input.Scopes ??= new List<ScopeAllowActionEnum>();
 
             if (CredentialInfo.Read)
                 input.Scopes.Add(ScopeAllowActionEnum.Read);
@@ -59,10 +57,13 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
             return NoContent();
         }
 
-        public class CredentialInfoViewModel
+        public class CredentialInfoViewModel : IHasConcurrencyStamp
         {
             [HiddenInput]
             public Guid Id { get; set; }
+
+            [HiddenInput]
+            public string ConcurrencyStamp { get; set; }
 
             [ReadOnlyInput]
             public Guid UserId { get; set; }

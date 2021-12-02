@@ -8,5 +8,6 @@ namespace EasyAbp.EzGet.Public.Feeds
     public class GetFeedsInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
+        public string FeedName { get; set; }
     }
 }

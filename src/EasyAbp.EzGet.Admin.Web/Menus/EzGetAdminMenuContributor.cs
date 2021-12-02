@@ -27,22 +27,19 @@ namespace EasyAbp.EzGet.Admin.Web.Menus
             ezGetAdminMenus.Add(new ApplicationMenuItem(
                     EzGetAdminMenus.NuGetPackages.NuGetPackagesMenu,
                     l["NuGetPackages"].Value,
-                    "/EzGet/NuGetPackages",
-                    "fa fa-globe")
+                    "/EzGet/NuGetPackages")
                 .RequirePermissions(EzGetAdminPermissions.NuGetPackages.Default));
 
             ezGetAdminMenus.Add(new ApplicationMenuItem(
                     EzGetAdminMenus.Credentials.CredentialsMenu,
                     l["Credentials"].Value,
-                    "/EzGet/Credentials",
-                    "fa fa-globe")
+                    "/EzGet/Credentials")
                 .RequirePermissions(EzGetAdminPermissions.Credentials.Default));
 
             ezGetAdminMenus.Add(new ApplicationMenuItem(
                     EzGetAdminMenus.Feeds.FeedsMenu,
                     l["Feeds"].Value,
-                    "/EzGet/Feeds",
-                    "fa fa-globe")
+                    "/EzGet/Feeds")
                 .RequirePermissions(EzGetAdminPermissions.Feeds.Default));
 
             if (ezGetAdminMenus.Any())

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.EzGet.Credentials
 {
-    public class CredentialDto : FullAuditedEntityDto<Guid>, IMultiTenant
+    public class CredentialDto : FullAuditedEntityDto<Guid>, IMultiTenant, IHasConcurrencyStamp
     {
         public Guid UserId { get; set; }
         public string Value { get; set; }
@@ -14,5 +15,6 @@ namespace EasyAbp.EzGet.Credentials
         public string GlobPattern { get; set; }
         public Guid? TenantId { get; set; }
         public virtual ICollection<CredentialScopeDto> Scopes { get; set; }
+        public string ConcurrencyStamp { get; set; }
     }
 }
