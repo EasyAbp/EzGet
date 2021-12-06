@@ -42,6 +42,8 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
 
         public virtual async Task<IActionResult> OnPostAsync()
         {
+            ValidateModel();
+
             var input = ObjectMapper.Map<CredentialInfoViewModel, CreateCredentialDto>(CredentialInfo);
 
             input.Expiration = GetTimeSpan(CredentialInfo.ExpirationType);

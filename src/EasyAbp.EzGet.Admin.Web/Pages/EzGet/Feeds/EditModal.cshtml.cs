@@ -42,6 +42,8 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
 
         public async Task<IActionResult> OnPostAsync()
         {
+            ValidateModel();
+
             var input = ObjectMapper.Map<FeedInfoViewModel, UpdateFeedAdminDto>(FeedInfo);
             await FeedAdminAppService.UpdateAsync(FeedInfo.Id, input);
             return NoContent();
