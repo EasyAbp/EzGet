@@ -2,9 +2,10 @@
     var l = abp.localization.getResource('EzGet');
     var _feedAdminAppService = easyAbp.ezGet.admin.feeds.feedAdmin;
 
-    var _editModal = new abp.ModalManager(
-        abp.appPath + 'EzGet/Feeds/EditModal'
-    );
+    var _editModal = new abp.ModalManager({
+        viewUrl: abp.appPath + 'EzGet/Feeds/EditModal',
+        modalClass: 'editFeed'
+    });
 
     var _createModal = new abp.ModalManager({
         viewUrl: abp.appPath + 'EzGet/Feeds/CreateModal',

@@ -2,6 +2,7 @@
 @using EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
 @using EasyAbp.EzGet.Localization
 @using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
 
 @model EditModalModel
 
@@ -44,6 +45,7 @@
                     <abp-table striped-rows="true" responsive-sm="true" id="CredentialTableId" style="@(Model.FeedInfo.CredentialIds.Count > 0 ? "" : "display: none;")">
                         <thead>
                             <tr>
+                                <th scope="Column">@L["Value"]</th>
                                 <th scope="Column">@L["Description"]</th>
                                 <th scope="Column">@L["Expires"]</th>
                                 <th scope="Column"></th>
@@ -56,6 +58,9 @@
 
                                 <tr>
                                     <td>
+                                        @credential.Value
+                                    </td>
+                                    <td>
                                         @credential.Description
                                     </td>
                                     <td>
@@ -67,7 +72,7 @@
                                         </button>
                                     </td>
                                     <td hidden>
-                                        <abp-input asp-for="@credential.Id" abp-id-name="@credential.Id" />
+                                        <abp-input asp-for="FeedInfo.CredentialIds[i]" abp-id-name="FeedInfo.CredentialIds[i]" />
                                     </td>
                                 </tr>
                             }
@@ -76,5 +81,7 @@
                 </abp-tab>
             </abp-tabs>
         </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel | AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
 </form>
+<input hidden id="CredentialsStartIndex" value="@Model.FeedCredentials.Count" />

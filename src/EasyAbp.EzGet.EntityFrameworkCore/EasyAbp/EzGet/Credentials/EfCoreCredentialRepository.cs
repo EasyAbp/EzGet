@@ -26,7 +26,7 @@ namespace EasyAbp.EzGet.Credentials
             var dbContext = await GetDbContextAsync();
 
             var query = from feedCredential in dbContext.Set<FeedCredential>()
-                        join credential in dbContext.Credentials on feedCredential.FeedId equals credential.Id
+                        join credential in dbContext.Credentials on feedCredential.CredentialId equals credential.Id
                         where feedCredential.FeedId == feedId
                         select credential;
 

@@ -55,7 +55,8 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
                 {
                     Id = p.Id,
                     Description = p.Description,
-                    Expires = p.Expires
+                    Expires = p.Expires,
+                    Value = p.Value
                 };
 
                 foreach (var scope in p.Scopes)
@@ -111,6 +112,7 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
         public class FeedCredentialViewModel
         {
             public Guid Id { get; set; }
+            public string Value { get; set; }
             public string Description { get; set; }
             public DateTime? Expires { get; set; }
             public bool Read { get; set; }
