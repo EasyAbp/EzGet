@@ -15,20 +15,66 @@
     <abp-modal>
         <abp-modal-header title="@L["EditFeed"].Value"></abp-modal-header>
         <abp-modal-body>
-            <abp-input asp-for="FeedInfo.Id" />
-            <abp-input asp-for="FeedInfo.ConcurrencyStamp" />
-            <abp-input asp-for="FeedInfo.FeedName" />
-            <div class="form-group">
-                <label for="FeedInfo_UserId">@L["UserId"]</label>
-                <div class="input-group">
-                    <input asp-for="FeedInfo.UserId" type="text" class="form-control sreach-user-id" placeholder="@L["UserId"].Value">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary select-user" type="button">@L["SelectUser"]</button>
+            <abp-tabs name="FeedEditTabsId">
+                <abp-tab title="@L["Details"].Value">
+                    <abp-input asp-for="FeedInfo.Id" />
+                    <abp-input asp-for="FeedInfo.ConcurrencyStamp" />
+                    <abp-input asp-for="FeedInfo.FeedName" />
+                    <div class="form-group">
+                        <label for="FeedInfo_UserId">@L["UserId"]</label>
+                        <div class="input-group">
+                            <input asp-for="FeedInfo.UserId" type="text" class="form-control sreach-user-id" placeholder="@L["UserId"].Value">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary select-user" type="button">@L["SelectUser"]</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <abp-input asp-for="FeedInfo.Description" />
-            <abp-select asp-for="FeedInfo.FeedType" />
+                    <abp-input asp-for="FeedInfo.Description" />
+                    <abp-select asp-for="FeedInfo.FeedType" />
+                </abp-tab>
+                <abp-tab title="@L["Credentials"].Value">
+                    <div class="pt-3 pb-5 clearfix">
+                        <abp-row>
+                            <abp-button id="AddNewCredentialButton" button-type="Primary" class="float-right">
+                                <i class="fa fa-plus"></i>
+                                @L["AddNew"]
+                            </abp-button>
+                        </abp-row>
+                    </div>
+                    <abp-table striped-rows="true" responsive-sm="true" id="CredentialTableId" style="@(Model.FeedInfo.CredentialIds.Count > 0 ? "" : "display: none;")">
+                        <thead>
+                            <tr>
+                                <th scope="Column">@L["Description"]</th>
+                                <th scope="Column">@L["Expires"]</th>
+                                <th scope="Column"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="CredentialTableBodyId">
+                            @for (int i = 0; i < Model.FeedCredentials.Count; i++)
+                            {
+                                var credential = Model.FeedCredentials[i];
+
+                                <tr>
+                                    <td>
+                                        @credential.Description
+                                    </td>
+                                    <td>
+                                        @credential.Expires
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-danger deleteCredentialButton float-right">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                    <td hidden>
+                                        <abp-input asp-for="@credential.Id" abp-id-name="@credential.Id" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </abp-table>
+                </abp-tab>
+            </abp-tabs>
         </abp-modal-body>
     </abp-modal>
 </form>

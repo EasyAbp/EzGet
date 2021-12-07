@@ -54,5 +54,12 @@ namespace EasyAbp.EzGet.Admin.Credentials
         {
             return CredentialAdminAppService.UpdateAsync(id, input);
         }
+
+        [HttpGet]
+        [Route("by-feed-id/{feedId}")]
+        public virtual Task<List<CredentialDto>> GetListByFeedIdAsync(Guid feedId)
+        {
+            return CredentialAdminAppService.GetListByFeedIdAsync(feedId);
+        }
     }
 }

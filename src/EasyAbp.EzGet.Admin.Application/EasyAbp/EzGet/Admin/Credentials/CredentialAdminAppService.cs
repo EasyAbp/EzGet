@@ -24,6 +24,12 @@ namespace EasyAbp.EzGet.Admin.Credentials
             return ObjectMapper.Map<Credential, CredentialDto>(await CredentialRepository.GetAsync(id));
         }
 
+        public virtual async Task<List<CredentialDto>> GetListByFeedIdAsync(Guid feedId)
+        {
+            return ObjectMapper.Map<List<Credential>, List<CredentialDto>>(
+                await CredentialRepository.GetListByFeedIdAsync(feedId));
+        }
+
         public virtual async Task<PagedResultDto<CredentialDto>> GetListAsync(GetCredentialsInput input)
         {
             var list = await CredentialRepository.GetListAsync(

@@ -4,9 +4,12 @@
     var _ezGetUserAppService = easyAbp.ezGet.admin.users.ezGetUser;
 
     abp.modals.selectUserModal = function () {
+        var _modalPublicApi = null;
+
         var initModal = async function (publicApi, args) {
             var $modal = publicApi.getModal();
             var $table = $modal.find('.users-table');
+            _modalPublicApi = publicApi;
 
             $table.DataTable(
                 abp.libs.datatables.normalizeConfiguration({
@@ -17,69 +20,65 @@
                     paging: true,
                     searching: true,
                     ajax: abp.libs.datatables.createAjax(_ezGetUserAppService.getList),
-                    columnDefs: abp.ui.extensions.tableColumns.get('ezGet.selectUser').columns.toArray()
+                    columnDefs: abp.ui.extensions.tableColumns.get('ezGet.selectUsers').columns.toArray()
                 })
             );
-
-            abp.ui.extensions.entityActions.get('ezGet.selectUser').addContributor(
-                function (actionList) {
-
-                    if (actionList.size > 0) {
-                        return actionList;
-                    }
-
-                    return actionList.addManyTail(
-                        [
-                            {
-                                text: l('Select'),
-                                visible: abp.auth.isGranted('EzGet.Admin.Users'),
-                                action: function (data) {
-                                    publicApi.setResult({ id: data.record.id });
-                                    publicApi.close();
-                                }
-                            }
-                        ]
-                    );
-                }
-            );
-
-            abp.ui.extensions.tableColumns.get('ezGet.selectUser').addContributor(
-                function (columnList) {
-
-                    if (columnList.size > 0) {
-                        return columnList;
-                    }
-
-                    columnList.addManyTail(
-                        [
-                            {
-                                title: l("Actions"),
-                                rowAction: {
-                                    items: abp.ui.extensions.entityActions.get('ezGet.selectUser').actions.toArray()
-                                }
-                            },
-                            {
-                                title: l('UserName'),
-                                data: 'userName',
-                            },
-                            {
-                                title: l('Name'),
-                                data: 'name',
-                            },
-                            {
-                                title: l('Email'),
-                                data: 'email',
-                            },
-                            {
-                                title: l('PhoneNumber'),
-                                data: 'phoneNumber',
-                            }
-                        ]
-                    );
-                },
-                0
-            );
         };
+
+        abp.ui.extensions.entityActions.get('ezGet.selectUsers').addContributor(
+            function (actionList) {
+                if (actionList.size > 0) {
+                    return actionList;
+                }
+                return actionList.addManyTail(
+                    [
+                        {
+                            text: l('Select'),
+                            visible: abp.auth.isGranted('EzGet.Admin.Users'),
+                            action: function (data) {
+                                _modalPublicApi.setResult({ id: data.record.id });
+                                _modalPublicApi.close();
+                            }
+                        }
+                    ]
+                );
+            }
+        );
+
+        abp.ui.extensions.tableColumns.get('ezGet.selectUsers').addContributor(
+            function (columnList) {
+                if (columnList.size > 0) {
+                    return columnList;
+                }
+                columnList.addManyTail(
+                    [
+                        {
+                            title: l("Actions"),
+                            rowAction: {
+                                items: abp.ui.extensions.entityActions.get('ezGet.selectUsers').actions.toArray()
+                            }
+                        },
+                        {
+                            title: l('UserName'),
+                            data: 'userName',
+                        },
+                        {
+                            title: l('Name'),
+                            data: 'name',
+                        },
+                        {
+                            title: l('Email'),
+                            data: 'email',
+                        },
+                        {
+                            title: l('PhoneNumber'),
+                            data: 'phoneNumber',
+                        }
+                    ]
+                );
+            },
+            0
+        );
 
         return {
             initModal: initModal

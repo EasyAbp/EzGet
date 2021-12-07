@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EzGet.EntityFrameworkCore;
+using EasyAbp.EzGet.Feeds;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,20 @@ namespace EasyAbp.EzGet.Credentials
         public EfCoreCredentialRepository(IDbContextProvider<IEzGetDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
+        }
+
+        public virtual async Task<List<Credential>> GetListByFeedIdAsync(
+            Guid feedId,
+            CancellationToken cancellationToken = default)
+        {
+            var dbContext = await GetDbContextAsync();
+
+            var query = from feedCredential in dbContext.Set<FeedCredential>()
+                        join credential in dbContext.Credentials on feedCredential.FeedId equals credential.Id
+                        where feedCredential.FeedId == feedId
+                        select credential;
+
+            return await query.ToListAsync(GetCancellationToken(cancellationToken));
         }
 
         public virtual async Task<Credential> GetAsync(

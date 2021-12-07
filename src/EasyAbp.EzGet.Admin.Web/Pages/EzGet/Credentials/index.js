@@ -124,10 +124,10 @@
     });
 
     _createModal.onResult(function (arg) {
-        _dataTable.reload();
+        _dataTable.ajax.reload();
     });
 
     _editModal.onResult(function (arg) {
-        _dataTable.reload();
+        _dataTable.ajax.reload();
     });
 })(jQuery);

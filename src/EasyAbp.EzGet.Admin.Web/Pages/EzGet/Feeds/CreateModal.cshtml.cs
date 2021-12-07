@@ -35,7 +35,7 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Feeds
             };
         }
 
-        public virtual async Task<IActionResult> PostAsync()
+        public virtual async Task<IActionResult> OnPostAsync()
         {
             ValidateModel();
 

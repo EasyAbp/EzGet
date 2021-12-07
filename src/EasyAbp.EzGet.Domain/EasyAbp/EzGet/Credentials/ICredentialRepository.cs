@@ -9,8 +9,14 @@ namespace EasyAbp.EzGet.Credentials
 {
     public interface ICredentialRepository : IBasicRepository<Credential, Guid>
     {
+        Task<List<Credential>> GetListByFeedIdAsync(
+            Guid feedId,
+            CancellationToken cancellationToken = default);
+
         Task<Credential> GetAsync(Guid id, Guid? userId, bool includeDetails, CancellationToken cancellationToken = default);
+
         Task<Credential> FindByValueAsync(string value, CancellationToken cancellationToken = default);
+
         Task<List<Credential>> GetListAsync(
             Guid? userId = null,
             string sorting = null,
@@ -18,6 +24,7 @@ namespace EasyAbp.EzGet.Credentials
             int skipCount = 0,
             bool includeDetails = true,
             CancellationToken cancellationToken = default);
+
         Task<long> GetCountAsync(
             Guid? userId,
             CancellationToken cancellationToken = default);

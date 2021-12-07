@@ -11,6 +11,7 @@ namespace EasyAbp.EzGet.Admin.Credentials
     public interface ICredentialAdminAppService : IApplicationService
     {
         Task<CredentialDto> GetAsync(Guid id);
+        Task<List<CredentialDto>> GetListByFeedIdAsync(Guid feedId);
         Task<PagedResultDto<CredentialDto>> GetListAsync(GetCredentialsInput input);
         Task<CredentialDto> CreateAsync(CreateCredentialDto input);
         Task<CredentialDto> UpdateAsync(Guid id, UpdateCredentialDto input);

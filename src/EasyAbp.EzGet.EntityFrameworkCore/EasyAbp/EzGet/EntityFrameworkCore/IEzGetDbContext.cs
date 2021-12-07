@@ -1,4 +1,8 @@
-﻿using Volo.Abp.Data;
+﻿using EasyAbp.EzGet.Credentials;
+using EasyAbp.EzGet.Feeds;
+using EasyAbp.EzGet.NuGet.Packages;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EasyAbp.EzGet.EntityFrameworkCore
@@ -6,8 +10,8 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
     [ConnectionStringName(EzGetDbProperties.ConnectionStringName)]
     public interface IEzGetDbContext : IEfCoreDbContext
     {
-        /* Add DbSet for each Aggregate Root here. Example:
-         * DbSet<Question> Questions { get; }
-         */
+        DbSet<NuGetPackage> NuGetPackages { get; }
+        DbSet<Credential> Credentials { get; }
+        DbSet<Feed> Feeds { get; }
     }
 }
