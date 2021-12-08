@@ -13,11 +13,12 @@
 }
 
 <form method="post" asp-page="/EzGet/Feeds/EditModal">
-    <abp-modal>
+    <abp-modal size="Large">
         <abp-modal-header title="@L["EditFeed"].Value"></abp-modal-header>
         <abp-modal-body>
-            <abp-tabs name="FeedEditTabsId">
+            <abp-tabs name="FeedEditTabs">
                 <abp-tab title="@L["Details"].Value">
+                    <div style="display:none" id="dynamicForm"></div>
                     <abp-input asp-for="FeedInfo.Id" />
                     <abp-input asp-for="FeedInfo.ConcurrencyStamp" />
                     <abp-input asp-for="FeedInfo.FeedName" />
@@ -42,46 +43,35 @@
                             </abp-button>
                         </abp-row>
                     </div>
-                    <abp-table striped-rows="true" responsive-sm="true" id="CredentialTableId" style="@(Model.FeedInfo.CredentialIds.Count > 0 ? "" : "display: none;")">
-                        <thead>
-                            <tr>
-                                <th scope="Column">@L["Value"]</th>
-                                <th scope="Column">@L["Description"]</th>
-                                <th scope="Column">@L["Expires"]</th>
-                                <th scope="Column"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="CredentialTableBodyId">
-                            @for (int i = 0; i < Model.FeedCredentials.Count; i++)
-                            {
-                                var credential = Model.FeedCredentials[i];
-
+                    <div class="table-responsive-sm" style="display:none">
+                        <table class="table table-hover nowrap credentials-table">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @credential.Value
-                                    </td>
-                                    <td>
-                                        @credential.Description
-                                    </td>
-                                    <td>
-                                        @credential.Expires
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-danger deleteCredentialButton float-right">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </td>
-                                    <td hidden>
-                                        <abp-input asp-for="FeedInfo.CredentialIds[i]" abp-id-name="FeedInfo.CredentialIds[i]" />
-                                    </td>
+                                    <th>@L["Id"]</th>
+                                    <th>@L["Value"]</th>
+                                    <th>@L["Description"]</th>
+                                    <th>@L["Expires"]</th>
+                                    <th>@L["Actions"]</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </abp-table>
+                            </thead>
+                        </table>
+                    </div>
                 </abp-tab>
             </abp-tabs>
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel | AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
 </form>
-<input hidden id="CredentialsStartIndex" value="@Model.FeedCredentials.Count" />
+<div style="display:none">
+    <div id="credentials">
+        @for (int i = 0; i < Model.FeedCredentials.Count; i++)
+        {
+            <div>
+                <input type="text" class="credential-id" value="@Model.FeedCredentials[i].Id" />
+                <input type="text" class="credential-value" value="@Model.FeedCredentials[i].Value" />
+                <input type="text" class="credential-description" value="@Model.FeedCredentials[i].Description" />
+                <input type="text" class="credential-expires" value="@Model.FeedCredentials[i].Expires" />
+            </div>
+        }
+    </div>
+</div>

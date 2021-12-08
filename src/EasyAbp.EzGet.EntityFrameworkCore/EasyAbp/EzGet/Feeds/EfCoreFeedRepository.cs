@@ -61,5 +61,10 @@ namespace EasyAbp.EzGet.Feeds
                 .WhereIf(null != userId, p => p.UserId == userId)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
         }
+
+        public override async Task<IQueryable<Feed>> WithDetailsAsync()
+        {
+            return (await GetQueryableAsync()).Include(p => p.FeedCredentials);
+        }
     }
 }

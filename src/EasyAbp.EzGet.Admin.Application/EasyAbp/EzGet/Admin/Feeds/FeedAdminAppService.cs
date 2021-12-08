@@ -3,6 +3,7 @@ using EasyAbp.EzGet.Feeds;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -75,9 +76,24 @@ namespace EasyAbp.EzGet.Admin.Feeds
             feed.Description = input.Description;
             feed.FeedType = input.FeedType;
 
-            foreach (var item in input.CredentialIds)
+            var feedCredentialList = feed.FeedCredentials.ToList();
+
+            for (int i = feedCredentialList.Count - 1; i >= 0; i--)
             {
-                await FeedManager.AddCredentialAsync(feed, item);
+                var feedCredential = feedCredentialList[i];
+
+                if (!input.CredentialIds.Any(p => p == feedCredential.CredentialId))
+                {
+                    feed.FeedCredentials.Remove(feedCredential);
+                }
+            }
+
+            foreach (var credentialId in input.CredentialIds)
+            {
+                if (!feedCredentialList.Any(p => p.CredentialId == credentialId))
+                {
+                    await FeedManager.AddCredentialAsync(feed, credentialId);
+                }
             }
 
             return ObjectMapper.Map<Feed, FeedDto>(await FeedRepository.UpdateAsync(feed));
