@@ -108,9 +108,6 @@ $(function () {
             info: false,
             columnDefs: [
                 {
-                    data: "id",
-                },
-                {
                     data: "value",
                 },
                 {
