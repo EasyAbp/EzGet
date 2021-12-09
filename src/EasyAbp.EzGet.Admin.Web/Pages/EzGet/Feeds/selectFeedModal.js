@@ -2,13 +2,12 @@
 (function ($) {
     abp.modals.selectCredentialModal = function () {
         var l = abp.localization.getResource('EzGet');
-        var _credentialAdminAppService = easyAbp.ezGet.admin.credentials.credentialAdmin;
+        var _feedAdminAppService = easyAbp.ezGet.admin.feeds.feedAdmin;
         var _publicApi = null;
 
         var initModal = async function (publicApi, args) {
             var $modal = publicApi.getModal();
-            var $table = $modal.find('.credentials-table');
-            var userId = args.userId;
+            var $table = $modal.find('.feeds-table');
             _publicApi = publicApi;
 
             $table.DataTable(
@@ -19,14 +18,13 @@
                     scrollX: true,
                     paging: true,
                     searching: true,
-                    ajax: abp.libs.datatables.createAjax(_credentialAdminAppService.getList, { userId : userId }),
-                    columnDefs: abp.ui.extensions.tableColumns.get('ezGet.selectCredential').columns.toArray()
+                    ajax: abp.libs.datatables.createAjax(_feedAdminAppService.getList),
+                    columnDefs: abp.ui.extensions.tableColumns.get('ezGet.selectFeed').columns.toArray()
                 })
             );
         };
 
-
-        abp.ui.extensions.entityActions.get('ezGet.selectCredential').addContributor(
+        abp.ui.extensions.entityActions.get('ezGet.selectFeed').addContributor(
             function (actionList) {
 
                 if (actionList.size > 0) {
@@ -37,7 +35,7 @@
                     [
                         {
                             text: l('Select'),
-                            visible: abp.auth.isGranted('EzGet.Admin.Credentials'),
+                            visible: abp.auth.isGranted('EzGet.Admin.Feeds'),
                             action: function (data) {
                                 _publicApi.setResult(data.record);
                                 _publicApi.close();
@@ -48,7 +46,7 @@
             }
         );
 
-        abp.ui.extensions.tableColumns.get('ezGet.selectCredential').addContributor(
+        abp.ui.extensions.tableColumns.get('ezGet.selectFeed').addContributor(
             function (columnList) {
 
                 if (columnList.size > 0) {
@@ -60,24 +58,34 @@
                         {
                             title: l("Actions"),
                             rowAction: {
-                                items: abp.ui.extensions.entityActions.get('ezGet.selectCredential').actions.toArray()
+                                items: abp.ui.extensions.entityActions.get('ezGet.selectFeed').actions.toArray()
                             }
+                        },
+                        {
+                            title: l('FeedName'),
+                            data: 'feedName',
                         },
                         {
                             title: l('UserId'),
                             data: 'userId',
                         },
                         {
-                            title: l('Value'),
-                            data: 'value',
-                        },
-                        {
                             title: l('Description'),
                             data: 'description',
                         },
                         {
-                            title: l('Expires'),
-                            data: 'expires',
+                            title: l('FeedType'),
+                            data: 'feedType',
+                            render: function (data) {
+                                switch (data) {
+                                    case 0:
+                                        return l("Private");
+                                    case 1:
+                                        return l("Public");
+                                    default:
+                                        return l("Unknow");
+                                }
+                            }
                         }
                     ]
                 );

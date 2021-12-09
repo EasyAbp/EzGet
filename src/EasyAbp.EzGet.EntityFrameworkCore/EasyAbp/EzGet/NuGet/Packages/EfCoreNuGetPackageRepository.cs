@@ -51,17 +51,19 @@ namespace EasyAbp.EzGet.NuGet.Packages
         public virtual async Task<List<NuGetPackage>> GetListAsync(
             string filter = null,
             Guid? feedId = null,
+            string packageName = null,
+            string version = null,
             string sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            filter = filter.ToLower();
-
             return await (includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
                 .Where(p => p.FeedId == feedId)
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(packageName), p => p.PackageName == packageName)
+                .WhereIf(!string.IsNullOrWhiteSpace(version), p => p.NormalizedVersion == version)
                 .OrderBy(string.IsNullOrWhiteSpace(sorting) ? nameof(NuGetPackage.CreationTime) : sorting)
                 .PageBy(skipCount, maxResultCount)
                 .ToListAsync(GetCancellationToken(cancellationToken));
@@ -70,11 +72,15 @@ namespace EasyAbp.EzGet.NuGet.Packages
         public virtual async Task<long> GetCountAsync(
             string filter = null,
             Guid? feedId = null,
+            string packageName = null,
+            string version = null,
             CancellationToken cancellationToken = default)
         {
             return await (await GetQueryableAsync())
                 .Where(p => p.FeedId == feedId)
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(packageName), p => p.PackageName == packageName)
+                .WhereIf(!string.IsNullOrWhiteSpace(version), p => p.NormalizedVersion == version)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
         }
 

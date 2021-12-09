@@ -67,6 +67,18 @@ namespace EasyAbp.EzGet.Admin.Web
                             );
                         }
                     );
+
+                options.Configure<Pages.EzGet.NuGet.Packages.IndexModel>(
+                        toolbar =>
+                        {
+                            toolbar.AddButton(
+                                LocalizableString.Create<EzGetResource>("NewNuGetPackage"),
+                                icon: "plus",
+                                name: "CreateNuGetPackage",
+                                requiredPolicyName: EzGetAdminPermissions.NuGetPackages.Create
+                            );
+                        }
+                    );
             });
         }
     }

@@ -67,9 +67,25 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
 
         public virtual async Task<PagedResultDto<NuGetPackageDto>> GetListAsync(GetNuGetPackagesInput input)
         {
+            input.Filter = input.Filter?.ToLower();
+            input.PackageName = input.PackageName?.ToLower();
+            input.Version = input.Version?.ToLower();
+
+            var totalCount = await NuGetPackageRepository.GetCountAsync(
+                input.Filter,
+                input.FeedId,
+                input.PackageName,
+                input.Version);
+
             var list = await NuGetPackageRepository.GetListAsync(
-                input.Filter, input.FeedId, input.Sorting, input.MaxResultCount, input.SkipCount, false);
-            var totalCount = await NuGetPackageRepository.GetCountAsync(input.Filter, input.FeedId);
+                input.Filter,
+                input.FeedId,
+                input.PackageName,
+                input.Version,
+                input.Sorting,
+                input.MaxResultCount,
+                input.SkipCount,
+                false);
 
             return new PagedResultDto<NuGetPackageDto>(
                 totalCount,

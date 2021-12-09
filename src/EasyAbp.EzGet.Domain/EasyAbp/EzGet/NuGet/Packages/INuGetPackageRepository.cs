@@ -28,6 +28,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
         Task<List<NuGetPackage>> GetListAsync(
             string filter = null,
             Guid? feedId = null,
+            string packageName = null,
+            string version = null,
             string sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
@@ -37,6 +39,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
         Task<long> GetCountAsync(
             string filter = null,
             Guid? feedId = null,
+            string packageName = null,
+            string version = null,
             CancellationToken cancellationToken = default);
     }
 }

@@ -31,15 +31,13 @@
     <None Remove="Pages\EzGet\Feeds\createModal.js" />
     <None Remove="Pages\EzGet\Feeds\editModal.js" />
     <None Remove="Pages\EzGet\Feeds\index.js" />
+    <None Remove="Pages\EzGet\Feeds\selectFeedModal.js" />
+    <None Remove="Pages\EzGet\NuGet\Packages\index.js" />
     <None Remove="Pages\EzGet\ui-extensions.js" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EasyAbp.EzGet.Admin.HttpApi\EasyAbp.EzGet.Admin.HttpApi.csproj" />
     <ProjectReference Include="..\EasyAbp.EzGet.Common.Web\EasyAbp.EzGet.Common.Web.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\EzGet\NuGet\Packages\" />
   </ItemGroup>
 </Project>

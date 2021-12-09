@@ -27,7 +27,7 @@ namespace EasyAbp.EzGet.Admin.Web.Menus
             ezGetAdminMenus.Add(new ApplicationMenuItem(
                     EzGetAdminMenus.NuGetPackages.NuGetPackagesMenu,
                     l["NuGetPackages"].Value,
-                    "/EzGet/NuGetPackages")
+                    "/EzGet/NuGet/Packages")
                 .RequirePermissions(EzGetAdminPermissions.NuGetPackages.Default));
 
             ezGetAdminMenus.Add(new ApplicationMenuItem(
