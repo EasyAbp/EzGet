@@ -1,4 +1,6 @@
 ﻿var abp = abp || {};
+var ezGet = ezGet || {};
+
 $(function () {
     var l = abp.localization.getResource('EzGet');
     var _credentialsTable;
@@ -27,7 +29,7 @@ $(function () {
             }
 
             _selectCredentialModal.onResult(function (arg) {
-                addTableData(_credentialsTable, arg, "credentials-table");
+                ezGet.ui.extensions.addTableData(_credentialsTable, arg, "credentials-table");
             });
 
             $form.find('button.select-user').click(function () {
@@ -67,8 +69,8 @@ $(function () {
         var table = initCredentialsTable($form, className);
         _credentialsTable = table.dataTable;
         var dataList = getCredentialDatasFromDom();
-        addTableDatas(_credentialsTable, dataList, className);
-        drawTalbeOnTabShown("FeedEditTabs_1-tab", _credentialsTable);
+        ezGet.ui.extensions.addTableDatas(_credentialsTable, dataList, className);
+        ezGet.ui.extensions.drawTalbeOnTabShown("FeedEditTabs_1-tab", _credentialsTable);
     }
 
     function getCredentialsFormHtml() {
@@ -128,53 +130,10 @@ $(function () {
 
         dataTable.on('draw', function () {
             if (dataTable.rows().data().length <= 0) {
-                tableRootToggle(false, className);
+                ezGet.ui.extensions.tableRootToggle(false, className);
             }
         });
 
         return { $table, dataTable };
-    }
-
-    //functional table
-    function tableRootToggle(show, className) {
-        if (show) {
-            $(`.${className}`).parent().parent().parent().parent(":first").css("display", "block");
-        } else {
-            $(`.${className}`).parent().parent().parent().parent(":first").css("display", "none");
-        }
-    }
-
-    function initRemoveTableDataBtn(dataTable, row, className) {
-        $(row).find("button").click(function () {
-            dataTable.row(row).remove().draw();
-        });
-    }
-
-    function addTableData(dataTable, data, className) {
-        if (data === undefined || data === null) {
-            return;
-        }
-        tableRootToggle(true, className);
-        var row = dataTable.row.add(data).draw().node();
-        initRemoveTableDataBtn(dataTable, row, className);
-    }
-
-    function addTableDatas(dataTable, addDatas, className) {
-        if (addDatas === undefined || addDatas === null || addDatas.length <= 0) {
-            return;
-        }
-
-        tableRootToggle(true, className);
-        for (var i = 0; i < addDatas.length; i++) {
-            var row = dataTable.row.add(addDatas[i]).node();
-            initRemoveTableDataBtn(dataTable, row, className);
-        }
-        dataTable.draw();
-    }
-
-    function drawTalbeOnTabShown(id, dataTable) {
-        $(`#${id}`).on("shown.bs.tab", function () {
-            dataTable.draw();
-        });
     }
 });
