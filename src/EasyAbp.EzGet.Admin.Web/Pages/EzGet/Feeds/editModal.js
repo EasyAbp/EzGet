@@ -36,6 +36,7 @@ $(function () {
 
             _selectUserModal.onResult(function (arg) {
                 $form.find('input.sreach-user-id').val(arg.id);
+                _credentialsTable.clear().draw();
             });
 
             $('#AddNewCredentialButton').on('click', function (event) {
@@ -125,6 +126,12 @@ $(function () {
             ]
         }));
 
+        dataTable.on('draw', function () {
+            if (dataTable.rows().data().length <= 0) {
+                tableRootToggle(false, className);
+            }
+        });
+
         return { $table, dataTable };
     }
 
@@ -140,9 +147,6 @@ $(function () {
     function initRemoveTableDataBtn(dataTable, row, className) {
         $(row).find("button").click(function () {
             dataTable.row(row).remove().draw();
-            if (dataTable.rows().data().length <= 0) {
-                tableRootToggle(false, className);
-            }
         });
     }
 
