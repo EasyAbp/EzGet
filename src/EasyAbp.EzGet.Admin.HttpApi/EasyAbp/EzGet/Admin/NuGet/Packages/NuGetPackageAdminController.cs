@@ -69,5 +69,10 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
         {
             return NuGetPackageAdminAppService.UnlistAsync(id);
         }
+
+        public virtual Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
+        {
+            return NuGetPackageAdminAppService.CreateAsync(input);
+        }
     }
 }

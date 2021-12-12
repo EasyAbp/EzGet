@@ -13,6 +13,7 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
         Task<byte[]> GetPackageContentAsync(Guid id);
         Task<byte[]> GetPackageManifestAsync(Guid id);
         Task<PagedResultDto<NuGetPackageDto>> GetListAsync(GetNuGetPackagesInput input);
+        Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input);
         Task UnlistAsync(Guid id);
         Task RelistAsync(Guid id);
     }

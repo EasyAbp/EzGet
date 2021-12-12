@@ -1,0 +1,32 @@
+﻿@page
+@using EasyAbp.EzGet.Admin.Web.Pages.EzGet.NuGet.Packages
+@using EasyAbp.EzGet.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+
+@model CreateModalModel
+
+@inject IStringLocalizer<EzGetResource> L
+
+@{
+    Layout = null;
+}
+
+<form method="post" asp-page="/EzGet/NuGet/Packages/CreateModal">
+    <abp-modal>
+        <abp-modal-header title="@L["NewNuGetPackage"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <div class="form-group">
+                <label for="NuGetPackageInfo_FeedId">@L["FeedId"]</label>
+                <div class="input-group">
+                    <input asp-for="NuGetPackageInfo.FeedId" type="text" class="form-control sreach-feed-id" placeholder="@L["FeedId"].Value">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary select-feed" type="button">@L["SelectFeed"]</button>
+                    </div>
+                </div>
+            </div>
+            <input asp-for="NuGetPackageInfo.File" type="file" id="file" />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel | AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

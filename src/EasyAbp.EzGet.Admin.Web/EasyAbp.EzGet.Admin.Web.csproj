@@ -32,6 +32,7 @@
     <None Remove="Pages\EzGet\Feeds\editModal.js" />
     <None Remove="Pages\EzGet\Feeds\index.js" />
     <None Remove="Pages\EzGet\Feeds\selectFeedModal.js" />
+    <None Remove="Pages\EzGet\NuGet\Packages\createModal.js" />
     <None Remove="Pages\EzGet\NuGet\Packages\index.js" />
     <None Remove="Pages\EzGet\ui-extensions.js" />
   </ItemGroup>

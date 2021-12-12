@@ -1,9 +1,12 @@
 ﻿using EasyAbp.EzGet.Admin.Permissions;
+using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet;
 using EasyAbp.EzGet.NuGet.Packages;
 using Microsoft.AspNetCore.Authorization;
+using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -18,15 +21,18 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
         protected INuGetPackageManager NuGetPackageManager { get; }
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected IBlobContainer<NuGetContainer> BlobContainer { get; }
+        protected IFeedRepository FeedRepository { get; }
 
         public NuGetPackageAdminAppService(
             INuGetPackageManager nuGetPackageManager,
             INuGetPackageRepository nuGetPackageRepository,
-            IBlobContainer<NuGetContainer> blobContainer)
+            IBlobContainer<NuGetContainer> blobContainer,
+            IFeedRepository feedRepository)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
             BlobContainer = blobContainer;
+            FeedRepository = feedRepository;
         }
 
         public virtual async Task<NuGetPackageDto> GetAsync(Guid id)
@@ -90,6 +96,42 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
             return new PagedResultDto<NuGetPackageDto>(
                 totalCount,
                 ObjectMapper.Map<List<NuGetPackage>, List<NuGetPackageDto>>(list));
+        }
+
+        [Authorize(EzGetAdminPermissions.NuGetPackages.Create)]
+        public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
+        {
+            var feed = await FeedRepository.GetAsync(input.FeedId);
+
+            using (var packageStream = input.File.GetStream())
+            {
+                using (var packageReader = new PackageArchiveReader(packageStream, leaveStreamOpen: true))
+                {
+                    Stream readmeStream = null;
+                    Stream iconStream = null;
+
+                    var nuspecStream = await packageReader.GetNuspecAsync(default);
+                    var package = await NuGetPackageManager.CreateAsync(packageReader, feed.FeedName);
+                    await NuGetPackageRepository.InsertAsync(package);
+
+                    if (package.HasReadme)
+                    {
+                        readmeStream = await packageReader.GetReadmeAsync();
+                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetReadmeBlobNameAsync(package), readmeStream);
+                    }
+
+                    if (package.HasEmbeddedIcon)
+                    {
+                        iconStream = await packageReader.GetIconAsync();
+                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetIconBlobNameAsync(package), iconStream);
+                    }
+
+                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package), packageStream);
+                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package), nuspecStream);
+
+                    return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
+                }
+            }
         }
 
         [Authorize(EzGetAdminPermissions.NuGetPackages.Update)]
