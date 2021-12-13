@@ -40,6 +40,7 @@
             })
         );
 
+
         $('#EzGetNuGetPacakgesWrapper button.select-feed').click(function () {
             _selectFeedModal.open();
         });
@@ -49,9 +50,13 @@
             _dataTable.ajax.reload();
         });
 
-        $('#AbpContentToolbar button[name=CreateFeed]').click(function (e) {
+        $('#AbpContentToolbar button[name=CreateNuGetPackage]').click(function (e) {
             _createModal.open();
         });
+    });
+
+    _selectFeedModal.onResult(function (arg) {
+        $('#EzGetNuGetPacakgesWrapper input.sreach-feed-id').val(arg.id);
     });
 
     abp.ui.extensions.entityActions.get('ezGet.nuGetPackage').addContributor(

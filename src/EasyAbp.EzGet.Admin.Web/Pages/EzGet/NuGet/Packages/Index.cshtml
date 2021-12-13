@@ -19,8 +19,19 @@
 
 @section scripts {
     <abp-script-bundle>
+        <abp-script src="/libs/bootstrap-fileinput/js/fileinput.min.js" />
+        <abp-script src="/libs/bootstrap-fileinput/js/plugins/purify.min.js" />
+        <abp-script src="/libs/bootstrap-fileinput/js/plugins/sortable.min.js" />
+        <abp-script src="/libs/bootstrap-fileinput/themes/fa/theme.min.js" />
         <abp-script src="/Pages/EzGet/NuGet/Packages/index.js"/>
+        <abp-script src="/Pages/EzGet/NuGet/Packages/createModal.js"/>
     </abp-script-bundle>
+}
+
+@section styles {
+    <abp-style-bundle>
+        <abp-style src="/libs/bootstrap-fileinput/css/fileinput.min.css"/>
+    </abp-style-bundle>
 }
 
 @section content_toolbar {

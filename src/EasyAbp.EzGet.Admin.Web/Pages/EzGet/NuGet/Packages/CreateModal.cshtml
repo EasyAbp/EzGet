@@ -13,7 +13,7 @@
 }
 
 <form method="post" asp-page="/EzGet/NuGet/Packages/CreateModal">
-    <abp-modal>
+    <abp-modal size="ExtraLarge">
         <abp-modal-header title="@L["NewNuGetPackage"].Value"></abp-modal-header>
         <abp-modal-body>
             <div class="form-group">
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <input asp-for="NuGetPackageInfo.File" type="file" id="file" />
+            <input asp-for="NuGetPackageInfo.File" type="file" multiple id="file" data-preview-file-type="text" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel | AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>

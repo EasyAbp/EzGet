@@ -34,10 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EasyAbp.EzGet.Common.HttpApi\EasyAbp.EzGet.Common.HttpApi.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 ﻿var abp = abp || {};
 (function ($) {
-    abp.modals.selectCredentialModal = function () {
+    abp.modals.selectFeedModal = function () {
         var l = abp.localization.getResource('EzGet');
         var _feedAdminAppService = easyAbp.ezGet.admin.feeds.feedAdmin;
         var _publicApi = null;
