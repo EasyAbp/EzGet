@@ -135,6 +135,16 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
         }
 
         [Authorize(EzGetAdminPermissions.NuGetPackages.Update)]
+        public virtual async Task<NuGetPackageDto> UpdateAsync(Guid id, UpdateNuGetPackageDto input)
+        {
+            var package = await NuGetPackageRepository.GetAsync(id, false);
+            package.ConcurrencyStamp = input.ConcurrencyStamp;
+            package.Listed = input.Listed;
+            await NuGetPackageRepository.UpdateAsync(package);
+            return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
+        }
+
+        [Authorize(EzGetAdminPermissions.NuGetPackages.Update)]
         public virtual async Task UnlistAsync(Guid id)
         {
             var package = await NuGetPackageRepository.GetAsync(id, false);

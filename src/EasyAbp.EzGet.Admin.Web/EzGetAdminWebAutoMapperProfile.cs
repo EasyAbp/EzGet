@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using EasyAbp.EzGet.Admin.NuGet.Packages;
 using EasyAbp.EzGet.Credentials;
 using EasyAbp.EzGet.Feeds;
+using EasyAbp.EzGet.NuGet.Packages;
 using System.Collections.Generic;
 using Volo.Abp.AutoMapper;
 
@@ -22,6 +24,9 @@ namespace EasyAbp.EzGet.Admin.Web
             CreateMap<FeedDto, Pages.EzGet.Feeds.EditModalModel.FeedInfoViewModel>();
             CreateMap<Pages.EzGet.Feeds.EditModalModel.FeedInfoViewModel, Feeds.UpdateFeedAdminDto>();
             CreateMap<Pages.EzGet.Feeds.CreateModalModel.FeedInfoViewModel, Feeds.CreateFeedAdminDto>();
+
+            CreateMap<NuGetPackageDto, Pages.EzGet.NuGet.Packages.EditModalModel.NuGetPackageViewModal>();
+            CreateMap<Pages.EzGet.NuGet.Packages.EditModalModel.NuGetPackageViewModal, UpdateNuGetPackageDto>();
         }
     }
 }

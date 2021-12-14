@@ -59,18 +59,50 @@
         $('#EzGetNuGetPacakgesWrapper input.sreach-feed-id').val(arg.id);
     });
 
+    _editModal.onResult(function (arg) {
+        _dataTable.ajax.reload();
+    });
+
     abp.ui.extensions.entityActions.get('ezGet.nuGetPackage').addContributor(
         function (actionList) {
             return actionList.addManyTail(
                 [
                     {
                         text: l('Edit'),
-                        visible: abp.auth.isGranted('EzGet.Admin.NuGetPackage.Update'),
+                        visible: abp.auth.isGranted('EzGet.Admin.NuGetPackages.Update'),
                         action: function (data) {
                             _editModal.open({
                                 id: data.record.id,
                             });
+                        }
+                    },
+                    {
+                        text: l('Unlist'),
+                        visible: function (data) {
+                            return data.listed && abp.auth.isGranted('EzGet.Admin.NuGetPackages.Update');
                         },
+                        action: function (data) {
+                            _nuGetPackageAdminAppService
+                                .unlist(data.record.id)
+                                .then(function () {
+                                    _dataTable.ajax.reload();
+                                    abp.notify.success(l('SuccessfullyUnlist'));
+                                });
+                        }
+                    },
+                    {
+                        text: l('Relist'),
+                        visible: function (data) {
+                            return !data.listed && abp.auth.isGranted('EzGet.Admin.NuGetPackages.Update');
+                        },
+                        action: function (data) {
+                            _nuGetPackageAdminAppService
+                                .relist(data.record.id)
+                                .then(function () {
+                                    _dataTable.ajax.reload();
+                                    abp.notify.success(l('SuccessfullyRelist'));
+                                });
+                        }
                     }
                 ]
             );
@@ -82,7 +114,7 @@
             columnList.addManyTail(
                 [
                     {
-                        title: l("Actions"),
+                        title: l('Actions'),
                         rowAction: {
                             items: abp.ui.extensions.entityActions.get('ezGet.nuGetPackage').actions.toArray()
                         }

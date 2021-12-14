@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EzGet.NuGet.Packages
 {
-    public class NuGetPackageDto : FullAuditedEntityDto<Guid>
+    public class NuGetPackageDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
     {
         public string PackageName { get; set; }
         public string[] Authors { get; set; }
@@ -31,6 +32,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
         public string[] Tags { get; set; }
         public string NormalizedVersion { get; set; }
         public string OriginalVersion { get; set; }
+        public string ConcurrencyStamp { get; set; }
 
         public ICollection<PackageDependencyDto> Dependencies { get; set; }
         public ICollection<PackageTypeDto> PackageTypes { get; set; }

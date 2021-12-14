@@ -70,9 +70,17 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
             return NuGetPackageAdminAppService.UnlistAsync(id);
         }
 
+        [HttpPost]
         public virtual Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
         {
             return NuGetPackageAdminAppService.CreateAsync(input);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public Task<NuGetPackageDto> UpdateAsync(Guid id, UpdateNuGetPackageDto input)
+        {
+            throw new NotImplementedException();
         }
     }
 }
