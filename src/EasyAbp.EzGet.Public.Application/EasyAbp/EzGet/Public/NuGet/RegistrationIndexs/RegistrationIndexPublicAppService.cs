@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
 {
-    public class RegistrationIndexPublicAppService : EzGetPublicNuGetAppServiceBase, IRegistrationIndexAppService
+    public class RegistrationIndexPublicAppService : EzGetPublicNuGetAppServiceBase, IRegistrationIndexPublicAppService
     {
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected IRegistrationIndexBuilder RegistrationIndexBuilder { get; }

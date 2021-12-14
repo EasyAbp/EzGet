@@ -6,7 +6,7 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
 {
-    public interface IRegistrationIndexAppService : IApplicationService
+    public interface IRegistrationIndexPublicAppService : IApplicationService
     {
         Task<RegistrationIndexDto> GetIndexAsync(string packageName, string feedName);
         Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version, string feedName);

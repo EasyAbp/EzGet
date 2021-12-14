@@ -153,7 +153,8 @@ namespace EasyAbp.EzGet
                 });
             });
 
-            context.Services.AddAuthentication()
+            context.Services
+                .AddAuthentication()
                 .AddEzGetCredential()
                 .AddEzGetBasicAuthentication();
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
 {
-    public class ServiceIndexPublicAppService : EzGetPublicNuGetAppServiceBase, IServiceIndexAppService
+    public class ServiceIndexPublicAppService : EzGetPublicNuGetAppServiceBase, IServiceIndexPublicAppService
     {
         protected IServiceIndexManager ServiceIndexManager { get; }
 

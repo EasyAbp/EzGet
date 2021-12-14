@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/service-index
+    [AllowAnonymous]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class ServiceIndexApiController : EzGetHttpApiNuGetControllerBase
     {
-        protected IServiceIndexAppService ServiceIndexAppService { get; }
+        protected IServiceIndexPublicAppService ServiceIndexAppService { get; }
 
-        public ServiceIndexApiController(IServiceIndexAppService serviceIndexAppService)
+        public ServiceIndexApiController(IServiceIndexPublicAppService serviceIndexAppService)
         {
             ServiceIndexAppService = serviceIndexAppService;
         }

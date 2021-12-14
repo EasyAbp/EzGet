@@ -13,6 +13,8 @@ namespace EasyAbp.EzGet.Public.Permissions
             DefineNuGetPackages(ezGetPulicGroup);
             DefineCredentials(ezGetPulicGroup);
             DefineFeeds(ezGetPulicGroup);
+            DefineRegistrationIndexs(ezGetPulicGroup);
+            DefineServiceIndexs(ezGetPulicGroup);
         }
 
         private void DefineNuGetPackages(PermissionGroupDefinition ezGetPulicGroup)
@@ -37,6 +39,16 @@ namespace EasyAbp.EzGet.Public.Permissions
             feed.AddChild(EzGetPublicPermissions.Feeds.Create, L("Permission:Feeds.Create"));
             feed.AddChild(EzGetPublicPermissions.Feeds.Update, L("Permission:Feeds.Update"));
             feed.AddChild(EzGetPublicPermissions.Feeds.Delete, L("Permission:Feeds.Delete"));
+        }
+
+        private void DefineRegistrationIndexs(PermissionGroupDefinition ezGetAdminGroup)
+        {
+            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.RegistrationIndexs.Default, L("Permission:RegistrationIndexsPublic"));
+        }
+
+        private void DefineServiceIndexs(PermissionGroupDefinition ezGetAdminGroup)
+        {
+            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.ServiceIndexs.Default, L("Permission:ServiceIndexsPublic"));
         }
 
         private static LocalizableString L(string name)

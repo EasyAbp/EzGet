@@ -7,21 +7,27 @@ using Volo.Abp.Authorization;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Validation;
 using Volo.Abp.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace EasyAbp.EzGet.Public
 {
     public class EzGetHttpApiNuGetExceptionAttribute : ExceptionFilterAttribute, ITransientDependency
     {
         protected IHttpExceptionStatusCodeFinder HttpExceptionStatusCodeFinder { get; }
+        protected ILogger Logger { get; }
 
         public EzGetHttpApiNuGetExceptionAttribute(
-            IHttpExceptionStatusCodeFinder httpExceptionStatusCodeFinder)
+            IHttpExceptionStatusCodeFinder httpExceptionStatusCodeFinder,
+            ILogger<EzGetHttpApiNuGetExceptionAttribute> logger)
         {
             HttpExceptionStatusCodeFinder = httpExceptionStatusCodeFinder;
+            Logger = logger;
         }
 
         public override Task OnExceptionAsync(ExceptionContext context)
         {
+            Logger.LogError(context.Exception, context.Exception.Message);
+
             var httpCode = HttpExceptionStatusCodeFinder.GetStatusCode(
                 context.HttpContext,
                 TryToGetActualException(context.Exception));

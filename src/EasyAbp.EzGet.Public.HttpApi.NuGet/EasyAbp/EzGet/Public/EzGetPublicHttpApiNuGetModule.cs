@@ -11,6 +11,5 @@ namespace EasyAbp.EzGet.Public
         )]
     public class EzGetPublicHttpApiNuGetModule : AbpModule
     {
-        //TODO: Add Exception filter, handle AbpValidationException, AbpAuthorizationException, EntityNotFoundException, IBusinessException
     }
 }

@@ -9,6 +9,7 @@ using EasyAbp.EzGet.AspNetCore.Authentication;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
+    [AllowAnonymous]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageContentApiController : EzGetHttpApiNuGetControllerBase
     {

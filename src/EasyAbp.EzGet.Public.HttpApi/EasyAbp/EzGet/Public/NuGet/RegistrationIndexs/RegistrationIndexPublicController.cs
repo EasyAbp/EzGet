@@ -11,11 +11,11 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
     [Area("ezget-public")]
     [Route("api/ezget-public/registration-index")]
-    public class RegistrationIndexController : EzGetPublicControllerBase, IRegistrationIndexAppService
+    public class RegistrationIndexPublicController : EzGetPublicControllerBase, IRegistrationIndexPublicAppService
     {
-        protected IRegistrationIndexAppService RegistrationIndexAppService { get; }
+        protected IRegistrationIndexPublicAppService RegistrationIndexAppService { get; }
 
-        public RegistrationIndexController(IRegistrationIndexAppService registrationIndexAppService)
+        public RegistrationIndexPublicController(IRegistrationIndexPublicAppService registrationIndexAppService)
         {
             RegistrationIndexAppService = registrationIndexAppService;
         }

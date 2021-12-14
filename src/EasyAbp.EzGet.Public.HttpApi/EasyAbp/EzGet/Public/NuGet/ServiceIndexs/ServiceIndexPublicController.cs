@@ -11,11 +11,11 @@ namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
     [Area("ezget-public")]
     [Route("api/ezget-public/service-index")]
-    public class ServiceIndexController : EzGetPublicControllerBase, IServiceIndexAppService
+    public class ServiceIndexPublicController : EzGetPublicControllerBase, IServiceIndexPublicAppService
     {
-        protected IServiceIndexAppService ServiceIndexAppService { get; }
+        protected IServiceIndexPublicAppService ServiceIndexAppService { get; }
 
-        public ServiceIndexController(IServiceIndexAppService serviceIndexAppService)
+        public ServiceIndexPublicController(IServiceIndexPublicAppService serviceIndexAppService)
         {
             ServiceIndexAppService = serviceIndexAppService;
         }

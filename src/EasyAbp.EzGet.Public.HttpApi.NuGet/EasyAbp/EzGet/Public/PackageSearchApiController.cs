@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/search-query-service-resource
+    [AllowAnonymous]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class PackageSearchApiController : EzGetHttpApiNuGetControllerBase
     {

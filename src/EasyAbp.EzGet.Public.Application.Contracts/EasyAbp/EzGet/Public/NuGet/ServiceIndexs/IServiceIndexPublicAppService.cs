@@ -6,7 +6,7 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
 {
-    public interface IServiceIndexAppService : IApplicationService
+    public interface IServiceIndexPublicAppService : IApplicationService
     {
         Task<ServiceIndexDto> GetAsync(string feedName);
     }

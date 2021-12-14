@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 namespace EasyAbp.EzGet.Public.NuGet
 {
     //See: https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource
+    [AllowAnonymous]
     [Authorize(AuthenticationSchemes = EzGetAspNetCoreAuthenticationConsts.EzGetBasicAuthenticationScheme)]
     public class RegistrationIndexApiController : EzGetHttpApiNuGetControllerBase
     {
-        private readonly IRegistrationIndexAppService _registrationIndexAppService;
+        private readonly IRegistrationIndexPublicAppService _registrationIndexAppService;
 
-        public RegistrationIndexApiController(IRegistrationIndexAppService registrationIndexAppService)
+        public RegistrationIndexApiController(IRegistrationIndexPublicAppService registrationIndexAppService)
         {
             _registrationIndexAppService = registrationIndexAppService;
         }
