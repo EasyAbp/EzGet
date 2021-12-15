@@ -53,7 +53,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             TargetFrameworks = new List<TargetFramework>();
         }
 
-        internal NuGetPackage(
+        public NuGetPackage(
             Guid id,
             Guid? feedId,
             string packageName,
@@ -120,13 +120,13 @@ namespace EasyAbp.EzGet.NuGet.Packages
             OriginalVersion = nuGetVersion.OriginalVersion;
         }
 
-        public void AddPackageTypes([NotNull] NuspecReader nuspec)
+        public void AddPackageTypes([NotNull] NuspecReader nuspec, IGuidGenerator guidGenerator)
         {
             Check.NotNull(nuspec, nameof(nuspec));
 
             var packageTypes = nuspec
                 .GetPackageTypes()
-                .Select(t => new PackageType(this, t.Name, t.Version.ToString()))
+                .Select(t => new PackageType(this, guidGenerator.Create(), t.Name, t.Version.ToString()))
                 .ToList();
 
             if (packageTypes.Count == 0)
@@ -134,6 +134,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 packageTypes.Add(
                     new PackageType(
                         this,
+                        guidGenerator.Create(),
                         NuGetPackageType.Dependency.Name,
                         NuGetPackageType.Dependency.Version.ToString()));
             }
@@ -141,7 +142,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             PackageTypes.AddRange(packageTypes);
         }
 
-        public void AddDependencies([NotNull] NuspecReader nuspec)
+        public void AddDependencies([NotNull] NuspecReader nuspec, IGuidGenerator guidGenerator)
         {
             Check.NotNull(nuspec, nameof(nuspec));
 
@@ -153,30 +154,30 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
                 if (!group.Packages.Any())
                 {
-                    dependencies.Add(new PackageDependency(this, null, null, targetFramework));
+                    dependencies.Add(new PackageDependency(this, guidGenerator.Create(), null, null, targetFramework));
                 }
 
                 foreach (var dependency in group.Packages)
                 {
-                    dependencies.Add(new PackageDependency(this, dependency.Id, dependency.VersionRange?.ToString(), targetFramework));
+                    dependencies.Add(new PackageDependency(this, guidGenerator.Create(), dependency.Id, dependency.VersionRange?.ToString(), targetFramework));
                 }
             }
 
             Dependencies.AddRange(dependencies);
         }
 
-        public void AddTargetFrameworks([NotNull] PackageArchiveReader packageReader)
+        public void AddTargetFrameworks([NotNull] PackageArchiveReader packageReader, IGuidGenerator guidGenerator)
         {
             Check.NotNull(packageReader, nameof(packageReader));
 
             var targetFrameworks = packageReader
                 .GetSupportedFrameworks()
-                .Select(f => new TargetFramework(this, f.GetShortFolderName()))
+                .Select(f => new TargetFramework(this, guidGenerator.Create(), f.GetShortFolderName()))
                 .ToList();
 
             if (targetFrameworks.Count == 0)
             {
-                targetFrameworks.Add(new TargetFramework(this, "any"));
+                targetFrameworks.Add(new TargetFramework(this, guidGenerator.Create(), "any"));
             }
 
             TargetFrameworks.AddRange(targetFrameworks);

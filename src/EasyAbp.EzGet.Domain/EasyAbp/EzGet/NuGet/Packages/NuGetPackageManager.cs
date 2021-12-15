@@ -75,9 +75,9 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 repositoryType,
                 ParseTags(nuspec.GetTags()));
 
-            package.AddPackageTypes(nuspec);
-            package.AddTargetFrameworks(packageReader);
-            package.AddDependencies(nuspec);
+            package.AddPackageTypes(nuspec, GuidGenerator);
+            package.AddTargetFrameworks(packageReader, GuidGenerator);
+            package.AddDependencies(nuspec, GuidGenerator);
             return package;
         }
 

@@ -18,10 +18,11 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
         }
 
-        internal PackageDependency([NotNull] NuGetPackage package, string dependencyPackageName, string versionRange, string targetFramework)
+        public PackageDependency([NotNull] NuGetPackage package, Guid id, string dependencyPackageName, string versionRange, string targetFramework)
         {
             Check.NotNull(package, nameof(package));
 
+            Id = id;
             PackageId = package.Id;
             DependencyPackageName = dependencyPackageName;
             VersionRange = versionRange;

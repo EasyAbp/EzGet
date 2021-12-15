@@ -17,10 +17,11 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
         }
 
-        internal PackageType([NotNull] NuGetPackage package, string name, string version)
+        public PackageType([NotNull] NuGetPackage package, Guid id, string name, string version)
         {
             Check.NotNull(package, nameof(package));
 
+            Id = id;
             PackageId = package.Id;
             Name = name;
             Version = version;

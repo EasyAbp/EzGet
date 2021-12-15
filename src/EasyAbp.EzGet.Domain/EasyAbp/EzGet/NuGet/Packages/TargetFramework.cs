@@ -16,10 +16,11 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
         }
 
-        internal TargetFramework([NotNull] NuGetPackage package, string moniker)
+        public TargetFramework([NotNull] NuGetPackage package, Guid id, string moniker)
         {
             Check.NotNull(package, nameof(package));
 
+            Id = id;
             PackageId = package.Id;
             Moniker = moniker;
         }
