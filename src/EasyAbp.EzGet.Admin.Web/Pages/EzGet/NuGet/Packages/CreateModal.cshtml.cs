@@ -40,7 +40,7 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.NuGet.Packages
 
         public class NuGetPackageViewModal
         {
-            public Guid FeedId { get; set; }
+            public Guid? FeedId { get; set; }
             public IFormFile File { get; set; }
         }
     }

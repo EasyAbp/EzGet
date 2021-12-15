@@ -3,6 +3,7 @@ using EasyAbp.EzGet.Credentials;
 using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.Packages;
 using System.Linq;
+using System;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EzGet
@@ -25,16 +26,16 @@ namespace EasyAbp.EzGet
             CreateMap<NuGetPackage, NuGetPackageDto>()
                 .ForMember(
                 p => p.IconUrl,
-                d => d.MapFrom(s => s.IconUrl.AbsoluteUri))
+                d => d.MapFrom(s => s.IconUrl.GetAbsoluteUriOrEmpty()))
                 .ForMember(
                 p => p.LicenseUrl,
-                d => d.MapFrom(s => s.LicenseUrl.AbsoluteUri))
+                d => d.MapFrom(s => s.LicenseUrl.GetAbsoluteUriOrEmpty()))
                 .ForMember(
                 p => p.ProjectUrl,
-                d => d.MapFrom(s => s.ProjectUrl.AbsoluteUri))
+                d => d.MapFrom(s => s.ProjectUrl.GetAbsoluteUriOrEmpty()))
                 .ForMember(
                 p => p.RepositoryUrl,
-                d => d.MapFrom(s => s.RepositoryUrl.AbsoluteUri));
+                d => d.MapFrom(s => s.RepositoryUrl.GetAbsoluteUriOrEmpty()));
         }
 
         private void CreateFeeds()

@@ -74,7 +74,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 var latest = versions.First();
                 var iconUrl = latest.HasEmbeddedIcon ?
                     await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(latest.PackageName, latest.GetNuGetVersion().ToNormalizedString().ToLowerInvariant(), feedName) :
-                    latest.IconUrl?.AbsoluteUri;
+                    latest.IconUrl.GetAbsoluteUriOrEmpty();
 
                 var packageResult = new NuGetPackageSearchResult(
                     latest.PackageName,
@@ -82,12 +82,13 @@ namespace EasyAbp.EzGet.NuGet.Packages
                     latest.Description,
                     latest.Authors,
                     iconUrl,
-                    latest.LicenseUrl?.AbsoluteUri,
-                    latest.ProjectUrl?.AbsoluteUri,
+                    latest.LicenseUrl.GetAbsoluteUriOrEmpty(),
+                    latest.ProjectUrl.GetAbsoluteUriOrEmpty(),
                     await ServiceIndexUrlGenerator.GetRegistrationIndexUrlAsync(latest.PackageName, feedName),
                     latest.Summary,
                     latest.Tags,
                     latest.Downloads,
+                    latest.Title,
                     GetSearchResultPackageTypes(versions),
                     await GetSearchResultVersionsAsync(versions, feedName));
 

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using EasyAbp.EzGet.Public.Permissions;
 using EasyAbp.EzGet.Feeds;
 using Volo.Abp.Domain.Entities;
+using EasyAbp.EzGet.NuGet.ServiceIndexs;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
@@ -21,25 +22,29 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected IBlobContainer<NuGetContainer> BlobContainer { get; }
         protected INuGetPackageSearcher NuGetPackageSearcher { get; }
+        protected IServiceIndexUrlGenerator ServiceIndexUrlGenerator { get; }
 
         public NuGetPackagePublicAppService(
             INuGetPackageManager nuGetPackageManager,
             INuGetPackageRepository nuGetPackageRepository,
             IBlobContainer<NuGetContainer> blobContainer,
             INuGetPackageSearcher nuGetPackageSearcher,
-            IFeedStore feedStore) : base(feedStore)
+            IFeedStore feedStore,
+            IServiceIndexUrlGenerator serviceIndexUrlGenerator)
+            : base(feedStore)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
             BlobContainer = blobContainer;
             NuGetPackageSearcher = nuGetPackageSearcher;
+            ServiceIndexUrlGenerator = serviceIndexUrlGenerator;
         }
 
         [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input)
         {
-            return ObjectMapper.Map<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>(
+            var result = ObjectMapper.Map<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>(
                 await NuGetPackageSearcher.SearchListAsync(
                     input.SkipCount,
                     input.MaxResultCount,
@@ -48,6 +53,11 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     input.IncludeSemVer2,
                     input.PackageType,
                     input.FeedName));
+            
+            result.Context = NuGetPackageSearchListResultDto.SearchContext.Default(
+                await ServiceIndexUrlGenerator.GetRegistrationsBaseUrlResourceUrlAsync(input.FeedName));
+
+            return result;
         }
 
         [AllowAnonymousIfFeedPublic]

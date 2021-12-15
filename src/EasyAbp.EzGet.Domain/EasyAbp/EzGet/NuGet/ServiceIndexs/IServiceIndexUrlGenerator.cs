@@ -25,6 +25,9 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
         /// </summary>
         Task<string> GetRegistrationsBaseUrlResourceUrlAsync(string feedName);
 
+
+        Task<string> GetAutoCompleteUrlAsync(string feedName);
+
         /// <summary>
         /// See: https://docs.microsoft.com/en-us/nuget/api/registration-base-url-resource#registration-index
         /// </summary>

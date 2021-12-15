@@ -16,7 +16,7 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
         [JsonProperty("@type")]
         public IReadOnlyList<string> Types { get; set; }
 
-        public int Count { get; }
+        public int Count { get; set; }
 
         [JsonPropertyName("items")]
         [JsonProperty("items")]

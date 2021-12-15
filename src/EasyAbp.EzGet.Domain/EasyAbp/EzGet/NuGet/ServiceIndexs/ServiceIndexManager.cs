@@ -43,12 +43,19 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
             resources.AddRange(
                 BuildResource("RegistrationsBaseUrl",
                 await ServiceIndexUrlGenerator.GetRegistrationsBaseUrlResourceUrlAsync(feedName),
-                "3.0.0-rc"));
+                "3.0.0-rc", "3.0.0-beta", string.Empty));
 
             resources.AddRange(
                 BuildResource("PackageBaseAddress",
                 await ServiceIndexUrlGenerator.GetPackageBaseAddressResourceUrlAsync(feedName),
                 "3.0.0"));
+
+            //Todo: need implement
+            resources.AddRange(
+                BuildResource("SearchAutocompleteService",
+                await ServiceIndexUrlGenerator.GetAutoCompleteUrlAsync(feedName),
+                "3.0.0-beta", "3.0.0-rc", string.Empty));
+
             return resources;
         }
 

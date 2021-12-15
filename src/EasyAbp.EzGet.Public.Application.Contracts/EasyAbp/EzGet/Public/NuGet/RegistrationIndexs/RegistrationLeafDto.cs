@@ -12,8 +12,11 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
         [JsonProperty("@id")]
         public string RegistrationLeafUrl { get; set; }
 
-        public bool Listed { get; set; }
+        [JsonPropertyName("@type")]
+        [JsonProperty("@type")]
+        public IReadOnlyList<string> Types { get; set; }
 
+        public bool Listed { get; set; }
 
         [JsonPropertyName("packageContent")]
         [JsonProperty("packageContent")]

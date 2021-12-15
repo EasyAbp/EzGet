@@ -101,15 +101,15 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
             var version = package.GetNuGetVersion().ToNormalizedString().ToLowerInvariant();
 
             return new NuGetPackageMetadata(
-                string.Empty,
+                null,
                 package.PackageName,
                 package.GetNuGetVersion().ToFullString(),
                 string.Join(", ", package.Authors),
                 package.Description,
                 package.Language,
-                package.HasEmbeddedIcon ? await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(package.PackageName, version, feedName) : package.IconUrl?.AbsoluteUri,
-                package.LicenseUrl?.AbsoluteUri,
-                package.ProjectUrl?.AbsoluteUri,
+                package.HasEmbeddedIcon ? await ServiceIndexUrlGenerator.GetPacakgeIconUrlAsync(package.PackageName, version, feedName) : package.IconUrl.GetAbsoluteUriOrEmpty(),
+                package.LicenseUrl.GetAbsoluteUriOrEmpty(),
+                package.ProjectUrl.GetAbsoluteUriOrEmpty(),
                 await ServiceIndexUrlGenerator.GetPackageDownloadUrlAsync(package.PackageName, version, feedName),
                 package.Listed,
                 package.MinClientVersion,
@@ -120,6 +120,8 @@ namespace EasyAbp.EzGet.NuGet.RegistrationIndexs
                 package.Tags,
                 ToDependencyGroupItemList(package));
         }
+
+
 
         private List<DependencyGroupItem> ToDependencyGroupItemList(NuGetPackage package)
         {

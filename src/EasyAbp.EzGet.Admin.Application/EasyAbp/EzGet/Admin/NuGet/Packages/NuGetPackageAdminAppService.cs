@@ -101,7 +101,16 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
         [Authorize(EzGetAdminPermissions.NuGetPackages.Create)]
         public virtual async Task<NuGetPackageDto> CreateAsync(CreateNuGetPackageInputWithStream input)
         {
-            var feed = await FeedRepository.GetAsync(input.FeedId);
+            Feed feed = null;
+
+            if (input.FeedId.HasValue)
+            {
+                feed = await FeedRepository.GetAsync(input.FeedId.Value);
+                if (null == feed)
+                {
+                    throw new EntityNotFoundException(typeof(Feed));
+                }
+            }
 
             using (var packageStream = input.File.GetStream())
             {
@@ -111,7 +120,7 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
                     Stream iconStream = null;
 
                     var nuspecStream = await packageReader.GetNuspecAsync(default);
-                    var package = await NuGetPackageManager.CreateAsync(packageReader, feed.FeedName);
+                    var package = await NuGetPackageManager.CreateAsync(packageReader, feed?.FeedName);
                     await NuGetPackageRepository.InsertAsync(package);
 
                     if (package.HasReadme)

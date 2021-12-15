@@ -40,6 +40,11 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
             return $"{await GetHostUrlWithFeedAsync(feedName)}{ServiceIndexUrlConsts.RegistrationsBaseUrlUrl}/{id}/index.json";
         }
 
+        public virtual async Task<string> GetAutoCompleteUrlAsync(string feedName)
+        {
+            return await GetHostUrlWithFeedAsync(feedName) + ServiceIndexUrlConsts.AutoCompleteUrl;
+        }
+
         public virtual async Task<string> GetRegistrationLeafUrlAsync(string id, string version, string feedName)
         {
             return $"{await GetHostUrlWithFeedAsync(feedName)}{ServiceIndexUrlConsts.RegistrationsBaseUrlUrl}/{id}/{version}.json";

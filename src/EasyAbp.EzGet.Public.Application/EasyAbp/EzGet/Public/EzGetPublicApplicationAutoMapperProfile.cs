@@ -5,6 +5,7 @@ using EasyAbp.EzGet.NuGet.ServiceIndexs;
 using EasyAbp.EzGet.Public.NuGet.Packages;
 using EasyAbp.EzGet.Public.NuGet.RegistrationIndexs;
 using EasyAbp.EzGet.Public.NuGet.ServiceIndexs;
+using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EzGet.Public
 {
@@ -25,7 +26,8 @@ namespace EasyAbp.EzGet.Public
             CreateMap<SearchResultVersion, SearchResultVersionDto>();
             CreateMap<SearchResultPackageType, SearchResultPackageTypeDto>();
             CreateMap<NuGetPackageSearchResult, NuGetPackageSearchResultDto>();
-            CreateMap<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>();
+            CreateMap<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>()
+                .Ignore(p => p.Context);
 
             CreateMap<ServiceIndexResource, ServiceIndexResourceDto>();
             CreateMap<ServiceIndex, ServiceIndexDto>();

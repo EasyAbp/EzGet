@@ -22,7 +22,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
 
         public string LicenseUrl { get; set; }
 
-        public IReadOnlyList<SearchResultPackageTypeDto> PackageTypes { get; set; }
+        //public IReadOnlyList<SearchResultPackageTypeDto> PackageTypes { get; set; }
 
         public string ProjectUrl { get; set; }
 
@@ -30,7 +30,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         [JsonProperty("registration")]
         public string RegistrationIndexUrl { get; set; }
 
-        public string Summary { get; }
+        public string Summary { get; set; }
 
         public IReadOnlyList<string> Tags { get; set; }
 

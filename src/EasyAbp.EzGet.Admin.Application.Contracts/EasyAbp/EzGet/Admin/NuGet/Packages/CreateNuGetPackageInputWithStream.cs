@@ -8,6 +8,6 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
     public class CreateNuGetPackageInputWithStream
     {
         public IRemoteStreamContent File { get; set; }
-        public Guid FeedId { get; set; }
+        public Guid? FeedId { get; set; }
     }
 }

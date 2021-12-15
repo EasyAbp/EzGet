@@ -33,6 +33,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string summary,
             IReadOnlyList<string> tags,
             long totalDownloads,
+            string title,
             IReadOnlyList<SearchResultPackageType> packageTypes,
             IReadOnlyList<SearchResultVersion> versions)
         {
@@ -47,6 +48,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             RegistrationIndexUrl = registrationIndexUrl;
             Summary = summary;
             Tags = tags;
+            Title = title;
             TotalDownloads = totalDownloads;
             Versions = versions;
         }
