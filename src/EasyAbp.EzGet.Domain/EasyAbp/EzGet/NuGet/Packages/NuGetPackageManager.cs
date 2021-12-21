@@ -12,6 +12,7 @@ using Volo.Abp.BlobStoring;
 using System.IO;
 using EasyAbp.EzGet.Feeds;
 using Volo.Abp.Specifications;
+using EasyAbp.EzGet.PackageRegistrations;
 
 namespace EasyAbp.EzGet.NuGet.Packages
 {
@@ -20,15 +21,18 @@ namespace EasyAbp.EzGet.NuGet.Packages
         protected INuGetPackageRepository PackageRepository { get; }
         protected IOptions<PacakgeBlobNameOptions> Options { get; }
         protected IFeedStore FeedStore { get; }
+        protected IPackageRegistrationRepository PackageRegistrationRepository { get; }
 
         public NuGetPackageManager(
             INuGetPackageRepository packageRepository,
             IOptions<PacakgeBlobNameOptions> options,
-            IFeedStore feedStore)
+            IFeedStore feedStore,
+            IPackageRegistrationRepository packageRegistrationRepository)
         {
             PackageRepository = packageRepository;
             Options = options;
             FeedStore = feedStore;
+            PackageRegistrationRepository = packageRegistrationRepository;
         }
 
         public virtual async Task<NuGetPackage> CreateAsync([NotNull] PackageArchiveReader packageReader, string feedName = null)
@@ -50,11 +54,14 @@ namespace EasyAbp.EzGet.NuGet.Packages
                     $"PackageName:{packageName}, Version:{version.ToNormalizedString()}");
             }
 
+            var packageRegistration = await GetOrCreatePackageRegistration(packageName);
+
             var package = new NuGetPackage(
                 GuidGenerator.Create(),
+                packageRegistration.Id,
                 await GetFeedIdOrNullAsync(feedName),
-                nuspec.GetId(),
-                nuspec.GetVersion(),
+                packageName,
+                version,
                 ParseAuthors(nuspec.GetAuthors()),
                 nuspec.GetDescription(),
                 packageReader.HasReadme(),
@@ -133,6 +140,25 @@ namespace EasyAbp.EzGet.NuGet.Packages
         }
 
         #region private methods
+        private async Task<PackageRegistration> GetOrCreatePackageRegistration(string packageName)
+        {
+            var packageRegistration = await PackageRegistrationRepository.FindByNameAndTypeAsync(
+                packageName,
+                PackageRegistrationPackageTypeConsts.NuGet);
+
+            if (null == packageRegistration)
+            {
+                packageRegistration = new PackageRegistration(
+                    GuidGenerator.Create(),
+                    packageName,
+                    PackageRegistrationPackageTypeConsts.NuGet);
+
+                await PackageRegistrationRepository.InsertAsync(packageRegistration);
+            }
+
+            return packageRegistration;
+        }
+
         private async Task<Guid?> GetFeedIdOrNullAsync(string feedName)
         {
             if (string.IsNullOrEmpty(feedName))

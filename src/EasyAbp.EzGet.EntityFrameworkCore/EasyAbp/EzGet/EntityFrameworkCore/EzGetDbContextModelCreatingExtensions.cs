@@ -2,6 +2,7 @@
 using EasyAbp.EzGet.Credentials;
 using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.Packages;
+using EasyAbp.EzGet.PackageRegistrations;
 using EasyAbp.EzGet.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -26,10 +27,23 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
             );
 
             optionsAction?.Invoke(options);
+            ConfigurePackageRegistrations(builder, options);
             ConfigureNuGetPackages(builder, options);
             ConfigureCredentials(builder, options);
             ConfigureFeeds(builder, options);
             ConfigureUsers(builder, options);
+        }
+
+        private static void ConfigurePackageRegistrations(ModelBuilder builder, EzGetModelBuilderConfigurationOptions options)
+        {
+            builder.Entity<PackageRegistration>(b =>
+            {
+                b.ToTable(options.TablePrefix + "PackageRegistrations", options.Schema);
+                b.ConfigureByConvention();
+                b.HasIndex(p => new { p.PackageName, p.PackageType}).IsUnique();
+                b.Property(p => p.PackageName).HasMaxLength(NuGetPackageConsts.MaxPackageNameLength).IsRequired();
+                b.Property(p => p.PackageType).HasMaxLength(PackageRegistrationConsts.MaxPackageTypeLenght).IsRequired();
+            });
         }
 
         private static void ConfigureNuGetPackages(ModelBuilder builder, EzGetModelBuilderConfigurationOptions options)
@@ -38,6 +52,7 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
             {
                 b.ToTable(options.TablePrefix + "NuGetPackages", options.Schema);
                 b.ConfigureByConvention();
+                b.HasIndex(p => p.PackageRegistrationId);
                 b.HasIndex(p => p.PackageName);
                 b.HasIndex(p => p.FeedId);
                 b.HasIndex(p => new { p.PackageName, p.NormalizedVersion, p.FeedId }).IsUnique();
@@ -142,6 +157,15 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "FeedCredentials", options.Schema);
                 b.ConfigureByConvention();
                 b.HasKey(p => new { p.FeedId, p.CredentialId });
+            });
+
+            builder.Entity<FeedPermissionGrant>(b =>
+            {
+                b.ToTable(options.TablePrefix + "FeedPermissionGrants", options.Schema);
+                b.ConfigureByConvention();
+                b.HasKey(p => new { p.FeedId, p.ProviderName, p.ProviderKey });
+                b.Property(p => p.ProviderName).HasMaxLength(FeedPermissionGrantConsts.MaxProviderNameLenght);
+                b.Property(p => p.ProviderKey).HasMaxLength(FeedPermissionGrantConsts.MaxProviderKeyLenght);
             });
         }
 

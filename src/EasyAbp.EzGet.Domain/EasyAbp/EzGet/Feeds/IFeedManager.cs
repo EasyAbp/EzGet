@@ -18,5 +18,7 @@ namespace EasyAbp.EzGet.Feeds
         Task AddCredentialAsync([NotNull] Feed feed, Guid credentialId);
 
         Task SetUserIdAsync(Feed feed, Guid userId);
+
+        Task<bool> CheckFeedPermissionAsync([NotNull] Feed feed, Guid? userId);
     }
 }

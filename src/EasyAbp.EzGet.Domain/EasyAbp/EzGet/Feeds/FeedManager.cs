@@ -32,6 +32,7 @@ namespace EasyAbp.EzGet.Feeds
             string description = null)
         {
             Check.NotNullOrWhiteSpace(feedName, nameof(feedName));
+
             await CheckUserAsync(userId);
             return new Feed(GuidGenerator.Create(), userId, feedName, feedType, description);
         }
@@ -60,10 +61,32 @@ namespace EasyAbp.EzGet.Feeds
             feed.AddCredentialId(credentialId);
         }
 
-        public virtual async Task SetUserIdAsync(Feed feed, Guid userId)
+        public virtual async Task SetUserIdAsync([NotNull] Feed feed, Guid userId)
         {
+            Check.NotNull(feed, nameof(feed));
+
             await CheckUserAsync(userId);
             feed.SetUserId(userId);
+        }
+
+        public virtual async Task<bool> CheckFeedPermissionAsync([NotNull] Feed feed, Guid? userId)
+        {
+            if (feed.FeedType == FeedTypeEnum.Public)
+            {
+                return true;
+            }
+
+            if (!userId.HasValue)
+            {
+                return false;
+            }
+
+            if (feed.UserId == userId)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private async Task<EzGetUser> CheckUserAsync(Guid userId)
