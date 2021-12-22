@@ -44,9 +44,9 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
             var packageName = nuspec.GetId();
             var version = nuspec.GetVersion();
+            var feedId = await GetFeedIdByNameAsync(feedName);
 
-            if (await PackageRepository.ExistsAsync(
-                await GetUniqueListedSpecification(packageName, version.ToNormalizedString(), feedName)))
+            if (await PackageRepository.ExistsAsync(packageName, version.ToNormalizedString(), feedId, null))
             {
                 throw new BusinessException(
                     EzGetErrorCodes.PackageAlreadyExisted,
@@ -54,12 +54,11 @@ namespace EasyAbp.EzGet.NuGet.Packages
                     $"PackageName:{packageName}, Version:{version.ToNormalizedString()}");
             }
 
-            var packageRegistration = await GetOrCreatePackageRegistration(packageName);
+            var packageRegistration = await GetOrCreatePackageRegistration(packageName, feedName);
 
             var package = new NuGetPackage(
                 GuidGenerator.Create(),
                 packageRegistration.Id,
-                await GetFeedIdOrNullAsync(feedName),
                 packageName,
                 version,
                 ParseAuthors(nuspec.GetAuthors()),
@@ -114,25 +113,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
             return Task.FromResult($"{package.PackageName}{separator}{package.NormalizedVersion}{separator}{NuGetDomainConsts.IconFileName}");
         }
 
-        public virtual async Task<ISpecification<NuGetPackage>> GetUniqueListedSpecification(
-            [NotNull] string packageName,
-            [NotNull] string version,
-            string feedName = null)
-        {
-            Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
-            Check.NotNullOrWhiteSpace(version, nameof(version));
-
-            Guid? feedId = null;
-
-            if (!string.IsNullOrEmpty(feedName))
-            {
-                feedId = (await FeedStore.GetAsync(feedName)).Id;
-            }
-
-            return new UniqueNuGetPackageSpecification(packageName, version, feedId)
-                .And(new ListedNuGetPackageSpecification());
-        }
-
         protected virtual Task<string> GetBlobNameAsync(NuGetPackage package)
         {
             var separator = Options.Value.BlobNameSeparator;
@@ -140,7 +120,20 @@ namespace EasyAbp.EzGet.NuGet.Packages
         }
 
         #region private methods
-        private async Task<PackageRegistration> GetOrCreatePackageRegistration(string packageName)
+
+        private async Task<Guid?> GetFeedIdByNameAsync(string feedName)
+        {
+            Guid? feedId = null;
+
+            if (!string.IsNullOrEmpty(feedName))
+            {
+                feedId = (await FeedStore.GetAsync(feedName)).Id;
+            }
+
+            return feedId;
+        }
+
+        private async Task<PackageRegistration> GetOrCreatePackageRegistration(string packageName, string feedName)
         {
             var packageRegistration = await PackageRegistrationRepository.FindByNameAndTypeAsync(
                 packageName,
@@ -150,6 +143,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             {
                 packageRegistration = new PackageRegistration(
                     GuidGenerator.Create(),
+                    await GetFeedIdOrNullAsync(feedName),
                     packageName,
                     PackageRegistrationPackageTypeConsts.NuGet);
 

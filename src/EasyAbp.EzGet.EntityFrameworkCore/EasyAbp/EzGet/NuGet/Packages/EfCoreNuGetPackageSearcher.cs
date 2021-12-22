@@ -49,6 +49,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 feedId = (await FeedStore.GetAsync(feedName)).Id;
             }
 
+            //TODO: This count is wrong. Use PackageRegistration to query.
             var count = await SearchListCountImplAsync(
                 filter,
                 includePrerelease,
@@ -143,7 +144,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
             filter = filter?.ToLower();
 
-            var query = AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType, feedId)
+            var query = AddSearchListFilters(await GetFeedQueryableAsync(feedId, false), filter, includePrerelease, includeSemVer2, packageType)
                 .Select(p => p.PackageName)
                 .OrderBy(p => p)
                 .Skip(skip)
@@ -151,7 +152,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
             var packageNames = await query.ToListAsync(GetCancellationToken(cancellationToken));
 
-            var packages = await AddSearchListFilters(await WithDetailsAsync(), filter, includePrerelease, includeSemVer2, packageType, feedId)
+            var packages = await AddSearchListFilters(await GetFeedQueryableAsync(feedId, true), filter, includePrerelease, includeSemVer2, packageType)
                 .Where(p => packageNames.Contains(p.PackageName))
                 .ToListAsync(GetCancellationToken(cancellationToken));
 
@@ -167,7 +168,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             CancellationToken cancellationToken = default)
         {
             filter = filter?.ToLower();
-            return await AddSearchListFilters(await GetQueryableAsync(), filter, includePrerelease, includeSemVer2, packageType, feedId)
+            return await AddSearchListFilters(await GetFeedQueryableAsync(feedId, false), filter, includePrerelease, includeSemVer2, packageType)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
@@ -184,15 +185,22 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string filter,
             bool includePrerelease,
             bool includeSemVer2,
-            string packageType,
-            Guid? feedId)
+            string packageType)
         {
             return query.Where(p => p.IsPrerelease == includePrerelease)
                 .WhereIf(!includeSemVer2, p => p.SemVerLevel != SemVerLevelEnum.SemVer2)
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.ToLower().Contains(filter))
                 .WhereIf(!string.IsNullOrWhiteSpace(packageType), p => p.PackageTypes.Any(t => t.Name == packageType))
-                .Where(p => p.Listed == true)
-                .Where(p => p.FeedId == feedId);
+                .Where(p => p.Listed == true);
+        }
+
+        private async Task<IQueryable<NuGetPackage>> GetFeedQueryableAsync(Guid? feedId, bool includeDetails)
+        {
+            var dbContext = await GetDbContextAsync();
+            return from package in includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync())
+                   join registration in dbContext.PackageRegistrations on package.PackageRegistrationId equals registration.Id
+                   where registration.FeedId == feedId
+                   select package;
         }
     }
 }

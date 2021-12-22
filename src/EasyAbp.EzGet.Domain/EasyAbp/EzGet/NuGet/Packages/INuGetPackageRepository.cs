@@ -11,11 +11,17 @@ namespace EasyAbp.EzGet.NuGet.Packages
     public interface INuGetPackageRepository : IBasicRepository<NuGetPackage, Guid>
     {
         Task<bool> ExistsAsync(
-            ISpecification<NuGetPackage> specification,
+            string packageName,
+            string version,
+            Guid? feedId,
+            bool? listed,
             CancellationToken cancellationToken = default);
 
         Task<NuGetPackage> GetAsync(
-            ISpecification<NuGetPackage> specification,
+            string packageName,
+            string version,
+            Guid? feedId,
+            bool? listed,
             bool includeDetails = true,
             CancellationToken cancellationToken = default);
 

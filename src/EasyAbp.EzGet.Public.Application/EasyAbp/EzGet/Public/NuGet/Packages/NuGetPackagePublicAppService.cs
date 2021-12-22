@@ -72,7 +72,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(
-                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
+                packageName,
+                version,
+                await GetFeedIdAsync(feedName),
+                true);
 
             if (package == null)
             {
@@ -87,7 +90,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public virtual async Task<byte[]> GetPackageContentAsync(string packageName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(
-                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
+                packageName,
+                version,
+                await GetFeedIdAsync(feedName),
+                true);
 
             if (package == null)
             {
@@ -102,7 +108,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public virtual async Task<byte[]> GetPackageManifestAsync(string packageName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(
-                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
+                packageName,
+                version,
+                await GetFeedIdAsync(feedName),
+                true);
 
             if (package == null)
             {
@@ -150,7 +159,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public virtual async Task UnlistAsync(string packageName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(
-                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName),
+                packageName,
+                version,
+                await GetFeedIdAsync(feedName),
+                true,
                 false);
 
             if (!package.Listed)
@@ -166,7 +178,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         public virtual async Task RelistAsync(string packageName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(
-                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName),
+                packageName,
+                version,
+                await GetFeedIdAsync(feedName),
+                true,
                 false);
 
             if (package.Listed)

@@ -16,7 +16,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
     public class NuGetPackage : FullAuditedAggregateRoot<Guid>, IMultiTenant
     {
         public Guid PackageRegistrationId { get; }
-        public Guid? FeedId { get; }
         public string PackageName { get; }
         public string[] Authors { get; }
         public string Description { get; set; }
@@ -57,7 +56,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
         public NuGetPackage(
             Guid id,
             Guid packageRegistrationId,
-            Guid? feedId,
             string packageName,
             NuGetVersion nuGetVersion,
             string[] authors,
@@ -84,7 +82,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
             Id = id;
             PackageRegistrationId = packageRegistrationId;
-            FeedId = feedId;
             PackageName = Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
             Authors = authors ?? new string[0];
             Description = description;

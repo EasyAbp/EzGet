@@ -22,17 +22,20 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
         protected INuGetPackageRepository NuGetPackageRepository { get; }
         protected IBlobContainer<NuGetContainer> BlobContainer { get; }
         protected IFeedRepository FeedRepository { get; }
+        protected IFeedStore FeedStore { get; }
 
         public NuGetPackageAdminAppService(
             INuGetPackageManager nuGetPackageManager,
             INuGetPackageRepository nuGetPackageRepository,
             IBlobContainer<NuGetContainer> blobContainer,
-            IFeedRepository feedRepository)
+            IFeedRepository feedRepository,
+            IFeedStore feedStore)
         {
             NuGetPackageManager = nuGetPackageManager;
             NuGetPackageRepository = nuGetPackageRepository;
             BlobContainer = blobContainer;
             FeedRepository = feedRepository;
+            FeedStore = feedStore;
         }
 
         public virtual async Task<NuGetPackageDto> GetAsync(Guid id)
@@ -42,8 +45,14 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
 
         public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(
-                await NuGetPackageManager.GetUniqueListedSpecification(packageName, version, feedName));
+            Guid? feedId = null;
+
+            if (!string.IsNullOrWhiteSpace(feedName))
+            {
+                feedId = (await FeedStore.GetAsync(feedName)).Id;
+            }
+
+            var package = await NuGetPackageRepository.GetAsync(packageName, version, feedId, null);
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
         }
 

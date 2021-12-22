@@ -40,7 +40,8 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
             {
                 b.ToTable(options.TablePrefix + "PackageRegistrations", options.Schema);
                 b.ConfigureByConvention();
-                b.HasIndex(p => new { p.PackageName, p.PackageType}).IsUnique();
+                b.HasIndex(p => p.FeedId);
+                b.HasIndex(p => new { p.PackageName, p.PackageType, p.FeedId }).IsUnique();
                 b.Property(p => p.PackageName).HasMaxLength(NuGetPackageConsts.MaxPackageNameLength).IsRequired();
                 b.Property(p => p.PackageType).HasMaxLength(PackageRegistrationConsts.MaxPackageTypeLenght).IsRequired();
             });
@@ -54,9 +55,7 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.ConfigureByConvention();
                 b.HasIndex(p => p.PackageRegistrationId);
                 b.HasIndex(p => p.PackageName);
-                b.HasIndex(p => p.FeedId);
-                b.HasIndex(p => new { p.PackageName, p.NormalizedVersion, p.FeedId }).IsUnique();
-                b.Property(p => p.FeedId);
+                b.HasIndex(p => new { p.PackageName, p.NormalizedVersion, p.PackageRegistrationId }).IsUnique();
                 b.Property(p => p.PackageName).HasMaxLength(NuGetPackageConsts.MaxPackageNameLength).IsRequired();
                 b.Property(p => p.Authors).HasConversion(new AbpJsonValueConverter<string[]>());
                 b.Property(p => p.Description).HasMaxLength(NuGetPackageConsts.MaxDescriptionLength);

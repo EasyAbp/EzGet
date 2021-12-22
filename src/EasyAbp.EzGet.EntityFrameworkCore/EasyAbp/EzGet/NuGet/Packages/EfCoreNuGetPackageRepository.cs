@@ -19,20 +19,30 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
         }
 
-        public virtual async Task<bool> ExistsAsync(ISpecification<NuGetPackage> specification, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> ExistsAsync(
+            string packageName,
+            string version,
+            Guid? feedId,
+            bool? listed,
+            CancellationToken cancellationToken = default)
         {
-            return await (await GetDbSetAsync())
-                .Where(specification.ToExpression())
+            return await (await GetFeedQueryableAsync(feedId, false))
+                .Where(p => p.PackageName == packageName && p.NormalizedVersion == version)
+                .WhereIf(listed.HasValue, p => p.Listed == listed)
                 .AnyAsync(GetCancellationToken(cancellationToken));
         }
 
         public virtual async Task<NuGetPackage> GetAsync(
-            ISpecification<NuGetPackage> specification,
+            string packageName,
+            string version,
+            Guid? feedId,
+            bool? listed,
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            return await (includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync()))
-                .Where(specification.ToExpression())
+            return await (await GetFeedQueryableAsync(feedId, includeDetails))
+                .Where(p => p.PackageName == packageName && p.NormalizedVersion == version)
+                .WhereIf(listed.HasValue, p => p.Listed == listed)
                 .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
         }
 
@@ -42,9 +52,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            return await (includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync()))
-                .Where(p => p.PackageName == packageName)
-                .Where(p => p.FeedId == feedId)
+            return await (await GetFeedQueryableAsync(feedId, includeDetails))
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
 
@@ -59,8 +67,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            return await (includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
-                .Where(p => p.FeedId == feedId)
+            return await (await GetFeedQueryableAsync(feedId, includeDetails))
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
                 .WhereIf(!string.IsNullOrWhiteSpace(packageName), p => p.PackageName == packageName)
                 .WhereIf(!string.IsNullOrWhiteSpace(version), p => p.NormalizedVersion == version)
@@ -76,8 +83,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string version = null,
             CancellationToken cancellationToken = default)
         {
-            return await (await GetQueryableAsync())
-                .Where(p => p.FeedId == feedId)
+            return await (await GetFeedQueryableAsync(feedId, false))
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
                 .WhereIf(!string.IsNullOrWhiteSpace(packageName), p => p.PackageName == packageName)
                 .WhereIf(!string.IsNullOrWhiteSpace(version), p => p.NormalizedVersion == version)
@@ -90,6 +96,16 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 .Include(p => p.PackageTypes)
                 .Include(p => p.Dependencies)
                 .Include(p => p.TargetFrameworks);
+        }
+
+
+        private async Task<IQueryable<NuGetPackage>> GetFeedQueryableAsync(Guid? feedId, bool includeDetails)
+        {
+            var dbContext = await GetDbContextAsync();
+            return from package in includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync())
+                   join registration in dbContext.PackageRegistrations on package.PackageRegistrationId equals registration.Id
+                   where registration.FeedId == feedId
+                   select package;
         }
     }
 }

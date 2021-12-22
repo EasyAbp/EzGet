@@ -16,9 +16,5 @@ namespace EasyAbp.EzGet.NuGet.Packages
         Task<string> GetNuspecBlobNameAsync([NotNull] NuGetPackage package);
         Task<string> GetReadmeBlobNameAsync([NotNull] NuGetPackage package);
         Task<string> GetIconBlobNameAsync([NotNull] NuGetPackage package);
-        Task<ISpecification<NuGetPackage>> GetUniqueListedSpecification(
-            [NotNull] string packageName,
-            [NotNull] string version,
-            string feedName = null);
     }
 }
