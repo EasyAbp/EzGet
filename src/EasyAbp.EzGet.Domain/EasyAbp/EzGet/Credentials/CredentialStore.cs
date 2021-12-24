@@ -16,9 +16,12 @@ namespace EasyAbp.EzGet.Credentials
         protected ICredentialRepository CredentialRepository { get; }
         protected IDistributedCache<CredentialCacheItem> Cache { get; }
 
-        public CredentialStore(ICredentialRepository credentialRepository)
+        public CredentialStore(
+            ICredentialRepository credentialRepository,
+            IDistributedCache<CredentialCacheItem> cache)
         {
             CredentialRepository = credentialRepository;
+            Cache = cache;
         }
 
         public async Task<CredentialCacheItem> GetAsync([NotNull] string value)

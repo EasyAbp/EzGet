@@ -1,4 +1,5 @@
 ﻿using EasyAbp.EzGet.EntityFrameworkCore;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
+using Volo.Abp;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Specifications;
@@ -33,13 +35,16 @@ namespace EasyAbp.EzGet.NuGet.Packages
         }
 
         public virtual async Task<NuGetPackage> GetAsync(
-            string packageName,
-            string version,
+            [NotNull] string packageName,
+            [NotNull] string version,
             Guid? feedId,
             bool? listed,
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
+            Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
+            Check.NotNullOrWhiteSpace(version, nameof(version));
+
             return await (await GetFeedQueryableAsync(feedId, includeDetails))
                 .Where(p => p.PackageName == packageName && p.NormalizedVersion == version)
                 .WhereIf(listed.HasValue, p => p.Listed == listed)
@@ -47,12 +52,15 @@ namespace EasyAbp.EzGet.NuGet.Packages
         }
 
         public virtual async Task<List<NuGetPackage>> GetListByPackageNameAndFeedIdAsync(
-            string packageName,
+            [NotNull] string packageName,
             Guid? feedId = null,
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
+            Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
+
             return await (await GetFeedQueryableAsync(feedId, includeDetails))
+                .Where(p => p.PackageName == packageName)
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
 
