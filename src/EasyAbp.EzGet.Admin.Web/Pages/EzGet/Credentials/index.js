@@ -70,6 +70,10 @@
                         data: 'userId',
                     },
                     {
+                        title: l('Value'),
+                        data: 'value',
+                    },
+                    {
                         title: l('Description'),
                         data: 'description',
                     },

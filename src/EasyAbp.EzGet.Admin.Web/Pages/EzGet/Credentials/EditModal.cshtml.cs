@@ -73,6 +73,9 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
             [DynamicStringLength(typeof(CredentialConsts), nameof(CredentialConsts.MaxDescriptionLength))]
             public string Description { get; set; }
 
+            [ReadOnlyInput]
+            public string Value { get; set; }
+
             public DateTime? Expires { get; set; }
 
             [ReadOnlyInput]
