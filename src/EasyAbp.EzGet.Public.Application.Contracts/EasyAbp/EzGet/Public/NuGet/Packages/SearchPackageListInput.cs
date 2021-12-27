@@ -5,7 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
-    public class SearcherListInput : PagedResultRequestDto
+    public class SearchPackageListInput : PagedResultRequestDto
     {
         public string Filter { get; set; }
         public bool IncludePrerelease { get; set; }

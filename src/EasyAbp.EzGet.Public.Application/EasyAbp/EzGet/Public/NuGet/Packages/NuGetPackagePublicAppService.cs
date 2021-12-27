@@ -42,10 +42,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
 
         [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
-        public virtual async Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input)
+        public virtual async Task<NuGetPackageSearchPackageListResultDto> SearchPackageListAsync(SearchPackageListInput input)
         {
-            var result = ObjectMapper.Map<NuGetPackageSearchListResult, NuGetPackageSearchListResultDto>(
-                await NuGetPackageSearcher.SearchListAsync(
+            var result = ObjectMapper.Map<NuGetPackageSearchPackageListResult, NuGetPackageSearchPackageListResultDto>(
+                await NuGetPackageSearcher.SearchPackageListAsync(
                     input.SkipCount,
                     input.MaxResultCount,
                     input.Filter,
@@ -53,11 +53,26 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     input.IncludeSemVer2,
                     input.PackageType,
                     input.FeedName));
-            
-            result.Context = NuGetPackageSearchListResultDto.SearchContext.Default(
+
+            result.Context = NuGetPackageSearchPackageListResultDto.SearchContext.Default(
                 await ServiceIndexUrlGenerator.GetRegistrationsBaseUrlResourceUrlAsync(input.FeedName));
 
             return result;
+        }
+
+        [AllowAnonymousIfFeedPublic]
+        [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
+        public virtual async Task<NuGetPackageSearchNameListResultDto> SearchNameListAsync(SearchNameListInput input)
+        {
+            return ObjectMapper.Map<NuGetPackageSearchNameListResult, NuGetPackageSearchNameListResultDto>(
+                await NuGetPackageSearcher.SearchNameListAsync(
+                    input.SkipCount,
+                    input.MaxResultCount,
+                    input.Filter,
+                    input.IncludePrerelease,
+                    input.IncludeSemVer2,
+                    input.PackageType,
+                    input.FeedName));
         }
 
         [AllowAnonymousIfFeedPublic]

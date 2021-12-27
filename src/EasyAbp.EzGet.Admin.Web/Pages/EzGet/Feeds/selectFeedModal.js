@@ -21,7 +21,7 @@
                     ajax: abp.libs.datatables.createAjax(_feedAdminAppService.getList),
                     columnDefs: [
                         {
-                            title: l("Actions"),
+                            title: l('Actions'),
                             rowAction: {
                                 items: [
                                     {

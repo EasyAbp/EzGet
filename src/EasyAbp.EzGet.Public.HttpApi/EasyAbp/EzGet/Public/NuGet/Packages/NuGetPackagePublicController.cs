@@ -77,10 +77,17 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [HttpGet]
-        [Route("search")]
-        public Task<NuGetPackageSearchListResultDto> SearchListAsync(SearcherListInput input)
+        [Route("search-packages")]
+        public Task<NuGetPackageSearchPackageListResultDto> SearchPackageListAsync(SearchPackageListInput input)
         {
-            return NuGetPackagePublicAppService.SearchListAsync(input);
+            return NuGetPackagePublicAppService.SearchPackageListAsync(input);
+        }
+
+        [HttpGet]
+        [Route("search-names")]
+        public Task<NuGetPackageSearchNameListResultDto> SearchNameListAsync(SearchNameListInput input)
+        {
+            return NuGetPackagePublicAppService.SearchNameListAsync(input);
         }
     }
 }

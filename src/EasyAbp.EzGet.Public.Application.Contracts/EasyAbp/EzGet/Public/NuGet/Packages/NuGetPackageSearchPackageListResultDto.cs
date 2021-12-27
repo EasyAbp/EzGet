@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
-    public class NuGetPackageSearchListResultDto
+    public class NuGetPackageSearchPackageListResultDto
     {
         [JsonPropertyName("@context")]
         [JsonProperty("@context")]
@@ -18,7 +18,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
 
         [JsonPropertyName("data")]
         [JsonProperty("data")]
-        public List<NuGetPackageSearchResultDto> Packages { get; set; }
+        public IEnumerable<NuGetPackageSearchResultDto> Packages { get; set; }
 
 
         public class SearchContext

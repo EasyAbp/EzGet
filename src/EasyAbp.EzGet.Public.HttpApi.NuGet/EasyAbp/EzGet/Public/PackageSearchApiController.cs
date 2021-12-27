@@ -28,7 +28,7 @@ namespace EasyAbp.EzGet.Public.NuGet
             [FromQuery] string packageType = null,
             [FromRoute] string feedName = null)
         {
-            return new JsonResult(await _nuGetPackagePublicAppService.SearchListAsync(new SearcherListInput
+            return new JsonResult(await _nuGetPackagePublicAppService.SearchPackageListAsync(new SearchPackageListInput
             {
                 Filter = query,
                 SkipCount = skip,

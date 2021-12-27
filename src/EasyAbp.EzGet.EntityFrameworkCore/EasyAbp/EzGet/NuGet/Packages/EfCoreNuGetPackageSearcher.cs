@@ -32,7 +32,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             FeedStore = feedStore;
         }
 
-        public virtual async Task<NuGetPackageSearchListResult> SearchListAsync(
+        public virtual async Task<NuGetPackageSearchNameListResult> SearchNameListAsync(
             int skip,
             int take,
             string filter,
@@ -42,12 +42,38 @@ namespace EasyAbp.EzGet.NuGet.Packages
             string feedName = null,
             CancellationToken cancellationToken = default)
         {
-            Guid? feedId = null;
+            var feedId = await GetFeedIdAsync(feedName);
 
-            if (!string.IsNullOrEmpty(feedName))
-            {
-                feedId = (await FeedStore.GetAsync(feedName)).Id;
-            }
+            var count = await QueryCountAsync(
+                filter,
+                includePrerelease,
+                includeSemVer2,
+                packageType,
+                feedId,
+                cancellationToken);
+
+            var names = await QueryNamesAsync(
+                filter,
+                includePrerelease,
+                includeSemVer2,
+                packageType,
+                feedId,
+                cancellationToken);
+
+            return new NuGetPackageSearchNameListResult(count, names);
+        }
+
+        public virtual async Task<NuGetPackageSearchPackageListResult> SearchPackageListAsync(
+            int skip,
+            int take,
+            string filter,
+            bool includePrerelease,
+            bool includeSemVer2,
+            string packageType = null,
+            string feedName = null,
+            CancellationToken cancellationToken = default)
+        {
+            var feedId = await GetFeedIdAsync(feedName);
 
             var count = await QueryCountAsync(
                 filter,
@@ -95,7 +121,20 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 packageResultList.Add(packageResult);
             }
 
-            return new NuGetPackageSearchListResult(count, packageResultList);
+            return new NuGetPackageSearchPackageListResult(count, packageResultList);
+        }
+
+
+        private async Task<Guid?> GetFeedIdAsync(string feedName)
+        {
+            Guid? feedId = null;
+
+            if (!string.IsNullOrEmpty(feedName))
+            {
+                feedId = (await FeedStore.GetAsync(feedName)).Id;
+            }
+
+            return feedId;
         }
 
         private async Task<List<SearchResultVersion>> GetSearchResultVersionsAsync(List<NuGetPackage> packages, string feedName)
@@ -166,6 +205,26 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 .Include(p => p.TargetFrameworks);
         }
 
+        private async Task<IReadOnlyList<string>> QueryNamesAsync(
+            string filter,
+            bool includePrerelease,
+            bool includeSemVer2,
+            string packageType,
+            Guid? feedId,
+            CancellationToken cancellationToken = default)
+        {
+            var dbContext = await GetDbContextAsync();
+
+            var query = AddSearchListFilters(dbContext.NuGetPackages, filter, includePrerelease, includeSemVer2, packageType)
+                .Select(p => p.PackageName);
+
+            return await dbContext.PackageRegistrations
+                .Where(p => query.Contains(p.PackageName))
+                .Where(p => p.FeedId == feedId)
+                .Select(p => p.PackageName)
+                .ToListAsync(GetCancellationToken(cancellationToken));
+        }
+
         private async Task<long> QueryCountAsync(
             string filter,
             bool includePrerelease,
@@ -176,11 +235,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
         {
             var dbContext = await GetDbContextAsync();
 
-            var query = dbContext.NuGetPackages.Where(p => p.IsPrerelease == includePrerelease)
-                .WhereIf(!includeSemVer2, p => p.SemVerLevel != SemVerLevelEnum.SemVer2)
-                .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.ToLower().Contains(filter))
-                .WhereIf(!string.IsNullOrWhiteSpace(packageType), p => p.PackageTypes.Any(t => t.Name == packageType))
-                .Where(p => p.Listed == true)
+            var query = AddSearchListFilters(dbContext.NuGetPackages, filter, includePrerelease, includeSemVer2, packageType)
                 .Select(p => p.PackageName);
 
             return await dbContext.PackageRegistrations
