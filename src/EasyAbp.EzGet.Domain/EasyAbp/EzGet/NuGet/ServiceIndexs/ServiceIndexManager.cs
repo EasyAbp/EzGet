@@ -50,7 +50,6 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
                 await ServiceIndexUrlGenerator.GetPackageBaseAddressResourceUrlAsync(feedName),
                 "3.0.0"));
 
-            //Todo: need implement
             resources.AddRange(
                 BuildResource("SearchAutocompleteService",
                 await ServiceIndexUrlGenerator.GetAutoCompleteUrlAsync(feedName),

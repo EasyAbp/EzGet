@@ -50,10 +50,10 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         }
 
         [HttpGet]
-        [Route("{packageName}/versions")]
-        public Task<List<string>> GetVersionListByPackageName(string packageName, [FromQuery] string feedName = null)
+        [Route("versions")]
+        public Task<List<string>> GetVersionListAsync(GetVersionListInput input)
         {
-            return NuGetPackagePublicAppService.GetVersionListByPackageName(packageName, feedName);
+            return NuGetPackagePublicAppService.GetVersionListAsync(input);
         }
 
         [HttpPost]

@@ -30,6 +30,8 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
         {
             var packageList = await NuGetPackageRepository.GetListByPackageNameAndFeedIdAsync(
                 packageName,
+                null,
+                null,
                 await GetFeedIdAsync(feedName));
 
             return ObjectMapper.Map<RegistrationIndex, RegistrationIndexDto>(

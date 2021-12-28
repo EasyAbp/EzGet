@@ -53,6 +53,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
         public virtual async Task<List<NuGetPackage>> GetListByPackageNameAndFeedIdAsync(
             [NotNull] string packageName,
+            bool? includePrerelease = null,
+            bool? includeSemVer2 = null,
             Guid? feedId = null,
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
@@ -61,6 +63,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
             return await (await GetFeedQueryableAsync(feedId, includeDetails))
                 .Where(p => p.PackageName == packageName)
+                .WhereIf(null != includePrerelease, p => p.IsPrerelease == includePrerelease)
+                .WhereIf(null != includeSemVer2 && !includeSemVer2.Value, p => p.SemVerLevel != SemVerLevelEnum.SemVer2)
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
 

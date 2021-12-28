@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -26,7 +27,9 @@ namespace EasyAbp.EzGet.NuGet.Packages
             CancellationToken cancellationToken = default);
 
         Task<List<NuGetPackage>> GetListByPackageNameAndFeedIdAsync(
-            string packageName,
+            [NotNull] string packageName,
+            bool? includePrerelease = null,
+            bool? includeSemVer2 = null,
             Guid? feedId = null,
             bool includeDetails = true,
             CancellationToken cancellationToken = default);

@@ -54,9 +54,6 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     input.PackageType,
                     input.FeedName));
 
-            result.Context = NuGetPackageSearchPackageListResultDto.SearchContext.Default(
-                await ServiceIndexUrlGenerator.GetRegistrationsBaseUrlResourceUrlAsync(input.FeedName));
-
             return result;
         }
 
@@ -210,14 +207,18 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
 
         [AllowAnonymousIfFeedPublic]
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
-        public virtual async Task<List<string>> GetVersionListByPackageName(string packageName, string feedName)
+        public virtual async Task<List<string>> GetVersionListAsync(GetVersionListInput input)
         {
             var packages = await NuGetPackageRepository.GetListByPackageNameAndFeedIdAsync(
-                packageName,
-                await GetFeedIdAsync(feedName),
+                input.PackageName,
+                input.IncludePrerelease,
+                input.IncludeSemVer2,
+                await GetFeedIdAsync(input.FeedName),
                 false);
 
-            return packages.Select(p => p.NormalizedVersion).ToList();
+            var result = packages.Select(p => p.NormalizedVersion).ToList();
+            result.Sort((item1, item2) => item1.CompareTo(item2));
+            return result;
         }
     }
 }

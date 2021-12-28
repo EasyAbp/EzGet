@@ -28,6 +28,18 @@ namespace EasyAbp.EzGet.Public
             MapPackageSearchRoutes(endpoints);
             MapRegistrationIndexRoutes(endpoints);
             MapServiceIndexRoutes(endpoints);
+            MapAutocompleteRoutes(endpoints);
+        }
+
+        private void MapAutocompleteRoutes(IEndpointRouteBuilder endpoints)
+        {
+            MapControllerRoute(
+                endpoints,
+                EzGetRoutesName.ServiceIndex.Get,
+                ServiceIndexUrlConsts.AutocompleteUrl,
+                nameof(AutocompleteApiController),
+                nameof(AutocompleteApiController.GetAsync),
+                "GET");
         }
 
         private void MapServiceIndexRoutes(IEndpointRouteBuilder endpoints)

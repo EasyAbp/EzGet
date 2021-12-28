@@ -42,7 +42,7 @@ namespace EasyAbp.EzGet.NuGet.ServiceIndexs
 
         public virtual async Task<string> GetAutoCompleteUrlAsync(string feedName)
         {
-            return await GetHostUrlWithFeedAsync(feedName) + ServiceIndexUrlConsts.AutoCompleteUrl;
+            return await GetHostUrlWithFeedAsync(feedName) + ServiceIndexUrlConsts.AutocompleteUrl;
         }
 
         public virtual async Task<string> GetRegistrationLeafUrlAsync(string id, string version, string feedName)

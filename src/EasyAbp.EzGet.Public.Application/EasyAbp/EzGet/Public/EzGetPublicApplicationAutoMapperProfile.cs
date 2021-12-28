@@ -26,8 +26,8 @@ namespace EasyAbp.EzGet.Public
             CreateMap<SearchResultVersion, SearchResultVersionDto>();
             CreateMap<SearchResultPackageType, SearchResultPackageTypeDto>();
             CreateMap<NuGetPackageSearchResult, NuGetPackageSearchResultDto>();
-            CreateMap<NuGetPackageSearchPackageListResult, NuGetPackageSearchPackageListResultDto>()
-                .Ignore(p => p.Context);
+            CreateMap<NuGetPackageSearchPackageListResult, NuGetPackageSearchPackageListResultDto>();
+            CreateMap<NuGetPackageSearchNameListResult, NuGetPackageSearchNameListResultDto>();
 
             CreateMap<ServiceIndexResource, ServiceIndexResourceDto>();
             CreateMap<ServiceIndex, ServiceIndexDto>();

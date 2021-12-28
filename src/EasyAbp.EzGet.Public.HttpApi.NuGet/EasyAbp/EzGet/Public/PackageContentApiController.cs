@@ -22,7 +22,11 @@ namespace EasyAbp.EzGet.Public.NuGet
 
         public virtual async Task<IActionResult> GetVersionsAsync(string id, string feedName = null)
         {
-            var versionList = await NuGetPackagePublicAppService.GetVersionListByPackageName(id, feedName);
+            var versionList = await NuGetPackagePublicAppService.GetVersionListAsync(new GetVersionListInput
+            {
+                PackageName = id,
+                FeedName = feedName
+            });
             return new JsonResult(new VersionsModel { Versions = versionList });
         }
 

@@ -205,7 +205,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 .Include(p => p.TargetFrameworks);
         }
 
-        private async Task<IReadOnlyList<string>> QueryNamesAsync(
+        private async Task<List<string>> QueryNamesAsync(
             string filter,
             bool includePrerelease,
             bool includeSemVer2,
