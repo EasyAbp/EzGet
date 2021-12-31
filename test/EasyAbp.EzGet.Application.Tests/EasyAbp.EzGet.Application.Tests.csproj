@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>EasyAbp.EzGet</RootNamespace>
   </PropertyGroup>
 
@@ -11,8 +11,8 @@
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.Admin.Application\EasyAbp.EzGet.Admin.Application.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.EzGet.Public.Application\EasyAbp.EzGet.Public.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.EzGet.Domain.Tests\EasyAbp.EzGet.Domain.Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="Volo.Abp.BlobStoring.FileSystem" Version="4.4.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Volo.Abp.BlobStoring.FileSystem" Version="5.0.1" />
   </ItemGroup>
 
 </Project>

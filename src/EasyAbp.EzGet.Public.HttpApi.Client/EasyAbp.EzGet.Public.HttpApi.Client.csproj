@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
@@ -9,6 +9,11 @@
   <ItemGroup>
     <ProjectReference Include="..\EasyAbp.EzGet.Common.HttpApi.Client\EasyAbp.EzGet.Common.HttpApi.Client.csproj" />
     <ProjectReference Include="..\EasyAbp.EzGet.Public.Application.Contracts\EasyAbp.EzGet.Public.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\*generate-proxy.json" />
+    <Content Remove="**\*generate-proxy.json" />
   </ItemGroup>
 
 </Project>

@@ -10,9 +10,9 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Admin.Feeds
 {
+    [Area(EzGetAdminRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetAdminRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-admin")]
-    [Route("api/ezget-admin/feeds")]
+    [Route("api/ez-get-admin/feeds")]
     public class FeedAdminController : EzGetAdminControllerBase, IFeedAdminAppService
     {
         protected IFeedAdminAppService FeedAdminAppService { get; }

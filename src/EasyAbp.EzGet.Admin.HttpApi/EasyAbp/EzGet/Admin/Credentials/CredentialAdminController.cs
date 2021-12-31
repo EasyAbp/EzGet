@@ -10,9 +10,9 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Admin.Credentials
 {
+    [Area(EzGetAdminRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetAdminRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-admin")]
-    [Route("api/ezget-admin/credentials")]
+    [Route("api/ez-get-admin/credentials")]
     public class CredentialAdminController : EzGetAdminControllerBase, ICredentialAdminAppService
     {
         protected ICredentialAdminAppService CredentialAdminAppService { get; }

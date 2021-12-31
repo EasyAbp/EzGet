@@ -51,6 +51,7 @@ namespace EasyAbp.EzGet.Admin.Feeds
 
             var updateInput = new UpdateFeedAdminDto
             {
+                ConcurrencyStamp = feed.ConcurrencyStamp,
                 UserId = _ezGetTestData.User2Id,
                 Description = "update test",
                 FeedType = FeedTypeEnum.Private,

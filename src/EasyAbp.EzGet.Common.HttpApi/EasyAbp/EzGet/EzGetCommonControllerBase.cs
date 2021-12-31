@@ -3,7 +3,7 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.EzGet
 {
-    public abstract class EzGetCommonControllerBase : AbpController
+    public abstract class EzGetCommonControllerBase : AbpControllerBase
     {
         protected EzGetCommonControllerBase()
         {

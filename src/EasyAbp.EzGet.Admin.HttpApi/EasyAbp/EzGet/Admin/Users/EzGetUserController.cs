@@ -9,9 +9,9 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Admin.Users
 {
+    [Area(EzGetAdminRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetAdminRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-admin")]
-    [Route("api/ezget-admin/users")]
+    [Route("api/ez-get-admin/users")]
     public class EzGetUserController : EzGetAdminControllerBase, IEzGetUserAppService
     {
         protected IEzGetUserAppService EzGetUserAppService { get; }

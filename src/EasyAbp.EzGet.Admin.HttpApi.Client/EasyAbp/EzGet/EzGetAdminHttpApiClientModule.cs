@@ -1,9 +1,7 @@
 ﻿using EasyAbp.EzGet.Admin;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Volo.Abp.Modularity;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EasyAbp.EzGet
 {
@@ -19,6 +17,11 @@ namespace EasyAbp.EzGet
                 typeof(EzGetAdminApplicationContractsModule).Assembly,
                 EzGetAdminRemoteServiceConsts.RemoteServiceName
             );
+
+            Configure<AbpVirtualFileSystemOptions>(options =>
+            {
+                options.FileSets.AddEmbedded<EzGetAdminHttpApiClientModule>();
+            });
         }
     }
 }

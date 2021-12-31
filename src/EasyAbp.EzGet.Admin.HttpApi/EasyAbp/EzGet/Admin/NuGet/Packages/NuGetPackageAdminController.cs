@@ -10,9 +10,9 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Admin.NuGet.Packages
 {
+    [Area(EzGetAdminRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetAdminRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-admin")]
-    [Route("api/ezget-admin/nuget-packages")]
+    [Route("api/ez-get-admin/nuget-packages")]
     public class NuGetPackageAdminController : EzGetAdminControllerBase, INuGetPackageAdminAppService
     {
         protected INuGetPackageAdminAppService NuGetPackageAdminAppService { get; }

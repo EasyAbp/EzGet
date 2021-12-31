@@ -8,9 +8,9 @@ using Volo.Abp;
 
 namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
 {
+    [Area(EzGetPublicRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-public")]
-    [Route("api/ezget-public/service-index")]
+    [Route("api/ez-get-public/service-index")]
     public class ServiceIndexPublicController : EzGetPublicControllerBase, IServiceIndexPublicAppService
     {
         protected IServiceIndexPublicAppService ServiceIndexAppService { get; }

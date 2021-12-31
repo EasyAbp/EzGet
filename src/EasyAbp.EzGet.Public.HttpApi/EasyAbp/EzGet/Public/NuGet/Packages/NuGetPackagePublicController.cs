@@ -9,9 +9,9 @@ using Volo.Abp;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
+    [Area(EzGetPublicRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-public")]
-    [Route("api/ezget-public/nuget-packages")]
+    [Route("api/ez-get-public/nuget-packages")]
     public class NuGetPackagePublicController : EzGetPublicControllerBase, INuGetPackagePublicAppService
     {
         protected INuGetPackagePublicAppService NuGetPackagePublicAppService { get; }

@@ -187,7 +187,6 @@ namespace EasyAbp.EzGet
             }
             else
             {
-                app.UseErrorPage();
                 app.UseHsts();
             }
 

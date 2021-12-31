@@ -7,5 +7,6 @@ namespace EasyAbp.EzGet.Admin
     public static class EzGetAdminRemoteServiceConsts
     {
         public const string RemoteServiceName = "EzGetAdmin";
+        public const string ModuleName = "ez-get-admin";
     }
 }

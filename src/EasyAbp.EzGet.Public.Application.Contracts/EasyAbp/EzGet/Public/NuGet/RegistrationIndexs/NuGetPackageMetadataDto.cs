@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -9,11 +8,9 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
     public class NuGetPackageMetadataDto
     {
         [JsonPropertyName("@id")]
-        [JsonProperty("@id")]
         public string CatalogUrl { get; set; }
 
         [JsonPropertyName("id")]
-        [JsonProperty("id")]
         public string PackageName { get; set; }
 
         public string Version { get; set; }
@@ -25,7 +22,6 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
         public string ProjectUrl { get; set; }
 
         [JsonPropertyName("packageContent")]
-        [JsonProperty("packageContent")]
         public string PackageContentUrl { get; set; }
 
         public bool? Listed { get; set; }
@@ -48,7 +44,6 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
     public class DependencyItemDto
     {
         [JsonPropertyName("id")]
-        [JsonProperty("id")]
         public string DependencyPackageName { get; set; }
 
         public string Range { get; set; }
@@ -64,7 +59,6 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
     public class AlternatePackageDto
     {
         [JsonPropertyName("id")]
-        [JsonProperty("id")]
         public string PackageName { get; set; }
         public string Range { get; set; }
     }

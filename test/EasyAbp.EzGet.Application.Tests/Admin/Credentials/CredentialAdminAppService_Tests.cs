@@ -8,6 +8,7 @@ using Shouldly;
 using Xunit;
 using Volo.Abp.Users;
 using EasyAbp.EzGet.Users;
+using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Admin.Credentials
 {
@@ -57,6 +58,7 @@ namespace EasyAbp.EzGet.Admin.Credentials
 
             var updateInput = new UpdateCredentialDto
             {
+                ConcurrencyStamp = credential.ConcurrencyStamp,
                 Expires = credential.Expires.Value.AddDays(1),
                 Description = "Test",
                 Scopes = new List<ScopeAllowActionEnum>()

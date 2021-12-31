@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
+#nullable disable
+
 namespace EasyAbp.EzGet.Migrations
 {
     [DbContext(typeof(UnifiedDbContext))]
@@ -17,9 +19,10 @@ namespace EasyAbp.EzGet.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.13")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("EasyAbp.EzGet.Credentials.Credential", b =>
                 {
@@ -94,7 +97,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("Value");
 
-                    b.ToTable("EzGetCredentials");
+                    b.ToTable("EzGetCredentials", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.Credentials.CredentialScope", b =>
@@ -107,7 +110,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("CredentialId", "AllowAction");
 
-                    b.ToTable("EzGetCredentialScopes");
+                    b.ToTable("EzGetCredentialScopes", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.Feeds.Feed", b =>
@@ -178,7 +181,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("FeedName");
 
-                    b.ToTable("EzGetFeeds");
+                    b.ToTable("EzGetFeeds", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.Feeds.FeedCredential", b =>
@@ -191,7 +194,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("FeedId", "CredentialId");
 
-                    b.ToTable("EzGetFeedCredentials");
+                    b.ToTable("EzGetFeedCredentials", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.Feeds.FeedPermissionGrant", b =>
@@ -209,7 +212,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("FeedId", "ProviderName", "ProviderKey");
 
-                    b.ToTable("EzGetFeedPermissionGrants");
+                    b.ToTable("EzGetFeedPermissionGrants", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.NuGet.Packages.NuGetPackage", b =>
@@ -362,7 +365,7 @@ namespace EasyAbp.EzGet.Migrations
                     b.HasIndex("PackageName", "NormalizedVersion", "PackageRegistrationId")
                         .IsUnique();
 
-                    b.ToTable("EzGetNuGetPackages");
+                    b.ToTable("EzGetNuGetPackages", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.NuGet.Packages.PackageDependency", b =>
@@ -390,7 +393,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("EzGetNuGetPackageDependencies");
+                    b.ToTable("EzGetNuGetPackageDependencies", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.NuGet.Packages.PackageType", b =>
@@ -414,7 +417,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("EzGetNuGetPackageTypes");
+                    b.ToTable("EzGetNuGetPackageTypes", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.NuGet.Packages.TargetFramework", b =>
@@ -434,7 +437,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("EzGetNuGetTargetFrameworks");
+                    b.ToTable("EzGetNuGetTargetFrameworks", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.PackageRegistrations.PackageRegistration", b =>
@@ -507,7 +510,7 @@ namespace EasyAbp.EzGet.Migrations
                         .IsUnique()
                         .HasFilter("[PackageName] IS NOT NULL AND [PackageType] IS NOT NULL AND [FeedId] IS NOT NULL");
 
-                    b.ToTable("EzGetPackageRegistrations");
+                    b.ToTable("EzGetPackageRegistrations", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.Users.EzGetUser", b =>
@@ -575,7 +578,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("TenantId", "UserName");
 
-                    b.ToTable("EzGetUsers");
+                    b.ToTable("EzGetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -683,7 +686,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("TenantId", "UserId", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogs");
+                    b.ToTable("AbpAuditLogs", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -733,7 +736,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("TenantId", "ServiceName", "MethodName", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogActions");
+                    b.ToTable("AbpAuditLogActions", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityChange", b =>
@@ -783,7 +786,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("TenantId", "EntityTypeFullName", "EntityId");
 
-                    b.ToTable("AbpEntityChanges");
+                    b.ToTable("AbpEntityChanges", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityPropertyChange", b =>
@@ -825,7 +828,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("EntityChangeId");
 
-                    b.ToTable("AbpEntityPropertyChanges");
+                    b.ToTable("AbpEntityPropertyChanges", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.FeatureManagement.FeatureValue", b =>
@@ -854,9 +857,11 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey")
+                        .IsUnique()
+                        .HasFilter("[ProviderName] IS NOT NULL AND [ProviderKey] IS NOT NULL");
 
-                    b.ToTable("AbpFeatureValues");
+                    b.ToTable("AbpFeatureValues", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityClaimType", b =>
@@ -903,7 +908,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpClaimTypes");
+                    b.ToTable("AbpClaimTypes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityLinkUser", b =>
@@ -930,7 +935,7 @@ namespace EasyAbp.EzGet.Migrations
                         .IsUnique()
                         .HasFilter("[SourceTenantId] IS NOT NULL AND [TargetTenantId] IS NOT NULL");
 
-                    b.ToTable("AbpLinkUsers");
+                    b.ToTable("AbpLinkUsers", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRole", b =>
@@ -979,7 +984,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("NormalizedName");
 
-                    b.ToTable("AbpRoles");
+                    b.ToTable("AbpRoles", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRoleClaim", b =>
@@ -1007,7 +1012,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AbpRoleClaims");
+                    b.ToTable("AbpRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentitySecurityLog", b =>
@@ -1082,7 +1087,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpSecurityLogs");
+                    b.ToTable("AbpSecurityLogs", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUser", b =>
@@ -1134,6 +1139,9 @@ namespace EasyAbp.EzGet.Migrations
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1234,7 +1242,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("UserName");
 
-                    b.ToTable("AbpUsers");
+                    b.ToTable("AbpUsers", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserClaim", b =>
@@ -1262,7 +1270,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AbpUserClaims");
+                    b.ToTable("AbpUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserLogin", b =>
@@ -1291,7 +1299,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("LoginProvider", "ProviderKey");
 
-                    b.ToTable("AbpUserLogins");
+                    b.ToTable("AbpUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserOrganizationUnit", b =>
@@ -1318,7 +1326,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("UserId", "OrganizationUnitId");
 
-                    b.ToTable("AbpUserOrganizationUnits");
+                    b.ToTable("AbpUserOrganizationUnits", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserRole", b =>
@@ -1337,7 +1345,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("RoleId", "UserId");
 
-                    b.ToTable("AbpUserRoles");
+                    b.ToTable("AbpUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserToken", b =>
@@ -1362,7 +1370,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AbpUserTokens");
+                    b.ToTable("AbpUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnit", b =>
@@ -1436,7 +1444,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("AbpOrganizationUnits");
+                    b.ToTable("AbpOrganizationUnits", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnitRole", b =>
@@ -1463,7 +1471,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("RoleId", "OrganizationUnitId");
 
-                    b.ToTable("AbpOrganizationUnitRoles");
+                    b.ToTable("AbpOrganizationUnitRoles", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionGrant", b =>
@@ -1493,9 +1501,11 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("TenantId", "Name", "ProviderName", "ProviderKey")
+                        .IsUnique()
+                        .HasFilter("[TenantId] IS NOT NULL");
 
-                    b.ToTable("AbpPermissionGrants");
+                    b.ToTable("AbpPermissionGrants", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.SettingManagement.Setting", b =>
@@ -1524,9 +1534,11 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey")
+                        .IsUnique()
+                        .HasFilter("[ProviderName] IS NOT NULL AND [ProviderKey] IS NOT NULL");
 
-                    b.ToTable("AbpSettings");
+                    b.ToTable("AbpSettings", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
@@ -1584,7 +1596,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AbpTenants");
+                    b.ToTable("AbpTenants", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.TenantManagement.TenantConnectionString", b =>
@@ -1603,7 +1615,7 @@ namespace EasyAbp.EzGet.Migrations
 
                     b.HasKey("TenantId", "Name");
 
-                    b.ToTable("AbpTenantConnectionStrings");
+                    b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.EzGet.Credentials.CredentialScope", b =>

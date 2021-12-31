@@ -10,9 +10,9 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Public.Feeds
 {
+    [Area(EzGetPublicRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-public")]
-    [Route("api/ezget-public/feeds")]
+    [Route("api/ez-get-public/feeds")]
     public class FeedPublicController : EzGetPublicControllerBase, IFeedPublicAppService
     {
         protected IFeedPublicAppService FeedPublicAppService { get; }

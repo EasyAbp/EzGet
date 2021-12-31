@@ -8,9 +8,9 @@ using Volo.Abp;
 
 namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
 {
+    [Area(EzGetPublicRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-public")]
-    [Route("api/ezget-public/registration-index")]
+    [Route("api/ez-get-public/registration-index")]
     public class RegistrationIndexPublicController : EzGetPublicControllerBase, IRegistrationIndexPublicAppService
     {
         protected IRegistrationIndexPublicAppService RegistrationIndexAppService { get; }

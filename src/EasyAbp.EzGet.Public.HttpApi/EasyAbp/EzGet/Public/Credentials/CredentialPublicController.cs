@@ -7,9 +7,9 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Public.Credentials
 {
+    [Area(EzGetPublicRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
-    [Area("ezget-public")]
-    [Route("api/ezget-public/credentials")]
+    [Route("api/ez-get-public/credentials")]
     public class CredentialPublicController : EzGetPublicControllerBase, ICredentialPublicAppService
     {
         protected ICredentialPublicAppService CredentialPublicAppService { get; }

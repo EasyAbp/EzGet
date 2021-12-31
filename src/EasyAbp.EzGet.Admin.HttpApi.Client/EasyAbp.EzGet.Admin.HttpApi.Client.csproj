@@ -11,4 +11,9 @@
     <ProjectReference Include="..\EasyAbp.EzGet.Common.HttpApi.Client\EasyAbp.EzGet.Common.HttpApi.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="**\*generate-proxy.json" />
+    <Content Remove="**\*generate-proxy.json" />
+  </ItemGroup>
+
 </Project>
