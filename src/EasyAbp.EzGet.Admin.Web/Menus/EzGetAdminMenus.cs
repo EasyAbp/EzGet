@@ -2,7 +2,7 @@
 {
     public class EzGetAdminMenus
     {
-        public const string GroupName = "EzGetAdmin";
+        public const string GroupName = "EzGet.Admin";
 
         //Add your menu items here...
         //public const string Home = Prefix + ".MyNewMenuItem";
