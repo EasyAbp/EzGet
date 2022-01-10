@@ -125,6 +125,28 @@ namespace EasyAbp.EzGet.NuGet.Packages
         }
 
 
+        public override async Task<IQueryable<NuGetPackage>> WithDetailsAsync()
+        {
+            return (await GetQueryableAsync())
+                .Include(p => p.PackageTypes)
+                .Include(p => p.Dependencies)
+                .Include(p => p.TargetFrameworks);
+        }
+
+        protected virtual IQueryable<NuGetPackage> AddSearchListFilters(
+            IQueryable<NuGetPackage> query,
+            string filter,
+            bool includePrerelease,
+            bool includeSemVer2,
+            string packageType)
+        {
+            return query.Where(p => p.IsPrerelease == includePrerelease)
+                .WhereIf(!includeSemVer2, p => p.SemVerLevel != SemVerLevelEnum.SemVer2)
+                .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.ToLower().Contains(filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(packageType), p => p.PackageTypes.Any(t => t.Name == packageType))
+                .Where(p => p.Listed == true);
+        }
+
         private async Task<Guid?> GetFeedIdAsync(string feedName)
         {
             Guid? feedId = null;
@@ -197,14 +219,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
             return packages.GroupBy(p => p.PackageName).ToList();
         }
 
-        public override async Task<IQueryable<NuGetPackage>> WithDetailsAsync()
-        {
-            return (await GetQueryableAsync())
-                .Include(p => p.PackageTypes)
-                .Include(p => p.Dependencies)
-                .Include(p => p.TargetFrameworks);
-        }
-
         private async Task<List<string>> QueryNamesAsync(
             string filter,
             bool includePrerelease,
@@ -242,20 +256,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 .Where(p => query.Contains(p.PackageName))
                 .Where(p => p.FeedId == feedId)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
-        }
-
-        private IQueryable<NuGetPackage> AddSearchListFilters(
-            IQueryable<NuGetPackage> query,
-            string filter,
-            bool includePrerelease,
-            bool includeSemVer2,
-            string packageType)
-        {
-            return query.Where(p => p.IsPrerelease == includePrerelease)
-                .WhereIf(!includeSemVer2, p => p.SemVerLevel != SemVerLevelEnum.SemVer2)
-                .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.ToLower().Contains(filter))
-                .WhereIf(!string.IsNullOrWhiteSpace(packageType), p => p.PackageTypes.Any(t => t.Name == packageType))
-                .Where(p => p.Listed == true);
         }
 
         private async Task<IQueryable<NuGetPackage>> GetFeedQueryableAsync(Guid? feedId, bool includeDetails)
