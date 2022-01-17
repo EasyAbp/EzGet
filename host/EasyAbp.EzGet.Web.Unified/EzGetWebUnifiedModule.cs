@@ -43,6 +43,7 @@ using EasyAbp.EzGet.Admin;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.BlobStoring;
 using EasyAbp.EzGet.Admin.Web;
+using EasyAbp.EzGet.Public.Web;
 
 namespace EasyAbp.EzGet
 {
@@ -55,6 +56,7 @@ namespace EasyAbp.EzGet
         typeof(EzGetPublicHttpApiModule),
         typeof(EzGetAbpIdentityDomainModule),
         typeof(EzGetAdminWebModule),
+        typeof(EzGetPublicWebModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpAutofacModule),
         typeof(AbpAccountWebModule),
@@ -102,6 +104,7 @@ namespace EasyAbp.EzGet
 
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetPublicApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Public.Application.Contracts", Path.DirectorySeparatorChar)));
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetPublicApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Public.Application", Path.DirectorySeparatorChar)));
+                    options.FileSets.ReplaceEmbeddedByPhysical<EzGetPublicWebModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Public.Web", Path.DirectorySeparatorChar)));
 
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetAdminApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Admin.Application.Contracts", Path.DirectorySeparatorChar)));
                     options.FileSets.ReplaceEmbeddedByPhysical<EzGetAdminApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}src{0}EasyAbp.EzGet.Admin.Application", Path.DirectorySeparatorChar)));

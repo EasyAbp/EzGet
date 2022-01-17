@@ -7,6 +7,7 @@
         public const string PackageAlreadyUnlisted = "EasyAbp.EzGet:PackageAlreadyUnlisted";
         public const string PackageAlreadyListed = "EasyAbp.EzGet:PackageAlreadyListed";
         public const string FeedCannotAddOtherUserCredential = "EasyAbp.EzGet:FeedCannotAddOtherUserCredential";
+        public const string FeedNameAlreadyExisted = "EasyAbp.EzGet:FeedNameAlreadyExisted";
         public const string UserNotFound = "EasyAbp.EzGet:UserNotFound";
         public const string NoAuthorizeHandleThisFeed = "EasyAbp.EzGet:NoAuthorizeHandleThisFeed";
         public const string NoAuthorizeHandleThisCredential = "EasyAbp.EzGet:NoAuthorizeHandleThisCredential";

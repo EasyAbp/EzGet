@@ -8,6 +8,6 @@ namespace EasyAbp.EzGet.Feeds
     {
         public string Description { get; set; }
         public FeedTypeEnum FeedType { get; set; }
-        public ICollection<Guid> CredentialIds { get; set; }
+        public ICollection<Guid> CredentialIds { get; set; } = new List<Guid>();
     }
 }

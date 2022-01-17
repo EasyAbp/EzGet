@@ -19,6 +19,12 @@ namespace EasyAbp.EzGet.Feeds
         {
         }
 
+        public virtual async Task<bool> ExistedAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await (await GetQueryableAsync())
+                .AnyAsync(p => p.FeedName == name, GetCancellationToken(cancellationToken));
+        }
+
         public virtual async Task<Feed> FindByNameAsync(
             string name,
             Guid? userId = null,

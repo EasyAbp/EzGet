@@ -16,13 +16,16 @@ namespace EasyAbp.EzGet.Feeds
     {
         protected ICredentialRepository CredentialRepository { get; }
         protected IEzGetUserLookupService EzGetUserLookupService { get; }
+        protected IFeedRepository FeedRepository { get; }
 
         public FeedManager(
             ICredentialRepository credentialRepository,
-            IEzGetUserLookupService ezGetUserLookupService)
+            IEzGetUserLookupService ezGetUserLookupService,
+            IFeedRepository feedRepository)
         {
             CredentialRepository = credentialRepository;
             EzGetUserLookupService = ezGetUserLookupService;
+            FeedRepository = feedRepository;
         }
 
         public virtual async Task<Feed> CreateAsync(
@@ -34,6 +37,12 @@ namespace EasyAbp.EzGet.Feeds
             Check.NotNullOrWhiteSpace(feedName, nameof(feedName));
 
             await CheckUserAsync(userId);
+
+            if (await FeedRepository.ExistedAsync(feedName))
+            {
+                throw new BusinessException(EzGetErrorCodes.FeedNameAlreadyExisted);
+            }
+
             return new Feed(GuidGenerator.Create(), userId, feedName, feedType, description);
         }
 

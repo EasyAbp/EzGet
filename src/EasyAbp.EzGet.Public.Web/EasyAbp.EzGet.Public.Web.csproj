@@ -29,8 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Public\EzGet\Feeds\" />
     <Folder Include="Pages\Public\EzGet\Credentials\" />
-    <Folder Include="Pages\Public\EzGet\NuGet\Packages\" />
   </ItemGroup>
 </Project>

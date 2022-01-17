@@ -1,0 +1,29 @@
+﻿@page
+@using EasyAbp.EzGet.Localization
+@using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds;
+@using Microsoft.Extensions.Localization
+
+@model CreateModel
+
+@inject IStringLocalizer<EzGetResource> L
+
+@{
+}
+
+<abp-card class="mb-4">
+    <abp-card-header>
+        <abp-row>
+            <abp-column>
+                <abp-card-title>@L["CreateYourFeed"]</abp-card-title>
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <form method="post" asp-page="/Public/EzGet/Feeds/Create">
+            <abp-input asp-for="FeedInfo.FeedName" />
+            <abp-input asp-for="FeedInfo.Description" />
+            <abp-radio asp-for="FeedInfo.FeedType" />
+            <abp-button button-type="Primary" type="submit" class="mb-2">@L["Create"]</abp-button>
+        </form>
+    </abp-card-body>
+</abp-card>
