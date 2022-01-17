@@ -132,9 +132,9 @@
                         render: function (data) {
                             switch (data) {
                                 case 0:
-                                    return l("Private");
-                                case 1:
                                     return l("Public");
+                                case 1:
+                                    return l("Private");
                                 default:
                                     return l("Unknow");
                             }
