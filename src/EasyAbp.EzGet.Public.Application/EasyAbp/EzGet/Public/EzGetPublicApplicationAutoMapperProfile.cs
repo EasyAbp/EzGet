@@ -2,9 +2,11 @@
 using EasyAbp.EzGet.NuGet.Packages;
 using EasyAbp.EzGet.NuGet.RegistrationIndexs;
 using EasyAbp.EzGet.NuGet.ServiceIndexs;
+using EasyAbp.EzGet.PackageRegistrations;
 using EasyAbp.EzGet.Public.NuGet.Packages;
 using EasyAbp.EzGet.Public.NuGet.RegistrationIndexs;
 using EasyAbp.EzGet.Public.NuGet.ServiceIndexs;
+using EasyAbp.EzGet.Public.PackageRegistrations;
 using Volo.Abp.AutoMapper;
 
 namespace EasyAbp.EzGet.Public
@@ -31,6 +33,8 @@ namespace EasyAbp.EzGet.Public
 
             CreateMap<ServiceIndexResource, ServiceIndexResourceDto>();
             CreateMap<ServiceIndex, ServiceIndexDto>();
+
+            CreateMap<PackageRegistration, PackageRegistrationDto>();
         }
     }
 }

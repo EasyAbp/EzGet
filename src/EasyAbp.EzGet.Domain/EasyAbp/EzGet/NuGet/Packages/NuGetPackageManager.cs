@@ -22,20 +22,26 @@ namespace EasyAbp.EzGet.NuGet.Packages
         protected IOptions<PacakgeBlobNameOptions> Options { get; }
         protected IFeedStore FeedStore { get; }
         protected IPackageRegistrationRepository PackageRegistrationRepository { get; }
+        protected IPackageRegistrationManager PackageRegistrationManager { get; }
 
         public NuGetPackageManager(
             INuGetPackageRepository packageRepository,
             IOptions<PacakgeBlobNameOptions> options,
             IFeedStore feedStore,
-            IPackageRegistrationRepository packageRegistrationRepository)
+            IPackageRegistrationRepository packageRegistrationRepository,
+            IPackageRegistrationManager packageRegistrationManager)
         {
             PackageRepository = packageRepository;
             Options = options;
             FeedStore = feedStore;
             PackageRegistrationRepository = packageRegistrationRepository;
+            PackageRegistrationManager = packageRegistrationManager;
         }
 
-        public virtual async Task<NuGetPackage> CreateAsync([NotNull] PackageArchiveReader packageReader, string feedName = null)
+        public virtual async Task<NuGetPackage> CreateAsync(
+            [NotNull] PackageArchiveReader packageReader,
+            long size,
+            string feedName = null)
         {
             Check.NotNull(packageReader, nameof(packageReader));
 
@@ -54,7 +60,12 @@ namespace EasyAbp.EzGet.NuGet.Packages
                     $"PackageName:{packageName}, Version:{version.ToNormalizedString()}");
             }
 
-            var packageRegistration = await GetOrCreatePackageRegistration(packageName, feedName);
+            var packageRegistration = await PackageRegistrationManager.CreateOrUpdateAsync(
+                packageName,
+                PackageRegistrationPackageTypeConsts.NuGet,
+                feedId,
+                version.ToNormalizedString().ToLowerInvariant(),
+                size);
 
             var package = new NuGetPackage(
                 GuidGenerator.Create(),
@@ -79,7 +90,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 ParseUri(nuspec.GetProjectUrl()),
                 repositoryUri,
                 repositoryType,
-                ParseTags(nuspec.GetTags()));
+                ParseTags(nuspec.GetTags()),
+                size);
 
             package.AddPackageTypes(nuspec, GuidGenerator);
             package.AddTargetFrameworks(packageReader, GuidGenerator);
@@ -131,37 +143,6 @@ namespace EasyAbp.EzGet.NuGet.Packages
             }
 
             return feedId;
-        }
-
-        private async Task<PackageRegistration> GetOrCreatePackageRegistration(string packageName, string feedName)
-        {
-            var packageRegistration = await PackageRegistrationRepository.FindByNameAndTypeAsync(
-                packageName,
-                PackageRegistrationPackageTypeConsts.NuGet);
-
-            if (null == packageRegistration)
-            {
-                packageRegistration = new PackageRegistration(
-                    GuidGenerator.Create(),
-                    await GetFeedIdOrNullAsync(feedName),
-                    packageName,
-                    PackageRegistrationPackageTypeConsts.NuGet);
-
-                await PackageRegistrationRepository.InsertAsync(packageRegistration);
-            }
-
-            return packageRegistration;
-        }
-
-        private async Task<Guid?> GetFeedIdOrNullAsync(string feedName)
-        {
-            if (string.IsNullOrEmpty(feedName))
-            {
-                return null;
-            }
-
-            var feed = await FeedStore.GetAsync(feedName);
-            return feed?.Id;
         }
 
         private (Uri repositoryUrl, string repositoryType) GetRepositoryMetadata(NuspecReader nuspec)

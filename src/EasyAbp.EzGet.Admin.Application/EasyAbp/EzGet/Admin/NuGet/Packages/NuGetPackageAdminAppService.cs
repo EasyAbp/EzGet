@@ -129,7 +129,7 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
                     Stream iconStream = null;
 
                     var nuspecStream = await packageReader.GetNuspecAsync(default);
-                    var package = await NuGetPackageManager.CreateAsync(packageReader, feed?.FeedName);
+                    var package = await NuGetPackageManager.CreateAsync(packageReader, packageStream.Length, feed?.FeedName);
                     await NuGetPackageRepository.InsertAsync(package);
 
                     if (package.HasReadme)

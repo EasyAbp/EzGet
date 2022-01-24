@@ -43,7 +43,7 @@ namespace EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
                 FeedType = FeedInfo.FeedType
             });
 
-            return RedirectSafely($"/Public/EzGet/Packages/{feed.FeedName}");
+            return RedirectSafely($"/Public/EzGet/Feeds/{feed.FeedName}/Packages");
         }
 
         public class FeedInfoViewModel

@@ -54,5 +54,12 @@ namespace EasyAbp.EzGet.Public.Feeds
         {
             return FeedPublicAppService.DeleteAsync(id);
         }
+
+        [HttpGet]
+        [Route("by-name/{name}")]
+        public Task<FeedDto> FindByNameAsync(string name)
+        {
+            return FeedPublicAppService.FindByNameAsync(name);
+        }
     }
 }

@@ -94,7 +94,7 @@ namespace EasyAbp.EzGet.Feeds
             {
                 return true;
             }
-
+            //TODO: Check permission
             return false;
         }
 

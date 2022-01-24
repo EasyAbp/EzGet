@@ -40,6 +40,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
         public string[] Tags { get; set; }
         public string NormalizedVersion { get; private set; }
         public string OriginalVersion { get; private set; }
+        public long Size { get; }
         public Guid? TenantId { get; }
 
         public virtual ICollection<PackageDependency> Dependencies { get; }
@@ -77,6 +78,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             Uri repositoryUrl,
             string repositoryType,
             string[] tags,
+            long size,
             Guid? tenantId = null)
             : this()
         {
@@ -106,6 +108,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             Listed = true;
             Downloads = 0;
             SetNuGetVersion(nuGetVersion);
+            Size = size;
         }
 
         public NuGetVersion GetNuGetVersion()

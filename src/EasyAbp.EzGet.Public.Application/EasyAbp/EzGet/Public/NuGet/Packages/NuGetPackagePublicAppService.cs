@@ -13,6 +13,7 @@ using EasyAbp.EzGet.Public.Permissions;
 using EasyAbp.EzGet.Feeds;
 using Volo.Abp.Domain.Entities;
 using EasyAbp.EzGet.NuGet.ServiceIndexs;
+using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.EzGet.Public.NuGet.Packages
 {
@@ -144,7 +145,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     Stream iconStream = null;
 
                     var nuspecStream = await packageReader.GetNuspecAsync(default);
-                    var package = await NuGetPackageManager.CreateAsync(packageReader, feedName);
+                    var package = await NuGetPackageManager.CreateAsync(packageReader, packageStream.Length, feedName);
                     await NuGetPackageRepository.InsertAsync(package);
 
                     if (package.HasReadme)

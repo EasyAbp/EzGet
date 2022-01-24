@@ -25,7 +25,7 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
         }
 
         [AllowAnonymousIfFeedPublic]
-        [Authorize(EzGetPublicPermissions.RegistrationIndexs.Default)]
+        [Authorize(EzGetPublicPermissions.NuGetPackages.RegistrationIndexs.Default)]
         public virtual async Task<RegistrationIndexDto> GetIndexAsync(string packageName, string feedName)
         {
             var packageList = await NuGetPackageRepository.GetListByPackageNameAndFeedIdAsync(
@@ -39,7 +39,7 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
         }
 
         [AllowAnonymousIfFeedPublic]
-        [Authorize(EzGetPublicPermissions.RegistrationIndexs.Default)]
+        [Authorize(EzGetPublicPermissions.NuGetPackages.RegistrationIndexs.Default)]
         public virtual async Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version, string feedName)
         {
             var package = await NuGetPackageRepository.GetAsync(pacakgeName, version, await GetFeedIdAsync(feedName), null);

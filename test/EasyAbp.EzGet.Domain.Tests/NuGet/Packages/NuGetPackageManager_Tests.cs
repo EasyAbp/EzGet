@@ -29,7 +29,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             {
                 using (var packageReader = new PackageArchiveReader(fs, leaveStreamOpen: true))
                 {
-                    package = await _nuGetPackageManager.CreateAsync(packageReader);
+                    package = await _nuGetPackageManager.CreateAsync(packageReader, fs.Length);
                 }
             }
 

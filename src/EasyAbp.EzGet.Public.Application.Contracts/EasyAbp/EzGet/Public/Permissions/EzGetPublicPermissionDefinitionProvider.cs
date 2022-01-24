@@ -43,12 +43,12 @@ namespace EasyAbp.EzGet.Public.Permissions
 
         private void DefineRegistrationIndexs(PermissionGroupDefinition ezGetAdminGroup)
         {
-            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.RegistrationIndexs.Default, L("Permission:RegistrationIndexsPublic"));
+            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.NuGetPackages.RegistrationIndexs.Default, L("Permission:RegistrationIndexsPublic"));
         }
 
         private void DefineServiceIndexs(PermissionGroupDefinition ezGetAdminGroup)
         {
-            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.ServiceIndexs.Default, L("Permission:ServiceIndexsPublic"));
+            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.NuGetPackages.ServiceIndexs.Default, L("Permission:ServiceIndexsPublic"));
         }
 
         private static LocalizableString L(string name)

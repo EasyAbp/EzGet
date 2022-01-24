@@ -42,6 +42,23 @@ namespace EasyAbp.EzGet.Public.Feeds
             return ObjectMapper.Map<Feed, FeedDto>(feed);
         }
 
+        public virtual async Task<FeedDto> FindByNameAsync(string name)
+        {
+            var feed = await FeedRepository.FindByNameAsync(name);
+
+            if (null == feed)
+            {
+                return null;
+            }
+
+            if (feed.UserId != CurrentUser.Id)
+            {
+                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisFeed);
+            }
+
+            return ObjectMapper.Map<Feed, FeedDto>(feed);
+        }
+
         public virtual async Task<PagedResultDto<FeedDto>> GetListAsync(GetFeedsInput input)
         {
             var list = await FeedRepository.GetListAsync(

@@ -12,6 +12,16 @@ namespace EasyAbp.EzGet.Public.Permissions
             public const string Create = Default + ".Create";
             public const string Unlist = Default + ".Unlist";
             public const string Relist = Default + ".Relist";
+
+            public static class RegistrationIndexs
+            {
+                public const string Default = GroupName + ".RegistrationIndexs";
+            }
+
+            public static class ServiceIndexs
+            {
+                public const string Default = GroupName + ".ServiceIndexs";
+            }
         }
 
         public static class Credentials
@@ -30,14 +40,9 @@ namespace EasyAbp.EzGet.Public.Permissions
             public const string Delete = Default + ".Delete";
         }
 
-        public static class RegistrationIndexs
+        public static class PackageRegistrations
         {
-            public const string Default = GroupName + ".RegistrationIndexs";
-        }
-
-        public static class ServiceIndexs
-        {
-            public const string Default = GroupName + ".ServiceIndexs";
+            public const string Default = GroupName + ".PackageRegistrations";
         }
 
         public static string[] GetAll()

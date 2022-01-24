@@ -18,7 +18,7 @@ namespace EasyAbp.EzGet.Public.NuGet.ServiceIndexs
         }
 
         [AllowAnonymousIfFeedPublic]
-        [Authorize(EzGetPublicPermissions.ServiceIndexs.Default)]
+        [Authorize(EzGetPublicPermissions.NuGetPackages.ServiceIndexs.Default)]
         public virtual async Task<ServiceIndexDto> GetAsync(string feedName)
         {
             return ObjectMapper.Map<ServiceIndex, ServiceIndexDto>(await ServiceIndexManager.GetAsync(feedName));
