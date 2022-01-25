@@ -13,6 +13,7 @@ namespace EasyAbp.EzGet.PackageRegistrations
             [NotNull] string type,
             Guid? feedId,
             [NotNull] string version,
-            long size);
+            long size,
+            string description);
     }
 }

@@ -42,8 +42,12 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.ConfigureByConvention();
                 b.HasIndex(p => p.FeedId);
                 b.HasIndex(p => new { p.PackageName, p.PackageType, p.FeedId }).IsUnique();
-                b.Property(p => p.PackageName).HasMaxLength(NuGetPackageConsts.MaxPackageNameLength).IsRequired();
-                b.Property(p => p.PackageType).HasMaxLength(PackageRegistrationConsts.MaxPackageTypeLenght).IsRequired();
+                b.Property(p => p.PackageName).HasMaxLength(PackageRegistrationConsts.MaxPackageNameLength).IsRequired();
+                b.Property(p => p.PackageType).HasMaxLength(PackageRegistrationConsts.MaxPackageTypeLength).IsRequired();
+                b.Property(p => p.Description).HasMaxLength(PackageRegistrationConsts.MaxDescriptionLength);
+                b.Property(p => p.LastVersion).HasMaxLength(PackageRegistrationConsts.MaxLastVersionLength);
+                b.Property(p => p.Size);
+                b.Property(p => p.DownloadCount);
             });
         }
 

@@ -65,7 +65,8 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 PackageRegistrationPackageTypeConsts.NuGet,
                 feedId,
                 version.ToNormalizedString().ToLowerInvariant(),
-                size);
+                size,
+                nuspec.GetDescription());
 
             var package = new NuGetPackage(
                 GuidGenerator.Create(),

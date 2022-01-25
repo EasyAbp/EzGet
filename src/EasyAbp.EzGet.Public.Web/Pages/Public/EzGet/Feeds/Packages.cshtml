@@ -6,4 +6,27 @@
 @{
 }
 
-<h3>P</h3>
+<abp-row id="package-registrations-container">
+    @foreach (var packageRegistration in Model.PackageRegistrations.Items)
+    {
+        <div class="card mb-3">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="..." class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                <h5 class="card-title">@packageRegistration.PackageName</h5>
+                <p class="card-text">@packageRegistration.Size</p>
+                <p class="card-text">@packageRegistration.DownloadCount</p>
+                </div>
+            </div>
+            </div>
+        </div>
+    }
+</abp-row>
+<abp-row>
+    <abp-column>
+        <abp-paginator model="Model.PagerModel" />
+    </abp-column>
+</abp-row>

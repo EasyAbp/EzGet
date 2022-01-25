@@ -23,7 +23,8 @@ namespace EasyAbp.EzGet.PackageRegistrations
             [NotNull] string type,
             Guid? feedId,
             [NotNull] string version,
-            long size)
+            long size,
+            string description)
         {
             Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
             Check.NotNullOrWhiteSpace(type, nameof(type));
@@ -42,7 +43,8 @@ namespace EasyAbp.EzGet.PackageRegistrations
                         packageName,
                         type,
                         version,
-                        size);
+                        size,
+                        description);
 
                 await PackageRegistrationRepository.InsertAsync(packageRegistration);
             }
