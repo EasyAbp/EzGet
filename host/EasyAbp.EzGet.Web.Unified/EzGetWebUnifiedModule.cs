@@ -44,6 +44,8 @@ using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.BlobStoring;
 using EasyAbp.EzGet.Admin.Web;
 using EasyAbp.EzGet.Public.Web;
+using Volo.Abp.PermissionManagement.HttpApi;
+using Volo.Abp.SettingManagement;
 
 namespace EasyAbp.EzGet
 {
@@ -63,18 +65,23 @@ namespace EasyAbp.EzGet
         typeof(AbpAccountApplicationModule),
         typeof(AbpEntityFrameworkCoreSqlServerModule),
         typeof(AbpSettingManagementEntityFrameworkCoreModule),
+        typeof(AbpSettingManagementHttpApiModule),
         typeof(AbpPermissionManagementEntityFrameworkCoreModule),
         typeof(AbpPermissionManagementApplicationModule),
+        typeof(AbpPermissionManagementHttpApiModule),
         typeof(AbpIdentityWebModule),
         typeof(AbpIdentityApplicationModule),
+        typeof(AbpIdentityHttpApiModule),
         typeof(AbpIdentityEntityFrameworkCoreModule),
         typeof(AbpPermissionManagementDomainIdentityModule),
         typeof(AbpFeatureManagementWebModule),
         typeof(AbpFeatureManagementApplicationModule),
         typeof(AbpFeatureManagementEntityFrameworkCoreModule),
+        typeof(AbpFeatureManagementHttpApiModule),
         typeof(AbpTenantManagementWebModule),
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpTenantManagementEntityFrameworkCoreModule),
+        typeof(AbpTenantManagementHttpApiModule),
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(AbpAspNetCoreSerilogModule),
         typeof(AbpSwashbuckleModule),

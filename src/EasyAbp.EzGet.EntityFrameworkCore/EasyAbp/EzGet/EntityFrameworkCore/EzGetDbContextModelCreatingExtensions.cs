@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using EasyAbp.EzGet.Credentials;
 using EasyAbp.EzGet.Feeds;
 using EasyAbp.EzGet.NuGet.Packages;
 using EasyAbp.EzGet.PackageRegistrations;
 using EasyAbp.EzGet.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -61,7 +64,6 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.HasIndex(p => p.PackageName);
                 b.HasIndex(p => new { p.PackageName, p.NormalizedVersion, p.PackageRegistrationId }).IsUnique();
                 b.Property(p => p.PackageName).HasMaxLength(NuGetPackageConsts.MaxPackageNameLength).IsRequired();
-                b.Property(p => p.Authors).HasConversion(new AbpJsonValueConverter<string[]>());
                 b.Property(p => p.Description).HasMaxLength(NuGetPackageConsts.MaxDescriptionLength);
                 b.Property(p => p.Downloads);
                 b.Property(p => p.HasReadme);
@@ -81,9 +83,16 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.Property(p => p.ProjectUrl).HasConversion(new UriToStringConverter()).HasMaxLength(NuGetPackageConsts.MaxProjectUrlLength);
                 b.Property(p => p.RepositoryUrl).HasConversion(new UriToStringConverter()).HasMaxLength(NuGetPackageConsts.MaxRepositoryUrlLength);
                 b.Property(p => p.RepositoryType).HasMaxLength(NuGetPackageConsts.MaxRepositoryTypeLength);
-                b.Property(p => p.Tags).HasConversion(new AbpJsonValueConverter<string[]>());
                 b.Property(p => p.NormalizedVersion).HasMaxLength(NuGetPackageConsts.MaxNormalizedVersionLength).IsRequired();
                 b.Property(p => p.OriginalVersion).HasMaxLength(NuGetPackageConsts.MaxOriginalVersionLength);
+
+                var valueComparer = new ValueComparer<string[]>(
+                    (c1, c2) => c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c);
+
+                b.Property(p => p.Authors).HasConversion(new AbpJsonValueConverter<string[]>()).Metadata.SetValueComparer(valueComparer);
+                b.Property(p => p.Tags).HasConversion(new AbpJsonValueConverter<string[]>()).Metadata.SetValueComparer(valueComparer);
             });
 
             builder.Entity<PackageDependency>(b =>

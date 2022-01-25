@@ -26,18 +26,23 @@
     <PackageReference Include="Volo.Abp.Account.Web" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.Account.Application" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.Identity.Application" Version="5.0.1" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.Identity.Web" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="5.0.1" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="5.0.1" />
     <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
