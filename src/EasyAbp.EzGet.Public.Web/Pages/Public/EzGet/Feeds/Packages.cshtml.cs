@@ -34,7 +34,7 @@ namespace EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
             PackageRegistrationPublicAppService = packageRegistrationPublicAppService;
         }
 
-        public virtual async Task<IActionResult> OnGetAsync(int pageIndex, string filter)
+        public virtual async Task<IActionResult> OnGetAsync()
         {
             var feed = await FeedPublicAppService.FindByNameAsync(FeedName);
 
@@ -45,10 +45,9 @@ namespace EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
 
             PackageRegistrations = await PackageRegistrationPublicAppService.GetListAsync(new GetPackageRegistrationsInput
             {
-                MaxResultCount = 10,
-                SkipCount = pageIndex * 10,
-                FeedId = feed.Id,
-                Filter = filter
+                MaxResultCount = PageSize,
+                SkipCount = (CurrentPage - 1) * PageSize,
+                FeedId = feed.Id
             });
 
             return Page();

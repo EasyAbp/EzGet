@@ -13,8 +13,9 @@ namespace EasyAbp.EzGet.Public.Permissions
             DefineNuGetPackages(ezGetPulicGroup);
             DefineCredentials(ezGetPulicGroup);
             DefineFeeds(ezGetPulicGroup);
-            DefineRegistrationIndexs(ezGetPulicGroup);
-            DefineServiceIndexs(ezGetPulicGroup);
+            DefineNuGetRegistrationIndexs(ezGetPulicGroup);
+            DefineNuGetServiceIndexs(ezGetPulicGroup);
+            DefinePackageRegistrations(ezGetPulicGroup);
         }
 
         private void DefineNuGetPackages(PermissionGroupDefinition ezGetPulicGroup)
@@ -41,14 +42,19 @@ namespace EasyAbp.EzGet.Public.Permissions
             feed.AddChild(EzGetPublicPermissions.Feeds.Delete, L("Permission:Feeds.Delete"));
         }
 
-        private void DefineRegistrationIndexs(PermissionGroupDefinition ezGetAdminGroup)
+        private void DefineNuGetRegistrationIndexs(PermissionGroupDefinition ezGetAdminGroup)
         {
-            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.NuGetPackages.RegistrationIndexs.Default, L("Permission:RegistrationIndexsPublic"));
+            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.NuGetPackages.RegistrationIndexs.Default, L("Permission:NuGetRegistrationIndexsPublic"));
         }
 
-        private void DefineServiceIndexs(PermissionGroupDefinition ezGetAdminGroup)
+        private void DefineNuGetServiceIndexs(PermissionGroupDefinition ezGetAdminGroup)
         {
-            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.NuGetPackages.ServiceIndexs.Default, L("Permission:ServiceIndexsPublic"));
+            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.NuGetPackages.ServiceIndexs.Default, L("Permission:NuGetServiceIndexsPublic"));
+        }
+
+        private void DefinePackageRegistrations(PermissionGroupDefinition ezGetAdminGroup)
+        {
+            ezGetAdminGroup.AddPermission(EzGetPublicPermissions.PackageRegistrations.Default, L("Permission:PackageRegistrations"));
         }
 
         private static LocalizableString L(string name)

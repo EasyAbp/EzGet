@@ -1,26 +1,65 @@
 ﻿@page "/Public/EzGet/Feeds/{feedName}/Packages"
-@using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
+@using EasyAbp.EzGet.Localization
+@using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds;
+@using Microsoft.Extensions.Localization
 
 @model PackagesModel
 
+@inject IStringLocalizer<EzGetResource> L
+
 @{
+}
+
+@section scripts {
+    <abp-script-bundle>
+        <abp-style src="/Pages/Public/EzGet/Feeds/packages.js" />
+    </abp-script-bundle>
+}
+
+@section styles {
+    <abp-style-bundle>
+        <abp-style src="/Pages/Public/EzGet/Feeds/packages.css" />
+    </abp-style-bundle>
 }
 
 <abp-row id="package-registrations-container">
     @foreach (var packageRegistration in Model.PackageRegistrations.Items)
     {
         <div class="card mb-3">
-            <div class="row g-0">
-            <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                <h5 class="card-title">@packageRegistration.PackageName</h5>
-                <p class="card-text">@packageRegistration.Size</p>
-                <p class="card-text">@packageRegistration.DownloadCount</p>
-                </div>
-            </div>
+            <div class="card-body">
+                <abp-row class="item">
+                    <div class="item-content col-md-10">
+                        <div>
+                            <abp-row>
+                                <div class="col-md-2">
+                                    <img src="/icon/packageDefaultIcon_nuget.png" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="card-title">@packageRegistration.PackageName</h5>
+                                    <ul>
+                                        <li class="card-text">@L["Version"]: @packageRegistration.LastVersion</li>
+                                        <li class="card-text">@L["Size"]: @packageRegistration.Size</li>
+                                        <li class="card-text">@L["DownloadCount"]: @packageRegistration.DownloadCount</li>
+                                    </ul>
+                                </div>
+                            </abp-row>
+                        </div>
+                        <div>
+                            <p class="card-text">@packageRegistration.Description</p>
+                        </div>
+                    </div>
+                    <div class="item-actions col-md-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@L["Delete"]</button>
+                            <ul class="dropdown-menu">
+                              <li><a>@L["PublicPagePackages:Latest"]</a></li>
+                              <li><a>@L["PublicPagePackages:AllButLatest"]</a></li>
+                              <li><a>@L["PublicPagePackages:All"]</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </abp-row>
+                
             </div>
         </div>
     }

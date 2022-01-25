@@ -24,6 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Public\EzGet\Feeds\packages.css" />
+    <None Remove="Pages\Public\EzGet\Feeds\packages.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EasyAbp.EzGet.Public.HttpApi\EasyAbp.EzGet.Public.HttpApi.csproj" />
     <ProjectReference Include="..\EasyAbp.EzGet.Common.Web\EasyAbp.EzGet.Common.Web.csproj" />
   </ItemGroup>
