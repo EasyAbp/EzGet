@@ -84,7 +84,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<NuGetPackageDto> GetAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(
+            var package = await NuGetPackageRepository.FindAsync(
                 packageName,
                 version,
                 await GetFeedIdAsync(feedName),
@@ -102,7 +102,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<byte[]> GetPackageContentAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(
+            var package = await NuGetPackageRepository.FindAsync(
                 packageName,
                 version,
                 await GetFeedIdAsync(feedName),
@@ -120,7 +120,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         [Authorize(EzGetPublicPermissions.NuGetPackages.Default)]
         public virtual async Task<byte[]> GetPackageManifestAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(
+            var package = await NuGetPackageRepository.FindAsync(
                 packageName,
                 version,
                 await GetFeedIdAsync(feedName),
@@ -171,12 +171,14 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         [Authorize(EzGetPublicPermissions.NuGetPackages.Unlist)]
         public virtual async Task UnlistAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(
+            var package = await NuGetPackageRepository.FindAsync(
                 packageName,
                 version,
                 await GetFeedIdAsync(feedName),
                 true,
                 false);
+
+            CheckUser(package.CreatorId.Value, EzGetErrorCodes.NoAuthorizeHandleThisPackage);
 
             if (!package.Listed)
             {
@@ -190,12 +192,14 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
         [Authorize(EzGetPublicPermissions.NuGetPackages.Relist)]
         public virtual async Task RelistAsync(string packageName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(
+            var package = await NuGetPackageRepository.FindAsync(
                 packageName,
                 version,
                 await GetFeedIdAsync(feedName),
                 true,
                 false);
+
+            CheckUser(package.CreatorId.Value, EzGetErrorCodes.NoAuthorizeHandleThisPackage);
 
             if (package.Listed)
             {

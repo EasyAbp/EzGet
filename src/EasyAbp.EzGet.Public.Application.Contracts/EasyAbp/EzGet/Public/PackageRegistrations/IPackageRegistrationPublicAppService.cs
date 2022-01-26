@@ -11,5 +11,6 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
     {
         Task<PackageRegistrationDto> GetAsync(Guid id);
         Task<PagedResultDto<PackageRegistrationDto>> GetListAsync(GetPackageRegistrationsInput input);
+        Task DeleteAsync(Guid id, DeletePackageRegistrationInput input);
     }
 }

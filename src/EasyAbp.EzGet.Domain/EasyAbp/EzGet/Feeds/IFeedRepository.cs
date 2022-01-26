@@ -11,7 +11,11 @@ namespace EasyAbp.EzGet.Feeds
     {
         Task<bool> ExistedAsync(string name, CancellationToken cancellationToken = default);
 
-        Task<Feed> FindByNameAsync(string name, Guid? userId = null, CancellationToken cancellationToken = default);
+        Task<Feed> FindByNameAsync(
+            string name,
+            Guid? userId = null,
+            bool includeDetails = false,
+            CancellationToken cancellationToken = default);
 
         Task<List<Feed>> GetListAsync(
             string sorting = null,

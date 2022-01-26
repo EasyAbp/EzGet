@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -19,6 +20,13 @@ namespace EasyAbp.EzGet.PackageRegistrations
         public string Description { get; set; }
         public Guid? TenantId { get; }
 
+        public ICollection<PackageRegistrationUser> PackageRegistrationUsers { get; set; }
+
+        private PackageRegistration()
+        {
+            PackageRegistrationUsers = new List<PackageRegistrationUser>();
+        }
+
         public PackageRegistration(
             Guid id,
             Guid? feedId,
@@ -27,7 +35,7 @@ namespace EasyAbp.EzGet.PackageRegistrations
             [NotNull] string lastVersion,
             long size,
             string description,
-            Guid? tenantId = null)
+            Guid? tenantId = null) : this()
         {
             Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
             Check.NotNullOrWhiteSpace(packageType, nameof(packageType));
@@ -47,6 +55,28 @@ namespace EasyAbp.EzGet.PackageRegistrations
         {
             Check.NotNullOrWhiteSpace(version, nameof(version));
             LastVersion = version;
+        }
+
+        public void AddUserId(Guid userId)
+        {
+            if (PackageRegistrationUsers.Any(p => p.UserId == userId))
+            {
+                return;
+            }
+
+            PackageRegistrationUsers.Add(new PackageRegistrationUser(Id, userId));
+        }
+
+        public void RemoveUserId(Guid userId)
+        {
+            var pu = PackageRegistrationUsers.FirstOrDefault(p => p.UserId == userId);
+
+            if (pu == null)
+            {
+                return;
+            }
+
+            PackageRegistrationUsers.Remove(pu);
         }
     }
 }

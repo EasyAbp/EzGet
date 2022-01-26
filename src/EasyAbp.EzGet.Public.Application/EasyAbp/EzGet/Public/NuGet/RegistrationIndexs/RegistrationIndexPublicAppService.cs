@@ -42,7 +42,7 @@ namespace EasyAbp.EzGet.Public.NuGet.RegistrationIndexs
         [Authorize(EzGetPublicPermissions.NuGetPackages.RegistrationIndexs.Default)]
         public virtual async Task<RegistrationLeafDto> GetLeafAsync(string pacakgeName, string version, string feedName)
         {
-            var package = await NuGetPackageRepository.GetAsync(pacakgeName, version, await GetFeedIdAsync(feedName), null);
+            var package = await NuGetPackageRepository.FindAsync(pacakgeName, version, await GetFeedIdAsync(feedName), null);
 
             return ObjectMapper.Map<RegistrationLeaf, RegistrationLeafDto>(
                 await RegistrationIndexBuilder.BuildLeafAsync(package, feedName));

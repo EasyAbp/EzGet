@@ -28,16 +28,7 @@ namespace EasyAbp.EzGet.Public.Feeds
         public virtual async Task<FeedDto> GetAsync(Guid id)
         {
             var feed = await FeedRepository.GetAsync(id);
-
-            if (null == feed)
-            {
-                throw new EntityNotFoundException(typeof(Feed), id);
-            }
-
-            if (feed.UserId != CurrentUser.Id)
-            {
-                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisFeed);
-            }
+            CheckUser(feed.UserId, EzGetErrorCodes.NoAuthorizeHandleThisFeed);
 
             return ObjectMapper.Map<Feed, FeedDto>(feed);
         }
@@ -51,10 +42,7 @@ namespace EasyAbp.EzGet.Public.Feeds
                 return null;
             }
 
-            if (feed.UserId != CurrentUser.Id)
-            {
-                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisFeed);
-            }
+            CheckUser(feed.UserId, EzGetErrorCodes.NoAuthorizeHandleThisFeed);
 
             return ObjectMapper.Map<Feed, FeedDto>(feed);
         }
@@ -93,16 +81,7 @@ namespace EasyAbp.EzGet.Public.Feeds
         public virtual async Task<FeedDto> UpdateAsync(Guid id, UpdateFeedPublicDto input)
         {
             var feed = await FeedRepository.GetAsync(id);
-
-            if (null == feed)
-            {
-                throw new EntityNotFoundException(typeof(Feed), id);
-            }
-
-            if (feed.UserId != CurrentUser.Id)
-            {
-                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisFeed);
-            }
+            CheckUser(feed.UserId, EzGetErrorCodes.NoAuthorizeHandleThisFeed);
 
             feed.Description = input.Description;
 
@@ -121,16 +100,7 @@ namespace EasyAbp.EzGet.Public.Feeds
         public virtual async Task DeleteAsync(Guid id)
         {
             var feed = await FeedRepository.GetAsync(id);
-
-            if (null == feed)
-            {
-                throw new EntityNotFoundException(typeof(Feed), id);
-            }
-
-            if (feed.UserId != CurrentUser.Id)
-            {
-                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisFeed);
-            }
+            CheckUser(feed.UserId, EzGetErrorCodes.NoAuthorizeHandleThisFeed);
 
             await FeedRepository.DeleteAsync(feed);
         }

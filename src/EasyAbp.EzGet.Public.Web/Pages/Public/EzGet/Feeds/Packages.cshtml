@@ -22,12 +22,13 @@
     </abp-style-bundle>
 }
 
-<abp-row id="package-registrations-container">
+<div id="package-registrations-container">
     @foreach (var packageRegistration in Model.PackageRegistrations.Items)
     {
         <div class="card mb-3">
             <div class="card-body">
                 <abp-row class="item">
+                    <input class="item-id" style="display:none" value="@packageRegistration.Id"/>
                     <div class="item-content col-md-10">
                         <div>
                             <abp-row>
@@ -52,9 +53,9 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@L["Delete"]</button>
                             <ul class="dropdown-menu">
-                              <li><a>@L["PublicPagePackages:Latest"]</a></li>
-                              <li><a>@L["PublicPagePackages:AllButLatest"]</a></li>
-                              <li><a>@L["PublicPagePackages:All"]</a></li>
+                              <li><a class="dropdown-item" href="#">@L["PublicPagePackages:Latest"]</a></li>
+                              <li><a class="dropdown-item" href="#">@L["PublicPagePackages:AllButLatest"]</a></li>
+                              <li><a class="dropdown-item" href="#">@L["PublicPagePackages:All"]</a></li>
                             </ul>
                         </div>
                     </div>
@@ -63,7 +64,7 @@
             </div>
         </div>
     }
-</abp-row>
+</div>
 <abp-row>
     <abp-column>
         <abp-paginator model="Model.PagerModel" />

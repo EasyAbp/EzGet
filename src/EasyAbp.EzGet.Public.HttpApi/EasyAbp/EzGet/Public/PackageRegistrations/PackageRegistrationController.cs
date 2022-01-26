@@ -33,5 +33,12 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
         {
             return PackageRegistrationPublicAppService.GetListAsync(input);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public Task DeleteAsync(Guid id, DeletePackageRegistrationInput input)
+        {
+            return PackageRegistrationPublicAppService.DeleteAsync(id, input);
+        }
     }
 }

@@ -100,6 +100,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             return package;
         }
 
+        #region blob
         public virtual async Task<string> GetNupkgBlobNameAsync([NotNull] NuGetPackage package)
         {
             Check.NotNull(package, nameof(package));
@@ -131,6 +132,82 @@ namespace EasyAbp.EzGet.NuGet.Packages
             var separator = Options.Value.BlobNameSeparator;
             return Task.FromResult($"{package.PackageName}{separator}{package.NormalizedVersion}{separator}{package.PackageName}.{package.NormalizedVersion}");
         }
+        #endregion
+
+        #region deletion
+        public virtual async Task DeleteLatestAsync(PackageRegistration packageRegistration)
+        {
+            var list = await PackageRepository.GetListByPackageNameAndFeedIdAsync(
+                packageRegistration.PackageName,
+                null,
+                null,
+                packageRegistration.FeedId,
+                false);
+
+            if (list.Count <= 0)
+            {
+                await PackageRegistrationRepository.DeleteAsync(packageRegistration);
+                return;
+            }
+
+            list.Sort((item1, item2) => item1.NormalizedVersion.CompareTo(item2.NormalizedVersion));
+            var latestNuGetPackage = list.Last();
+
+            await PackageRepository.DeleteAsync(latestNuGetPackage);
+
+            if (list.Count <= 1)
+            {
+                await PackageRegistrationRepository.DeleteAsync(packageRegistration);
+            }
+            else
+            {
+                var secondBottom = list.Skip(list.Count - 2).Take(1).First();
+                packageRegistration.SetLastVersion(secondBottom.NormalizedVersion);
+                packageRegistration.Size = secondBottom.Size;
+                packageRegistration.Description = secondBottom.Description;
+
+                await PackageRegistrationRepository.UpdateAsync(packageRegistration);
+            }
+        }
+
+        public virtual async Task DeleteAllButLatestAsync(PackageRegistration packageRegistration)
+        {
+            var list = await PackageRepository.GetListByPackageNameAndFeedIdAsync(
+                packageRegistration.PackageName,
+                null,
+                null,
+                packageRegistration.FeedId,
+                false);
+
+            if (list.Count <= 0)
+            {
+                await PackageRegistrationRepository.DeleteAsync(packageRegistration);
+                return;
+            }
+
+            if (list.Count <= 1)
+            {
+                return;
+            }
+
+            list.Sort((item1, item2) => item1.NormalizedVersion.CompareTo(item2.NormalizedVersion));
+            var removeList = list.Take(list.Count - 1).ToList();
+            await PackageRepository.DeleteManyAsync(removeList);
+        }
+
+        public virtual async Task DeleteAllAsync(PackageRegistration packageRegistration)
+        {
+            var list = await PackageRepository.GetListByPackageNameAndFeedIdAsync(
+                packageRegistration.PackageName,
+                null,
+                null,
+                packageRegistration.FeedId,
+                false);
+
+            await PackageRegistrationRepository.DeleteAsync(packageRegistration);
+            await PackageRepository.DeleteManyAsync(list);
+        }
+        #endregion
 
         #region private methods
 

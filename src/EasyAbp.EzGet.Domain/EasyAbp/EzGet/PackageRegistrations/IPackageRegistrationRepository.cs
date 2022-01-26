@@ -13,19 +13,23 @@ namespace EasyAbp.EzGet.PackageRegistrations
             string name,
             string type,
             Guid? feedId = null,
+            bool includeDetails = true,
             CancellationToken cancellationToken = default);
 
         Task<List<PackageRegistration>> GetListAsync(
             string filter = null,
             Guid? feedId = null,
+            Guid? userId = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             string sorting = null,
+            bool includeDetails = true,
             CancellationToken cancellationToken = default);
 
         Task<long> GetCountAsync(
             string filter = null,
             Guid? feedId = null,
+            Guid? userId = null,
             CancellationToken cancellationToken = default);
     }
 }

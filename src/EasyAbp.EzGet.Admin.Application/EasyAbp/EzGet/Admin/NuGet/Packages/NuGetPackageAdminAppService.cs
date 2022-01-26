@@ -52,7 +52,7 @@ namespace EasyAbp.EzGet.Admin.NuGet.Packages
                 feedId = (await FeedStore.GetAsync(feedName)).Id;
             }
 
-            var package = await NuGetPackageRepository.GetAsync(packageName, version, feedId, null);
+            var package = await NuGetPackageRepository.FindAsync(packageName, version, feedId, null);
             return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
         }
 

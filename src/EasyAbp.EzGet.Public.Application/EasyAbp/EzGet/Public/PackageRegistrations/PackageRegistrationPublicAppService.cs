@@ -1,4 +1,6 @@
-﻿using EasyAbp.EzGet.PackageRegistrations;
+﻿using EasyAbp.EzGet.NuGet.Packages;
+using EasyAbp.EzGet.PackageRegistrations;
+using EasyAbp.EzGet.Packages;
 using EasyAbp.EzGet.Public.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System;
@@ -28,12 +30,43 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
 
         public virtual async Task<PagedResultDto<PackageRegistrationDto>> GetListAsync(GetPackageRegistrationsInput input)
         {
-            var count = await PackageRegistrationRepository.GetCountAsync(input.Filter, input.FeedId);
-            var list = await PackageRegistrationRepository.GetListAsync(input.Filter, input.FeedId, input.MaxResultCount, input.SkipCount, input.Sorting);
+            var count = await PackageRegistrationRepository.GetCountAsync(input.Filter, input.FeedId, CurrentUser.Id);
+            var list = await PackageRegistrationRepository.GetListAsync(input.Filter, input.FeedId, CurrentUser.Id, input.MaxResultCount, input.SkipCount, input.Sorting);
             
             return new PagedResultDto<PackageRegistrationDto>(
                 count,
                 ObjectMapper.Map<List<PackageRegistration>, List<PackageRegistrationDto>>(list));
+        }
+
+        public virtual async Task DeleteAsync(Guid id, DeletePackageRegistrationInput input)
+        {
+            IPackageManager packageManager;
+            var packageRegistration = await PackageRegistrationRepository.GetAsync(id);
+
+            switch (packageRegistration.PackageType)
+            {
+                case PackageRegistrationPackageTypeConsts.NuGet:
+                    packageManager = LazyServiceProvider.LazyGetRequiredService<INuGetPackageManager>();
+                    break;
+
+                default:
+                    throw new InvalidOperationException($"Unknow type. PacakgeType:{packageRegistration.PackageType}");
+            }
+
+            switch (input.Type)
+            {
+                case PackagesDeletionTypeEnum.Latest:
+                    await packageManager.DeleteLatestAsync(packageRegistration);
+                    break;
+
+                case PackagesDeletionTypeEnum.AllButLatest:
+                    await packageManager.DeleteAllButLatestAsync(packageRegistration);
+                    break;
+
+                case PackagesDeletionTypeEnum.All:
+                    await packageManager.DeleteAllAsync(packageRegistration);
+                    break;
+            }
         }
     }
 }

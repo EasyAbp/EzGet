@@ -25,9 +25,10 @@ namespace EasyAbp.EzGet.PackageRegistrations
             string name,
             string type,
             Guid? feedId = null,
+            bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            return await (await GetDbSetAsync())
+            return await (includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
                 .Where(p => p.PackageName == name && p.PackageType == type && p.FeedId == feedId)
                 .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
         }
@@ -35,12 +36,15 @@ namespace EasyAbp.EzGet.PackageRegistrations
         public virtual async Task<List<PackageRegistration>> GetListAsync(
             string filter = null,
             Guid? feedId = null,
+            Guid? userId = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             string sorting = null,
+            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
-            return await (await GetDbSetAsync())
+            return await (await WithUserIdAsync(userId, false))
+                .IncludeDetails(includeDetails)
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
                 .Where(p => p.FeedId == feedId)
                 .OrderBy(string.IsNullOrWhiteSpace(sorting) ? nameof(PackageRegistration.CreationTime) : sorting)
@@ -51,12 +55,33 @@ namespace EasyAbp.EzGet.PackageRegistrations
         public virtual async Task<long> GetCountAsync(
             string filter = null,
             Guid? feedId = null,
+            Guid? userId = null,
             CancellationToken cancellationToken = default)
         {
-            return await (await GetDbSetAsync())
+            return await (await WithUserIdAsync(userId, false))
                 .WhereIf(!string.IsNullOrWhiteSpace(filter), p => p.PackageName.Contains(filter))
                 .Where(p => p.FeedId == feedId)
                 .LongCountAsync(GetCancellationToken(cancellationToken));
+        }
+
+        public override async Task<IQueryable<PackageRegistration>> WithDetailsAsync()
+        {
+            return (await GetDbSetAsync()).IncludeDetails();
+        }
+
+        protected virtual async Task<IQueryable<PackageRegistration>> WithUserIdAsync(Guid? userId, bool includeDetails)
+        {
+            var dbContext = await GetDbContextAsync();
+
+            if (!userId.HasValue)
+            {
+                return dbContext.PackageRegistrations.IncludeDetails(includeDetails);
+            }
+
+            return from packageRegistration in dbContext.PackageRegistrations.IncludeDetails(includeDetails)
+                   join packageRegistrationUser in dbContext.Set<PackageRegistrationUser>() on packageRegistration.Id equals packageRegistrationUser.PackageRegistrationId
+                   where packageRegistrationUser.UserId == userId
+                   select packageRegistration;
         }
     }
 }

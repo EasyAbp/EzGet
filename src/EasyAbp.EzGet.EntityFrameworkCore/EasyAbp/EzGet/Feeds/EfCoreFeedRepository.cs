@@ -28,9 +28,11 @@ namespace EasyAbp.EzGet.Feeds
         public virtual async Task<Feed> FindByNameAsync(
             string name,
             Guid? userId = null,
+            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
             return await (await GetQueryableAsync())
+                .IncludeDetails(includeDetails)
                 .Where(p => p.FeedName == name)
                 .WhereIf(null != userId, p => p.UserId == userId)
                 .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
@@ -46,7 +48,8 @@ namespace EasyAbp.EzGet.Feeds
             bool includeDetails = true,
             CancellationToken cancellationToken = default)
         {
-            return await (includeDetails ? (await GetDbSetAsync()) : (await WithDetailsAsync()))
+            return await (await GetDbSetAsync())
+                .IncludeDetails(includeDetails)
                 .WhereIf(!string.IsNullOrEmpty(filter), p => p.FeedName.Contains(filter))
                 .WhereIf(!string.IsNullOrWhiteSpace(feedName), p => p.FeedName == feedName)
                 .WhereIf(null != userId, p => p.UserId == userId)
@@ -70,7 +73,7 @@ namespace EasyAbp.EzGet.Feeds
 
         public override async Task<IQueryable<Feed>> WithDetailsAsync()
         {
-            return (await GetQueryableAsync()).Include(p => p.FeedCredentials);
+            return (await GetQueryableAsync()).IncludeDetails();
         }
     }
 }

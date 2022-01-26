@@ -11,5 +11,6 @@
         public const string UserNotFound = "EasyAbp.EzGet:UserNotFound";
         public const string NoAuthorizeHandleThisFeed = "EasyAbp.EzGet:NoAuthorizeHandleThisFeed";
         public const string NoAuthorizeHandleThisCredential = "EasyAbp.EzGet:NoAuthorizeHandleThisCredential";
+        public const string NoAuthorizeHandleThisPackage = "EasyAbp.EzGet:NoAuthorizeHandleThisPackage";
     }
 }

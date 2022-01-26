@@ -52,6 +52,13 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.Property(p => p.Size);
                 b.Property(p => p.DownloadCount);
             });
+
+            builder.Entity<PackageRegistrationUser>(b =>
+            {
+                b.ToTable(options.TablePrefix + "PackageRegistrationUsers", options.Schema);
+                b.ConfigureByConvention();
+                b.HasKey(p => new { p.PackageRegistrationId, p.UserId });
+            });
         }
 
         private static void ConfigureNuGetPackages(ModelBuilder builder, EzGetModelBuilderConfigurationOptions options)

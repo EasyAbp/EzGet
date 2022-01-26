@@ -24,16 +24,7 @@ namespace EasyAbp.EzGet.Public.Credentials
         public virtual async Task<CredentialDto> GetAsync(Guid id)
         {
             var credential = await CredentialRepository.GetAsync(id);
-
-            if (null == credential)
-            {
-                throw new EntityNotFoundException(typeof(Credential), id);
-            }
-
-            if (credential.UserId != CurrentUser.Id)
-            {
-                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisCredential);
-            }
+            CheckUser(credential.UserId, EzGetErrorCodes.NoAuthorizeHandleThisCredential);
 
             return ObjectMapper.Map<Credential, CredentialDto>(credential);
         }
@@ -71,13 +62,10 @@ namespace EasyAbp.EzGet.Public.Credentials
         public virtual async Task<CredentialDto> UpdateAsync(Guid id, UpdateCredentialDto input)
         {
             var credential = await CredentialRepository.GetAsync(id);
-
-            if (null == credential)
-            {
-                throw new EntityNotFoundException(typeof(Credential), id);
-            }
+            CheckUser(credential.UserId, EzGetErrorCodes.NoAuthorizeHandleThisCredential);
 
             credential.Description = input.Description;
+
             return ObjectMapper.Map<Credential, CredentialDto>(await CredentialRepository.UpdateAsync(credential));
         }
 
@@ -85,16 +73,7 @@ namespace EasyAbp.EzGet.Public.Credentials
         public virtual async Task DeleteAsync(Guid id)
         {
             var credential = await CredentialRepository.GetAsync(id);
-
-            if (null == credential)
-            {
-                throw new EntityNotFoundException(typeof(Credential), id);
-            }
-
-            if (credential.UserId != CurrentUser.Id)
-            {
-                throw new BusinessException(EzGetErrorCodes.NoAuthorizeHandleThisCredential);
-            }
+            CheckUser(credential.UserId, EzGetErrorCodes.NoAuthorizeHandleThisCredential);
 
             await CredentialRepository.DeleteAsync(credential);
         }

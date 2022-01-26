@@ -18,7 +18,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             bool? listed,
             CancellationToken cancellationToken = default);
 
-        Task<NuGetPackage> GetAsync(
+        Task<NuGetPackage> FindAsync(
             string packageName,
             string version,
             Guid? feedId,

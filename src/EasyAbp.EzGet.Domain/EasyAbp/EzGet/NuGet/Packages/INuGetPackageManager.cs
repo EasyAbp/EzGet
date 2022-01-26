@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using EasyAbp.EzGet.Packages;
+using JetBrains.Annotations;
 using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using Volo.Abp.Specifications;
 
 namespace EasyAbp.EzGet.NuGet.Packages
 {
-    public interface INuGetPackageManager : IDomainService
+    public interface INuGetPackageManager : IPackageManager
     {
         Task<NuGetPackage> CreateAsync(
             [NotNull] PackageArchiveReader packageReader,

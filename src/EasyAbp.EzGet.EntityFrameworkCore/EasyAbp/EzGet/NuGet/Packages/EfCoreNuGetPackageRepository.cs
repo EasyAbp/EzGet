@@ -34,7 +34,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 .AnyAsync(GetCancellationToken(cancellationToken));
         }
 
-        public virtual async Task<NuGetPackage> GetAsync(
+        public virtual async Task<NuGetPackage> FindAsync(
             [NotNull] string packageName,
             [NotNull] string version,
             Guid? feedId,
@@ -104,17 +104,14 @@ namespace EasyAbp.EzGet.NuGet.Packages
 
         public override async Task<IQueryable<NuGetPackage>> WithDetailsAsync()
         {
-            return (await GetQueryableAsync())
-                .Include(p => p.PackageTypes)
-                .Include(p => p.Dependencies)
-                .Include(p => p.TargetFrameworks);
+            return (await GetQueryableAsync()).IncludeDetails();
         }
 
 
         private async Task<IQueryable<NuGetPackage>> GetFeedQueryableAsync(Guid? feedId, bool includeDetails)
         {
             var dbContext = await GetDbContextAsync();
-            return from package in includeDetails ? (await WithDetailsAsync()) : (await GetQueryableAsync())
+            return from package in dbContext.NuGetPackages.IncludeDetails(includeDetails)
                    join registration in dbContext.PackageRegistrations on package.PackageRegistrationId equals registration.Id
                    where registration.FeedId == feedId
                    select package;
