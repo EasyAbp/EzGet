@@ -59,6 +59,7 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.ToTable(options.TablePrefix + "PackageRegistrationOwners", options.Schema);
                 b.ConfigureByConvention();
                 b.HasKey(p => new { p.PackageRegistrationId, p.UserId });
+                b.Property(p => p.OwnerType);
             });
         }
 

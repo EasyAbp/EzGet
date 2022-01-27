@@ -57,14 +57,14 @@ namespace EasyAbp.EzGet.PackageRegistrations
             LastVersion = version;
         }
 
-        public void AddOwnerId(Guid userId)
+        public void AddOwnerId(Guid userId, PackageRegistrationOwnerTypeEnum ownerType)
         {
             if (PackageRegistrationOwners.Any(p => p.UserId == userId))
             {
                 return;
             }
 
-            PackageRegistrationOwners.Add(new PackageRegistrationOwner(Id, userId));
+            PackageRegistrationOwners.Add(new PackageRegistrationOwner(Id, userId, ownerType));
         }
 
         public void RemoveOwnerId(Guid userId)

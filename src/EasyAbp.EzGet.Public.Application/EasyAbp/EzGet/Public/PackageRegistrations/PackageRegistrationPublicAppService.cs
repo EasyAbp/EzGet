@@ -40,7 +40,7 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
         public virtual async Task AddOwnerAsync(Guid id, AddOwnerDto input)
         {
             var packageRegistration = await PackageRegistrationRepository.GetAsync(id);
-            packageRegistration.AddOwnerId(input.UserId);
+            packageRegistration.AddOwnerId(input.UserId, input.OwnerType);
             await PackageRegistrationRepository.UpdateAsync(packageRegistration);
         }
 

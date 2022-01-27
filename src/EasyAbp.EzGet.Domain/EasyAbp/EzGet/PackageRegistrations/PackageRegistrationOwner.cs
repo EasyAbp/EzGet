@@ -9,6 +9,7 @@ namespace EasyAbp.EzGet.PackageRegistrations
     {
         public Guid PackageRegistrationId { get; }
         public Guid UserId { get; }
+        public PackageRegistrationOwnerTypeEnum OwnerType { get; set; }
 
         public override object[] GetKeys()
         {
@@ -19,10 +20,14 @@ namespace EasyAbp.EzGet.PackageRegistrations
         {
         }
 
-        public PackageRegistrationOwner(Guid packageRegistrationId, Guid userId)
+        public PackageRegistrationOwner(
+            Guid packageRegistrationId,
+            Guid userId,
+            PackageRegistrationOwnerTypeEnum ownerType)
         {
             PackageRegistrationId = packageRegistrationId;
             UserId = userId;
+            OwnerType = ownerType;
         }
     }
 }

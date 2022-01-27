@@ -53,7 +53,7 @@ namespace EasyAbp.EzGet.PackageRegistrations
 
                 if (CurrentUser.Id.HasValue)
                 {
-                    packageRegistration.AddOwnerId(CurrentUser.Id.Value);
+                    packageRegistration.AddOwnerId(CurrentUser.Id.Value, PackageRegistrationOwnerTypeEnum.Maintainer);
                 }
 
                 await PackageRegistrationRepository.InsertAsync(packageRegistration);
