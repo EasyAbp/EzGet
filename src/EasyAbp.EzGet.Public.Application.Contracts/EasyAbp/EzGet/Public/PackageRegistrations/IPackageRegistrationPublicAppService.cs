@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -11,6 +9,8 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
     {
         Task<PackageRegistrationDto> GetAsync(Guid id);
         Task<PagedResultDto<PackageRegistrationDto>> GetListAsync(GetPackageRegistrationsInput input);
+        Task AddOwnerAsync(Guid id, AddOwnerDto input);
+        Task RemoveOwnerAsync(Guid id, Guid userId);
         Task DeleteAsync(Guid id, DeletePackageRegistrationInput input);
     }
 }

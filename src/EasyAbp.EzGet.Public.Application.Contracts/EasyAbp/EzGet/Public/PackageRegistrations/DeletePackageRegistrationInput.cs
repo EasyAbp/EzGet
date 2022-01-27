@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EasyAbp.EzGet.Public.PackageRegistrations
+﻿namespace EasyAbp.EzGet.Public.PackageRegistrations
 {
     public class DeletePackageRegistrationInput
     {

@@ -64,6 +64,17 @@ namespace EasyAbp.EzGet.PackageRegistrations
                 .LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
+        public virtual async Task<List<Guid>> GetOwnerIdListAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var dbContext = await GetDbContextAsync();
+            var query = from packageRegistration in dbContext.PackageRegistrations
+                join packageRegistrationOwner in dbContext.Set<PackageRegistrationOwner>() on packageRegistration.Id equals packageRegistrationOwner.PackageRegistrationId
+                where packageRegistration.Id == id
+                select packageRegistrationOwner.UserId;
+            
+            return await query.ToListAsync(GetCancellationToken(cancellationToken));
+        }
+
         public override async Task<IQueryable<PackageRegistration>> WithDetailsAsync()
         {
             return (await GetDbSetAsync()).IncludeDetails();
@@ -79,7 +90,7 @@ namespace EasyAbp.EzGet.PackageRegistrations
             }
 
             return from packageRegistration in dbContext.PackageRegistrations.IncludeDetails(includeDetails)
-                   join packageRegistrationUser in dbContext.Set<PackageRegistrationUser>() on packageRegistration.Id equals packageRegistrationUser.PackageRegistrationId
+                   join packageRegistrationUser in dbContext.Set<PackageRegistrationOwner>() on packageRegistration.Id equals packageRegistrationUser.PackageRegistrationId
                    where packageRegistrationUser.UserId == userId
                    select packageRegistration;
         }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EasyAbp.EzGet.Public.PackageRegistrations
+﻿namespace EasyAbp.EzGet.Public.PackageRegistrations
 {
     public enum PackagesDeletionTypeEnum
     {
-        Latest,
-        AllButLatest,
-        All
+        Latest = 0,
+        AllButLatest = 1,
+        All = 2
     }
 }

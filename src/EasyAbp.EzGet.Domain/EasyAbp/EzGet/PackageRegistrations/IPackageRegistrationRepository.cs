@@ -31,5 +31,7 @@ namespace EasyAbp.EzGet.PackageRegistrations
             Guid? feedId = null,
             Guid? userId = null,
             CancellationToken cancellationToken = default);
+
+        Task<List<Guid>> GetOwnerIdListAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

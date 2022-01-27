@@ -18,10 +18,10 @@ namespace EasyAbp.EzGet.Samples
             //_sampleRepository = GetRequiredService<ISampleRepository>();
         }
 
-        [Fact]
-        public async Task Method1Async()
-        {
-
-        }
+        // [Fact]
+        // public async Task Method1Async()
+        // {
+        //
+        // }
     }
 }

@@ -5,7 +5,6 @@ using EasyAbp.EzGet.Public.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
@@ -37,6 +36,20 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
                 count,
                 ObjectMapper.Map<List<PackageRegistration>, List<PackageRegistrationDto>>(list));
         }
+        
+        public virtual async Task AddOwnerAsync(Guid id, AddOwnerDto input)
+        {
+            var packageRegistration = await PackageRegistrationRepository.GetAsync(id);
+            packageRegistration.AddOwnerId(input.UserId);
+            await PackageRegistrationRepository.UpdateAsync(packageRegistration);
+        }
+
+        public virtual async Task RemoveOwnerAsync(Guid id, Guid userId)
+        {
+            var packageRegistration = await PackageRegistrationRepository.GetAsync(id);
+            packageRegistration.RemoveOwnerId(userId);
+            await PackageRegistrationRepository.UpdateAsync(packageRegistration);
+        }
 
         public virtual async Task DeleteAsync(Guid id, DeletePackageRegistrationInput input)
         {
@@ -50,7 +63,7 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
                     break;
 
                 default:
-                    throw new InvalidOperationException($"Unknow type. PacakgeType:{packageRegistration.PackageType}");
+                    throw new InvalidOperationException($"Unknown type. PackageType:{packageRegistration.PackageType}");
             }
 
             switch (input.Type)

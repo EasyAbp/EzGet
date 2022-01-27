@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
@@ -20,11 +19,11 @@ namespace EasyAbp.EzGet.PackageRegistrations
         public string Description { get; set; }
         public Guid? TenantId { get; }
 
-        public ICollection<PackageRegistrationUser> PackageRegistrationUsers { get; set; }
+        public ICollection<PackageRegistrationOwner> PackageRegistrationOwners { get; set; }
 
         private PackageRegistration()
         {
-            PackageRegistrationUsers = new List<PackageRegistrationUser>();
+            PackageRegistrationOwners = new List<PackageRegistrationOwner>();
         }
 
         public PackageRegistration(
@@ -39,6 +38,7 @@ namespace EasyAbp.EzGet.PackageRegistrations
         {
             Check.NotNullOrWhiteSpace(packageName, nameof(packageName));
             Check.NotNullOrWhiteSpace(packageType, nameof(packageType));
+            Check.NotNullOrWhiteSpace(lastVersion, nameof(lastVersion));
 
             Id = id;
             FeedId = feedId;
@@ -57,26 +57,26 @@ namespace EasyAbp.EzGet.PackageRegistrations
             LastVersion = version;
         }
 
-        public void AddUserId(Guid userId)
+        public void AddOwnerId(Guid userId)
         {
-            if (PackageRegistrationUsers.Any(p => p.UserId == userId))
+            if (PackageRegistrationOwners.Any(p => p.UserId == userId))
             {
                 return;
             }
 
-            PackageRegistrationUsers.Add(new PackageRegistrationUser(Id, userId));
+            PackageRegistrationOwners.Add(new PackageRegistrationOwner(Id, userId));
         }
 
-        public void RemoveUserId(Guid userId)
+        public void RemoveOwnerId(Guid userId)
         {
-            var pu = PackageRegistrationUsers.FirstOrDefault(p => p.UserId == userId);
+            var pu = PackageRegistrationOwners.FirstOrDefault(p => p.UserId == userId);
 
             if (pu == null)
             {
                 return;
             }
 
-            PackageRegistrationUsers.Remove(pu);
+            PackageRegistrationOwners.Remove(pu);
         }
     }
 }

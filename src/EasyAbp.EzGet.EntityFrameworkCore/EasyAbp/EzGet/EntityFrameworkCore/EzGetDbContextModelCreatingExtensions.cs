@@ -51,9 +51,10 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 b.Property(p => p.LastVersion).HasMaxLength(PackageRegistrationConsts.MaxLastVersionLength);
                 b.Property(p => p.Size);
                 b.Property(p => p.DownloadCount);
+                b.HasMany(p => p.PackageRegistrationOwners).WithOne().HasForeignKey(p => p.PackageRegistrationId);
             });
 
-            builder.Entity<PackageRegistrationUser>(b =>
+            builder.Entity<PackageRegistrationOwner>(b =>
             {
                 b.ToTable(options.TablePrefix + "PackageRegistrationUsers", options.Schema);
                 b.ConfigureByConvention();

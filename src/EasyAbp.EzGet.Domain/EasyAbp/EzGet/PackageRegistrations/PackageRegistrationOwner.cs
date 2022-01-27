@@ -5,7 +5,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace EasyAbp.EzGet.PackageRegistrations
 {
-    public class PackageRegistrationUser : Entity
+    public class PackageRegistrationOwner : Entity
     {
         public Guid PackageRegistrationId { get; }
         public Guid UserId { get; }
@@ -15,11 +15,11 @@ namespace EasyAbp.EzGet.PackageRegistrations
             return new object[] { PackageRegistrationId, UserId };
         }
 
-        private PackageRegistrationUser()
+        private PackageRegistrationOwner()
         {
         }
 
-        public PackageRegistrationUser(Guid packageRegistrationId, Guid userId)
+        public PackageRegistrationOwner(Guid packageRegistrationId, Guid userId)
         {
             PackageRegistrationId = packageRegistrationId;
             UserId = userId;

@@ -13,9 +13,9 @@ namespace EasyAbp.EzGet.Public.Web.Menus
             }
         }
 
-        private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+        private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
         {
-            
+            return Task.CompletedTask;
         }
     }
 }

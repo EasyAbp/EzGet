@@ -19,7 +19,7 @@ namespace EasyAbp.EzGet.EntityFrameworkCore
                 return queryable;
             }
 
-            return queryable.Include(p => p.PackageRegistrationUsers);
+            return queryable.Include(p => p.PackageRegistrationOwners);
         }
 
         public static IQueryable<NuGetPackage> IncludeDetails(this IQueryable<NuGetPackage> queryable, bool include = true)
