@@ -6,17 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.PackageRegistrations
 {
     public class PackageRegistrationManager : DomainService, IPackageRegistrationManager
     {
         protected IPackageRegistrationRepository PackageRegistrationRepository { get; }
+        protected ICurrentUser CurrentUser { get; }
 
         public PackageRegistrationManager(
-            IPackageRegistrationRepository packageRegistrationRepository)
+            IPackageRegistrationRepository packageRegistrationRepository,
+            ICurrentUser currentUser)
         {
             PackageRegistrationRepository = packageRegistrationRepository;
+            CurrentUser = currentUser;
         }
 
         public virtual async Task<PackageRegistration> CreateOrUpdateAsync(
@@ -46,6 +50,11 @@ namespace EasyAbp.EzGet.PackageRegistrations
                         version,
                         size,
                         description);
+
+                if (CurrentUser.Id.HasValue)
+                {
+                    packageRegistration.AddOwnerId(CurrentUser.Id.Value);
+                }
 
                 await PackageRegistrationRepository.InsertAsync(packageRegistration);
             }
