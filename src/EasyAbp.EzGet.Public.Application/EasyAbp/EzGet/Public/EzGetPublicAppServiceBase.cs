@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.Public
 {

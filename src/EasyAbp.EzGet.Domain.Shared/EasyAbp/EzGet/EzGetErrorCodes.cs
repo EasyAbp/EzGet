@@ -12,5 +12,6 @@
         public const string NoAuthorizeHandleThisFeed = "EasyAbp.EzGet:NoAuthorizeHandleThisFeed";
         public const string NoAuthorizeHandleThisCredential = "EasyAbp.EzGet:NoAuthorizeHandleThisCredential";
         public const string NoAuthorizeHandleThisPackage = "EasyAbp.EzGet:NoAuthorizeHandleThisPackage";
+        public const string NoAuthorizeHandleThisPackageRegistration = "EasyAbp.EzGet:NoAuthorizeHandleThisPackageRegistration";
     }
 }

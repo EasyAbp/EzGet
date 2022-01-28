@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.Users;
 
 namespace EasyAbp.EzGet.Public.Feeds
 {
@@ -55,7 +56,7 @@ namespace EasyAbp.EzGet.Public.Feeds
                 input.SkipCount,
                 input.Filter,
                 input.FeedName,
-                CurrentUser.Id);
+                CurrentUser.GetId());
 
             var totalCount = await FeedRepository.GetCountAsync(input.Filter);
 
@@ -67,7 +68,7 @@ namespace EasyAbp.EzGet.Public.Feeds
         [Authorize(EzGetPublicPermissions.Feeds.Create)]
         public virtual async Task<FeedDto> CreateAsync(CreateFeedPublicDto input)
         {
-            var feed = await FeedManager.CreateAsync((Guid)CurrentUser.Id, input.FeedName, input.FeedType, input.Description);
+            var feed = await FeedManager.CreateAsync(CurrentUser.GetId(), input.FeedName, input.FeedType, input.Description);
 
             foreach (var item in input.CredentialIds)
             {

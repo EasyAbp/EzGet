@@ -31,8 +31,8 @@ namespace EasyAbp.EzGet.Public.Credentials
 
         public virtual async Task<PagedResultDto<CredentialDto>> GetListAsync(GetCredentialsInput input)
         {
-            var list = await CredentialRepository.GetListAsync(CurrentUser.Id, input.Sorting, input.MaxResultCount, input.SkipCount);
-            var totalCount = await CredentialRepository.GetCountAsync(CurrentUser.Id);
+            var list = await CredentialRepository.GetListAsync(CurrentUser.GetId(), input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await CredentialRepository.GetCountAsync(CurrentUser.GetId());
 
             return new PagedResultDto<CredentialDto>(
                 totalCount,

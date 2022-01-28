@@ -69,14 +69,24 @@ namespace EasyAbp.EzGet.PackageRegistrations
 
         public void RemoveOwnerId(Guid userId)
         {
-            var pu = PackageRegistrationOwners.FirstOrDefault(p => p.UserId == userId);
+            var owner = PackageRegistrationOwners.FirstOrDefault(p => p.UserId == userId);
 
-            if (pu == null)
+            if (owner == null)
             {
                 return;
             }
 
-            PackageRegistrationOwners.Remove(pu);
+            PackageRegistrationOwners.Remove(owner);
+        }
+
+        public bool CheckOwner(Guid userId, PackageRegistrationOwnerTypeEnum ownerType)
+        {
+            return PackageRegistrationOwners.Any(p => p.UserId == userId && p.OwnerType == ownerType);
+        }
+
+        public bool CheckOwner(Guid userId)
+        {
+            return PackageRegistrationOwners.Any(p => p.UserId == userId);
         }
     }
 }
