@@ -151,17 +151,17 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                     if (package.HasReadme)
                     {
                         readmeStream = await packageReader.GetReadmeAsync();
-                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetReadmeBlobNameAsync(package), readmeStream);
+                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetReadmeBlobNameAsync(package), readmeStream, true);
                     }
 
                     if (package.HasEmbeddedIcon)
                     {
                         iconStream = await packageReader.GetIconAsync();
-                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetIconBlobNameAsync(package), iconStream);
+                        await BlobContainer.SaveAsync(await NuGetPackageManager.GetIconBlobNameAsync(package), iconStream, true);
                     }
 
-                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package), packageStream);
-                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package), nuspecStream);
+                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNupkgBlobNameAsync(package), packageStream,true);
+                    await BlobContainer.SaveAsync(await NuGetPackageManager.GetNuspecBlobNameAsync(package), nuspecStream, true);
 
                     return ObjectMapper.Map<NuGetPackage, NuGetPackageDto>(package);
                 }

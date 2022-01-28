@@ -9,11 +9,11 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
     [Area(EzGetPublicRemoteServiceConsts.ModuleName)]
     [RemoteService(Name = EzGetPublicRemoteServiceConsts.RemoteServiceName)]
     [Route("api/ez-get-public/package-registrations")]
-    public class PackageRegistrationController : EzGetPublicControllerBase, IPackageRegistrationPublicAppService
+    public class PackageRegistrationPublicController : EzGetPublicControllerBase, IPackageRegistrationPublicAppService
     {
         protected IPackageRegistrationPublicAppService PackageRegistrationPublicAppService { get; }
 
-        public PackageRegistrationController(IPackageRegistrationPublicAppService packageRegistrationPublicAppService)
+        public PackageRegistrationPublicController(IPackageRegistrationPublicAppService packageRegistrationPublicAppService)
         {
             PackageRegistrationPublicAppService = packageRegistrationPublicAppService;
         }
@@ -47,7 +47,7 @@ namespace EasyAbp.EzGet.Public.PackageRegistrations
 
         [HttpDelete]
         [Route("{id}")]
-        public Task DeleteAsync(Guid id, DeletePackageRegistrationInput input)
+        public Task DeleteAsync(Guid id, [FromQuery] DeletePackageRegistrationInput input)
         {
             return PackageRegistrationPublicAppService.DeleteAsync(id, input);
         }

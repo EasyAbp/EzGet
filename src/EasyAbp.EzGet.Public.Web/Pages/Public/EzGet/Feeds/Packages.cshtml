@@ -53,20 +53,29 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@L["Delete"]</button>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">@L["PublicPagePackages:Latest"]</a></li>
-                              <li><a class="dropdown-item" href="#">@L["PublicPagePackages:AllButLatest"]</a></li>
-                              <li><a class="dropdown-item" href="#">@L["PublicPagePackages:All"]</a></li>
+                                <li><a class="dropdown-item" href="#">@L["PublicPagePackages:Latest"]</a></li>
+                                <li><a class="dropdown-item" href="#">@L["PublicPagePackages:AllButLatest"]</a></li>
+                                <li><a class="dropdown-item" href="#">@L["PublicPagePackages:All"]</a></li>
                             </ul>
                         </div>
                     </div>
                 </abp-row>
-                
             </div>
         </div>
     }
 </div>
-<abp-row>
-    <abp-column>
-        <abp-paginator model="Model.PagerModel" />
-    </abp-column>
-</abp-row>
+
+@if (Model.PackageRegistrations.TotalCount <= 0)
+{
+    <h2>
+        <p>@L["PublicPage:EmptyList"]</p>
+    </h2>
+}
+else
+{
+    <abp-row>
+        <abp-column>
+            <abp-paginator model="Model.PagerModel" />
+        </abp-column>
+    </abp-row>
+}

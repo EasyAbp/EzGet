@@ -2,16 +2,12 @@
 using Microsoft.Extensions.Options;
 using NuGet.Packaging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.BlobStoring;
-using System.IO;
 using EasyAbp.EzGet.Feeds;
-using Volo.Abp.Specifications;
 using EasyAbp.EzGet.PackageRegistrations;
 
 namespace EasyAbp.EzGet.NuGet.Packages
@@ -46,7 +42,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
             Check.NotNull(packageReader, nameof(packageReader));
 
             var nuspec = packageReader.NuspecReader;
-            (var repositoryUri, var repositoryType) = GetRepositoryMetadata(nuspec);
+            var (repositoryUri, repositoryType) = GetRepositoryMetadata(nuspec);
 
             var packageName = nuspec.GetId();
             var version = nuspec.GetVersion();
@@ -150,7 +146,7 @@ namespace EasyAbp.EzGet.NuGet.Packages
                 return;
             }
 
-            list.Sort((item1, item2) => item1.NormalizedVersion.CompareTo(item2.NormalizedVersion));
+            list.Sort((item1, item2) => string.Compare(item1.NormalizedVersion, item2.NormalizedVersion, StringComparison.Ordinal));
             var latestNuGetPackage = list.Last();
 
             await PackageRepository.DeleteAsync(latestNuGetPackage);
