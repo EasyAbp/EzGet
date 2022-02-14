@@ -1,0 +1,24 @@
+﻿@page
+@using EasyAbp.EzGet.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
+
+@model AddOwnerModal
+
+@inject IStringLocalizer<EzGetResource> L
+
+@{
+    Layout = null;
+}
+
+<form method="post" asp-page="/Public/EzGet/Feeds/AddOwnerModal">
+    <abp-modal>
+        <abp-modal-header title="@L["AddOwner"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-input asp-for="AddOwnerModalInfo.UserId" />
+            <abp-select asp-for="AddOwnerModalInfo.OwnerType" />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel | AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

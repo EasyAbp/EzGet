@@ -222,7 +222,7 @@ namespace EasyAbp.EzGet.Public.NuGet.Packages
                 false);
 
             var result = packages.Select(p => p.NormalizedVersion).ToList();
-            result.Sort((item1, item2) => item1.CompareTo(item2));
+            result.Sort((item1, item2) => string.Compare(item1, item2, StringComparison.Ordinal));
             return result;
         }
     }

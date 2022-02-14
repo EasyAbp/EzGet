@@ -30,13 +30,13 @@ namespace EasyAbp.EzGet.Admin.Web.Pages.EzGet.Credentials
         {
             ExpirationTypeList = new List<SelectListItem>
             {
-                new SelectListItem { Value = ((int)ExpirationTypeEnum.Forever).ToString(), Text = L["Forever"]},
-                new SelectListItem { Value = ((int)ExpirationTypeEnum.OneDay).ToString(), Text = L["OneDay"]},
-                new SelectListItem { Value = ((int)ExpirationTypeEnum.OneWeek).ToString(), Text = L["OneWeek"]},
-                new SelectListItem { Value = ((int)ExpirationTypeEnum.OneMonth).ToString(), Text = L["OneMonth"]},
-                new SelectListItem { Value = ((int)ExpirationTypeEnum.ThreeMonth).ToString(), Text = L["ThreeMonth"]},
-                new SelectListItem { Value = ((int)ExpirationTypeEnum.SixMonth).ToString(), Text = L["SixMonth"]},
-                new SelectListItem { Value = ((int)ExpirationTypeEnum.OneYear).ToString(), Text = L["SixMonth"]},
+                new() { Value = ((int)ExpirationTypeEnum.Forever).ToString(), Text = L["Forever"]},
+                new() { Value = ((int)ExpirationTypeEnum.OneDay).ToString(), Text = L["OneDay"]},
+                new() { Value = ((int)ExpirationTypeEnum.OneWeek).ToString(), Text = L["OneWeek"]},
+                new() { Value = ((int)ExpirationTypeEnum.OneMonth).ToString(), Text = L["OneMonth"]},
+                new() { Value = ((int)ExpirationTypeEnum.ThreeMonth).ToString(), Text = L["ThreeMonth"]},
+                new() { Value = ((int)ExpirationTypeEnum.SixMonth).ToString(), Text = L["SixMonth"]},
+                new() { Value = ((int)ExpirationTypeEnum.OneYear).ToString(), Text = L["SixMonth"]},
             };
         }
 
