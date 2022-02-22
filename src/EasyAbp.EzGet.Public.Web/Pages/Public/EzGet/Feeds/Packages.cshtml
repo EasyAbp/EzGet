@@ -1,6 +1,6 @@
 ﻿@page "/Public/EzGet/Feeds/{feedName}/Packages"
 @using EasyAbp.EzGet.Localization
-@using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds;
+@using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
 @using Microsoft.Extensions.Localization
 
 @model PackagesModel
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="item-owners-actions">
+                        <div class="item-owners-actions mb-3">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@L["Owner"]</button>
                                 <ul class="dropdown-menu">
@@ -59,7 +59,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="item-delete-actions">
+                        <div class="item-delete-actions mb-3">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@L["Delete"]</button>
                                 <ul class="dropdown-menu">

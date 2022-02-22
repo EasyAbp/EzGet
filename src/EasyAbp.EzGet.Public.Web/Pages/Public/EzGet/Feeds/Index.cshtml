@@ -1,0 +1,50 @@
+﻿@page
+@using EasyAbp.EzGet.Localization
+@using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
+@using Microsoft.Extensions.Localization
+
+@model Index
+
+@inject IStringLocalizer<EzGetResource> L
+
+@{
+}
+
+@section scripts {
+    <abp-script-bundle>
+        <abp-style src="/Pages/Public/EzGet/Feeds/index.js" />
+    </abp-script-bundle>
+}
+
+<div id="feeds-container">
+    @foreach (var feed in Model.Feeds.Items)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <input class="item-id" style="display:none" value="@feed.Id"/>
+                <div class="item-content col-md-10">
+                    <h5 class="card-title">@feed.FeedName</h5>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary mb-3">@L["Enter"]</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@if (Model.PackageRegistrations.TotalCount <= 0)
+{
+    <h2>
+        <p>@L["PublicPage:EmptyList"]</p>
+    </h2>
+}
+else
+{
+    <abp-row>
+        <abp-column>
+            <abp-paginator model="Model.PagerModel" />
+        </abp-column>
+    </abp-row>
+}
