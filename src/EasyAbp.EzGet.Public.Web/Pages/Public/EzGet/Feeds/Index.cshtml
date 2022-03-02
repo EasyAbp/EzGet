@@ -3,7 +3,7 @@
 @using EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
 @using Microsoft.Extensions.Localization
 
-@model Index
+@model IndexModel
 
 @inject IStringLocalizer<EzGetResource> L
 
@@ -34,7 +34,7 @@
 </div>
 
 
-@if (Model.PackageRegistrations.TotalCount <= 0)
+@if (Model.Feeds.TotalCount <= 0)
 {
     <h2>
         <p>@L["PublicPage:EmptyList"]</p>

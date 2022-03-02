@@ -7,7 +7,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Pagination;
 
 namespace EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
 {
-    public class Index : EzGetPublicPageModel
+    public class IndexModel : EzGetPublicPageModel
     {
         public const int PageSize = 10;
         
@@ -20,7 +20,7 @@ namespace EasyAbp.EzGet.Public.Web.Pages.Public.EzGet.Feeds
 
         protected IFeedPublicAppService FeedPublicAppService { get; }
 
-        public Index(IFeedPublicAppService feedPublicAppService)
+        public IndexModel(IFeedPublicAppService feedPublicAppService)
         {
             FeedPublicAppService = feedPublicAppService;
         }
